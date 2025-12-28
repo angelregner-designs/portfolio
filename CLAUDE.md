@@ -111,3 +111,7 @@ frontend/
       sections/     # Page sections (Hero, Portfolio, About, etc)
       ui/           # Reusable UI components (Button, Card, etc)
 ```
+
+## Git Workflow
+
+- To deploy to staging: create PR from develop → staging (no direct push)

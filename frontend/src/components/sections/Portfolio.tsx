@@ -115,11 +115,13 @@ const Portfolio = () => (
   </section>
 )
 
+const basePath = process.env['NEXT_PUBLIC_BASE_PATH'] || ''
+
 const ProjectImage = ({ src }: { src: string }) => (
   <div
     className="w-full h-full bg-burgundy-dark"
     style={{
-      backgroundImage: `url(${src})`,
+      backgroundImage: `url(${basePath}${src})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     }}
