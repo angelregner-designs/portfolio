@@ -1,0 +1,16 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-burgundy: #6b2c32;
+  --color-burgundy-dark: #4a1f23;
+  --color-burgundy-card: #5c2428;
+  --color-gold: #b89b5a;
+  --color-gold-light: #c9ad6e;
+  --color-cream: #f5f0e6;
+  --color-cream-dark: #d4cfc5;
+  --color-olive: #5c6b4a;
+  --color-olive-dark: #3d4832;
+
+  --font-cormorant: 'Cormorant Garamond', serif;
+  --font-lato: 'Lato', sans-serif;
+}
