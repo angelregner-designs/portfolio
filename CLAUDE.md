@@ -19,22 +19,11 @@ Guidance for Claude Code when working in this repository.
   - Secret Manager (credentials)
 - DevOps: Docker, Terraform, GitHub Actions
 
-**Estimated Cost:** ~$10-20/month
-
-## TODO
-- [ ] wire client
-- [ ] setup backend
-- [ ] setup database
-- [ ] setup infrastructure
-- [ ] setup CI/CD pipeline
-
 ---
 
 ## Quick Start
 
 ### Environment Setup
-
-**TODO:** Document required environment variables
 
 ### Development
 
@@ -58,6 +47,11 @@ docker compose down
 - Implicit returns where possible
 - No semicolons
 - Comment non-obvious lines or blocks of code for clarity
+
+**TypeScript:**
+- Strict mode enabled
+- Avoid `any` - use `unknown` or proper types
+- Prefer `interface` for object shapes, `type` for unions/aliases
 
 **React/Next.js:**
 - Tailwind for styling (utility classes)
@@ -85,8 +79,6 @@ When implementing from designs/mockups:
 
 **Deployment:**
 - Staging: PR from `develop` → `staging` (no direct push)
-
-**TODO:** Document production deployment workflow
 
 ---
 
