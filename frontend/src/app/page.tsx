@@ -1,6 +1,22 @@
+import {
+  About,
+  Contact,
+  Footer,
+  Hero,
+  Portfolio,
+  Testimonials,
+  WhyIDesign,
+} from '@/components/sections'
+
 const Home = () => (
   <main>
-    <h1>Hello World</h1>
+    <Hero />
+    <Portfolio />
+    <Testimonials />
+    <About />
+    <WhyIDesign />
+    <Contact />
+    <Footer />
   </main>
 )
 

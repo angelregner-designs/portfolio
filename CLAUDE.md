@@ -72,7 +72,7 @@ npm run lint:fix
 npm run format
 ```
 
-### Docker Development
+### Docker Development (preferred)
 
 ```bash
 # Start frontend in Docker
@@ -80,6 +80,9 @@ docker compose up
 
 # Rebuild container
 docker compose up --build
+
+# Stop
+docker compose down
 ```
 
 ## Code Style
@@ -87,10 +90,24 @@ docker compose up --build
 - Prefer arrow functions over function declarations
 - Prefer implicit returns: `() => x` over `() => { return x }`
 - No semicolons
+- Style with Tailwind CSS (utility classes)
+- Componentize by page sections (Hero, Portfolio, About, etc)
+- Extract reusable UI (Button, Card, etc) to `src/components/ui/`
+
+## Design Implementation
+
+- **Always match designs exactly** - fonts, spacing, sizing, colors, layout
+- When given design images, study them carefully before coding
+- Use pixel-accurate spacing and sizing where possible
+- Match typography exactly (font family, weight, size, line-height, letter-spacing)
 
 ## Architecture
 
 ```
-frontend/           # Next.js React application
-  src/app/          # App Router pages
+frontend/
+  src/
+    app/            # App Router pages
+    components/
+      sections/     # Page sections (Hero, Portfolio, About, etc)
+      ui/           # Reusable UI components (Button, Card, etc)
 ```
