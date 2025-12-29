@@ -9,7 +9,12 @@ export const HARDCODED_PORTFOLIO: Portfolio = {
       id: '1',
       title: 'Website Designs for Luxury Homes | Villa Vision Builder',
       thumbnail: 'https://picsum.photos/seed/villa/800/600',
-      photos: [],
+      photos: [
+        '1.jpg',
+        '2.jpg',  
+        '3.jpg',
+        'https://picsum.photos/seed/lorox/400/400',
+      ],
       description: 'Website design for luxury home builders',
       link: '#'
     },
