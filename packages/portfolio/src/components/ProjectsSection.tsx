@@ -128,13 +128,15 @@ const ProjectCard = ({ project, onOpenModal }: ProjectCardProps) => {
           <p className="text-[18px] not-italic text-[#F1EDE4] flex-1">
             {project.title}
           </p>
-          <button
-            onClick={handleLinkClick}
-            className="hover:opacity-70 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F1EDE4] rounded"
-            aria-label={`Open ${project.title} in new tab`}
-          >
-            <ArrowIcon />
-          </button>
+            {project.link && (
+              <button
+                onClick={handleLinkClick}
+                className="hover:opacity-70 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F1EDE4] rounded"
+                aria-label={`Open ${project.title} in new tab`}
+              >
+                <ArrowIcon />
+              </button>
+            )}
         </div>
       </div>
     </div>
