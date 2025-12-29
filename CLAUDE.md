@@ -87,6 +87,7 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
 **Frontend**
 - Apply SRP to components (single responsibility principle)
 - Keep components small and focused
+- Use tailwind for styling
 
 **General:**
 - Prefer arrow functions over function declarations
