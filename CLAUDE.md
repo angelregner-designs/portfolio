@@ -91,6 +91,8 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
 - Use tailwind for styling
 - use classnames lib for conditional class handling
 - Use Figma MCP when applying design from figma. Always aim for pixel perfect replication of Figma design.
+- Put the main component/function first, followed by helper functions/hooks if any
+- Move SVG elements to their own components
 
 **General**
 - Prefer arrow functions over function declarations
