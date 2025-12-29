@@ -88,6 +88,7 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
 - Apply SRP to components (single responsibility principle)
 - Keep components small and focused
 - Use tailwind for styling
+- use classnames lib for conditional class handling
 
 **General:**
 - Prefer arrow functions over function declarations
