@@ -7,7 +7,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
 const LoginPage = () => {
   const router = useRouter()
-  const [email, setEmail] = useState('')
+  const [accountId, setAccountId] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -22,7 +22,7 @@ const LoginPage = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ accountId, password })
       })
 
       if (!res.ok) {
@@ -43,12 +43,12 @@ const LoginPage = () => {
       <h1>Admin Login</h1>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="email" style={{ display: 'block', marginBottom: '0.5rem' }}>Email</label>
+          <label htmlFor="accountId" style={{ display: 'block', marginBottom: '0.5rem' }}>Account ID</label>
           <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            id="accountId"
+            type="text"
+            value={accountId}
+            onChange={(e) => setAccountId(e.target.value)}
             required
             style={{ width: '100%', padding: '0.5rem', boxSizing: 'border-box' }}
           />

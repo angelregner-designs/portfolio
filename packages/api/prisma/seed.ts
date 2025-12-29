@@ -3,22 +3,28 @@ import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
 
+const DEFAULT_PASSWORD = process.env.DEFAULT_PASSWORD || 'helloluis'
+const DEFAULT_ACCOUNTS = ['dev', 'admin']
+
 const main = async () => {
   console.log('Seeding database...')
 
-  // Create default user (skip if exists)
-  const existingUser = await prisma.user.findUnique({ where: { email: 'admin@test.com' } })
-  if (!existingUser) {
-    const hashedPassword = await bcrypt.hash('password123', 10)
-    const user = await prisma.user.create({
-      data: {
-        email: 'admin@test.com',
-        password: hashedPassword
-      }
-    })
-    console.log('Created user:', user.email)
-  } else {
-    console.log('User already exists:', existingUser.email)
+  const hashedPassword = await bcrypt.hash(DEFAULT_PASSWORD, 10)
+
+  // Create default accounts
+  for (const accountId of DEFAULT_ACCOUNTS) {
+    const existingUser = await prisma.user.findUnique({ where: { accountId } })
+    if (!existingUser) {
+      const user = await prisma.user.create({
+        data: {
+          accountId,
+          password: hashedPassword
+        }
+      })
+      console.log('Created user:', user.accountId)
+    } else {
+      console.log('User already exists:', existingUser.accountId)
+    }
   }
 
   // Create initial portfolio page
