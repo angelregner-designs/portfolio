@@ -2,6 +2,7 @@
 
 import { useState, useEffect, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import ChangePasswordModal from '@/components/ChangePasswordModal'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
@@ -23,11 +24,11 @@ const DashboardPage = () => {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
+  const [showPasswordModal, setShowPasswordModal] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Check auth
         const userRes = await fetch(`${API_URL}/user`, { credentials: 'include' })
         if (!userRes.ok) {
           router.push('/')
@@ -36,7 +37,6 @@ const DashboardPage = () => {
         const userData = await userRes.json()
         setUser(userData.user)
 
-        // Fetch portfolio
         const portfolioRes = await fetch(`${API_URL}/portfolio-page`, { credentials: 'include' })
         if (portfolioRes.ok) {
           const portfolioData = await portfolioRes.json()
@@ -96,6 +96,7 @@ const DashboardPage = () => {
         <h1>Dashboard</h1>
         <div>
           <span style={{ marginRight: '1rem' }}>{user?.accountId}</span>
+          <button onClick={() => setShowPasswordModal(true)} style={{ marginRight: '0.5rem' }}>Change Password</button>
           <button onClick={handleLogout}>Logout</button>
         </div>
       </header>
@@ -124,6 +125,10 @@ const DashboardPage = () => {
           </button>
         </form>
       </section>
+
+      {showPasswordModal && (
+        <ChangePasswordModal onClose={() => setShowPasswordModal(false)} />
+      )}
     </main>
   )
 }
