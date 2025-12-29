@@ -8,10 +8,10 @@ const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret'
 
 // Local strategy for login
 passport.use(new LocalStrategy(
-  { usernameField: 'email' },
-  async (email, password, done) => {
+  { usernameField: 'accountId' },
+  async (accountId, password, done) => {
     try {
-      const user = await prisma.user.findUnique({ where: { email } })
+      const user = await prisma.user.findUnique({ where: { accountId } })
       if (!user) {
         return done(null, false, { message: 'Invalid credentials' })
       }
@@ -21,7 +21,7 @@ passport.use(new LocalStrategy(
         return done(null, false, { message: 'Invalid credentials' })
       }
 
-      return done(null, { id: user.id, email: user.email })
+      return done(null, { id: user.id, accountId: user.accountId })
     } catch (error) {
       return done(error)
     }
@@ -42,7 +42,7 @@ passport.use(new JwtStrategy(
     try {
       const user = await prisma.user.findUnique({
         where: { id: payload.sub },
-        select: { id: true, email: true }
+        select: { id: true, accountId: true }
       })
       if (!user) {
         return done(null, false)

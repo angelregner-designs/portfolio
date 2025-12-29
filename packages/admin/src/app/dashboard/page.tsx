@@ -7,7 +7,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
 interface User {
   id: string
-  email: string
+  accountId: string
 }
 
 interface PortfolioPage {
@@ -95,7 +95,7 @@ const DashboardPage = () => {
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <h1>Dashboard</h1>
         <div>
-          <span style={{ marginRight: '1rem' }}>{user?.email}</span>
+          <span style={{ marginRight: '1rem' }}>{user?.accountId}</span>
           <button onClick={handleLogout}>Logout</button>
         </div>
       </header>

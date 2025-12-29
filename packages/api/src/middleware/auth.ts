@@ -3,7 +3,7 @@ import passport from '../lib/passport.js'
 
 export interface AuthUser {
   id: string
-  email: string
+  accountId: string
 }
 
 export interface AuthRequest extends Request {
