@@ -17,7 +17,7 @@ const DecorativeLogo = () => (
 )
 
 export const HeroSection = ({ headline, subheadline }: HeroSectionProps) => (
-  <section className="pt-16 pb-20 px-20 bg-[#770B1B]">
+  <section id="hero" className="pt-16 pb-20 px-20 bg-[#770B1B]">
     <div className="max-w-[1280px] mx-auto">
       <div className="flex justify-between items-start">
         <div className="flex flex-col gap-5 max-w-[612px]">
