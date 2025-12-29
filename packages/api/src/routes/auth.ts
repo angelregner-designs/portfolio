@@ -26,7 +26,7 @@ router.post('/login', (req: Request, res: Response, next: NextFunction) => {
 
     const token = jwt.sign({ sub: user.id }, JWT_SECRET, { expiresIn: '7d' })
     res.cookie('token', token, COOKIE_OPTIONS)
-    res.json({ user })
+    return res.json({ user })
   })(req, res, next)
 })
 
@@ -75,9 +75,9 @@ router.post('/change-password', requireAuth, async (req: Request, res: Response)
       data: { password: hashedPassword }
     })
 
-    res.json({ success: true })
+    return res.json({ success: true })
   } catch {
-    res.status(500).json({ error: 'Failed to change password' })
+    return res.status(500).json({ error: 'Failed to change password' })
   }
 })
 

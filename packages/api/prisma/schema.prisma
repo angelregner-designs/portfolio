@@ -15,9 +15,54 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-model PortfolioPage {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
+model Portfolio {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // Hero Section
+  heroHeadline    String
+  heroSubheadline String
+
+  // Projects (embedded array)
+  projects Project[]
+
+  // Testimonials (embedded array)
+  testimonials Testimonial[]
+
+  // Box Sections
+  box1Title   String
+  box1Content String
+  box2Title   String
+  box2Content String
+
+  // Contacts
+  contactsHeadline String
+  contactsCtaText  String
+  linkBehance      String
+  linkLinkedin     String
+  linkWhatsapp     String
+  linkFacebook     String
+  linkInstagram    String
+
+  // Footer
+  footerCopyright       String
+  footerNavProjects     String
+  footerNavTestimonials String
+  footerNavAbout        String
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+type Project {
+  id          String
+  thumbnail   String
+  photos      String[]
+  description String
+  link        String
+}
+
+type Testimonial {
+  id         String
+  content    String
+  personName String
 }

@@ -4,43 +4,80 @@ import { requireAuth } from '../middleware/auth.js'
 
 const router = Router()
 
-// GET /portfolio-page - public
-router.get('/portfolio-page', async (_req: Request, res: Response) => {
+// GET /portfolio - public
+router.get('/portfolio', async (_req: Request, res: Response) => {
   try {
-    const page = await prisma.portfolioPage.findFirst()
-    if (!page) {
-      return res.status(404).json({ error: 'Portfolio page not found' })
+    const portfolio = await prisma.portfolio.findFirst()
+    if (!portfolio) {
+      return res.status(404).json({ error: 'Portfolio not found' })
     }
-    res.json(page)
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch portfolio page' })
+    return res.json(portfolio)
+  } catch {
+    return res.status(500).json({ error: 'Failed to fetch portfolio' })
   }
 })
 
-// POST /portfolio-page - requires auth
-router.post('/portfolio-page', requireAuth, async (req: Request, res: Response) => {
+// POST /portfolio - requires auth, upserts entire portfolio
+router.post('/portfolio', requireAuth, async (req: Request, res: Response) => {
   try {
-    const { title } = req.body
-    if (!title || typeof title !== 'string') {
-      return res.status(400).json({ error: 'Title is required' })
+    const {
+      heroHeadline,
+      heroSubheadline,
+      projects,
+      testimonials,
+      box1Title,
+      box1Content,
+      box2Title,
+      box2Content,
+      contactsHeadline,
+      contactsCtaText,
+      linkBehance,
+      linkLinkedin,
+      linkWhatsapp,
+      linkFacebook,
+      linkInstagram,
+      footerCopyright,
+      footerNavProjects,
+      footerNavTestimonials,
+      footerNavAbout
+    } = req.body
+
+    const data = {
+      heroHeadline,
+      heroSubheadline,
+      projects,
+      testimonials,
+      box1Title,
+      box1Content,
+      box2Title,
+      box2Content,
+      contactsHeadline,
+      contactsCtaText,
+      linkBehance,
+      linkLinkedin,
+      linkWhatsapp,
+      linkFacebook,
+      linkInstagram,
+      footerCopyright,
+      footerNavProjects,
+      footerNavTestimonials,
+      footerNavAbout
     }
 
     // Upsert: update if exists, create if not
-    let page = await prisma.portfolioPage.findFirst()
-    if (page) {
-      page = await prisma.portfolioPage.update({
-        where: { id: page.id },
-        data: { title }
+    let portfolio = await prisma.portfolio.findFirst()
+    if (portfolio) {
+      portfolio = await prisma.portfolio.update({
+        where: { id: portfolio.id },
+        data
       })
     } else {
-      page = await prisma.portfolioPage.create({
-        data: { title }
-      })
+      portfolio = await prisma.portfolio.create({ data })
     }
 
-    res.json(page)
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to update portfolio page' })
+    return res.json(portfolio)
+  } catch {
+    return res.status(500).json({ error: 'Failed to update portfolio' })
   }
 })
 
