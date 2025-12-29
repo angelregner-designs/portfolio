@@ -89,6 +89,7 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
 - Keep components small and focused
 - Use tailwind for styling
 - use classnames lib for conditional class handling
+- Use Figma MCP when applying design from figma. Always aim for pixel perfect replication of Figma design.
 
 **General:**
 - Prefer arrow functions over function declarations
@@ -107,6 +108,9 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
   - Favor function composition
   - Avoid unnecessary classes or deep inheritance hierarchies. Use OOP only when it naturally fits the problem (e.g., modeling real-world entities with behavior)
 - Keep components small, single-responsibility
+
+**Development**
+- when doing npm install, do it in both docker container then on the host machine
 
 ---
 
