@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Admin',
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <html lang="en">
-    <body style={{ margin: 0, fontFamily: 'system-ui, sans-serif' }}>
+    <body className="m-0 font-sans bg-gray-50 text-gray-900 min-h-screen">
       {children}
     </body>
   </html>

@@ -87,39 +87,59 @@ const DashboardPage = () => {
   }
 
   if (loading) {
-    return <main style={{ padding: '2rem' }}>Loading...</main>
+    return (
+      <main className="p-8">
+        <p className="text-gray-600">Loading...</p>
+      </main>
+    )
   }
 
   return (
-    <main style={{ padding: '2rem', maxWidth: 600 }}>
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <h1>Dashboard</h1>
-        <div>
-          <span style={{ marginRight: '1rem' }}>{user?.accountId}</span>
-          <button onClick={() => setShowPasswordModal(true)} style={{ marginRight: '0.5rem' }}>Change Password</button>
-          <button onClick={handleLogout}>Logout</button>
+    <main className="max-w-2xl mx-auto p-8">
+      <header className="flex justify-between items-center mb-8 pb-4 border-b border-gray-200">
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <div className="flex items-center gap-4">
+          <span className="text-gray-600">{user?.accountId}</span>
+          <button
+            onClick={() => setShowPasswordModal(true)}
+            className="px-3 py-1.5 text-sm border border-gray-300 rounded-md hover:bg-gray-50"
+          >
+            Change Password
+          </button>
+          <button
+            onClick={handleLogout}
+            className="px-3 py-1.5 text-sm text-red-600 border border-red-300 rounded-md hover:bg-red-50"
+          >
+            Logout
+          </button>
         </div>
       </header>
 
-      <section>
-        <h2>Edit Portfolio</h2>
+      <section className="bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-xl font-semibold mb-4">Edit Portfolio</h2>
         <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: '1rem' }}>
-            <label htmlFor="title" style={{ display: 'block', marginBottom: '0.5rem' }}>Title</label>
+          <div className="mb-4">
+            <label htmlFor="title" className="block mb-2 text-sm font-medium">
+              Title
+            </label>
             <input
               id="title"
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
-              style={{ width: '100%', padding: '0.5rem', boxSizing: 'border-box' }}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
-          {message && <p style={{ color: message.includes('success') ? 'green' : 'red' }}>{message}</p>}
+          {message && (
+            <p className={`text-sm mb-4 ${message.includes('success') ? 'text-green-600' : 'text-red-600'}`}>
+              {message}
+            </p>
+          )}
           <button
             type="submit"
             disabled={saving}
-            style={{ padding: '0.5rem 1rem', cursor: saving ? 'wait' : 'pointer' }}
+            className="py-2 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-wait"
           >
             {saving ? 'Saving...' : 'Save'}
           </button>
