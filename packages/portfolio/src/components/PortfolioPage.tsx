@@ -6,6 +6,8 @@ import { AboutSection } from './AboutSection'
 import { WhyIDesignSection } from './WhyIDesignSection'
 import { ContactSection } from './ContactSection'
 import { Footer } from './Footer'
+import { StickyBottomNav } from './StickyBottomNav'
+import { BottomFade } from './BottomFade'
 
 interface PortfolioPageProps {
   portfolio: Portfolio
@@ -47,6 +49,11 @@ export const PortfolioPage = ({ portfolio }: PortfolioPageProps) => (
 
     <Footer
       copyright={portfolio.footerCopyright}
+    />
+    
+    <BottomFade />
+    
+    <StickyBottomNav
       nav={{
         projects: portfolio.footerNavProjects,
         testimonials: portfolio.footerNavTestimonials,

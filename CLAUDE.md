@@ -86,12 +86,13 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
 
 **Frontend**
 - Apply SRP to components (single responsibility principle)
+  - When there's a big chunk of 1 coherent set of functionality or compnent within a component or another function, extract it into a separate utility or hook to keep functions and components focused and readable.
 - Keep components small and focused
 - Use tailwind for styling
 - use classnames lib for conditional class handling
 - Use Figma MCP when applying design from figma. Always aim for pixel perfect replication of Figma design.
 
-**General:**
+**General**
 - Prefer arrow functions over function declarations
 - Implicit returns where possible
 - No semicolons
