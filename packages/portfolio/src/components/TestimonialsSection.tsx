@@ -10,9 +10,13 @@ export const TestimonialsSection = ({ testimonials }: TestimonialsSectionProps) 
       <div className="flex flex-col gap-20">
         {testimonials.map((testimonial) => (
           <div key={testimonial.id} className="flex flex-col gap-4 text-center">
-            <p className="text-[20px] italic text-[#F1EDE4] leading-normal">
-              {testimonial.content}
-            </p>
+            <div className="text-[20px] italic text-[#F1EDE4] leading-normal">
+              {testimonial.content.split('\n\n').filter(p => p.trim()).map((paragraph, index, arr) => (
+                <p key={index} className={index < arr.length - 1 ? 'mb-5' : ''}>
+                  {paragraph}
+                </p>
+              ))}
+            </div>
             <p className="text-[24px] font-light italic text-[#AE8237]">
               {testimonial.personName}
               {testimonial.company && ` | ${testimonial.company}`}

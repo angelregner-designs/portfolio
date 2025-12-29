@@ -129,7 +129,7 @@ export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectio
 
       {/* CTA Button */}
       <a
-        href="#connect"
+        href={`mailto:${socialLinks.email}`}
         className="bg-[#F1EDE4] border-2 border-[#F1EDE4] rounded-lg px-5 py-3 text-[18px] font-light text-[#770B1B] text-center hover:bg-[#AE8237] hover:text-[#F1EDE4] hover:border-[#AE8237] transition-colors"
       >
         {ctaText}

@@ -14,15 +14,6 @@ export interface Testimonial {
   company?: string
 }
 
-export interface Experience {
-  id: string
-  company: string
-  role: string
-  period?: string
-  description?: string
-  logo?: string
-}
-
 export interface SocialLinks {
   behance?: string
   linkedin?: string
@@ -43,7 +34,6 @@ export interface Portfolio {
   heroHeadline: string
   heroSubheadline: string
   projects: Project[]
-  experience: Experience[]
   testimonials: Testimonial[]
   aboutMeTitle: string
   aboutMeContent: string
