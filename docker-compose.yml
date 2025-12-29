@@ -1,0 +1,66 @@
+services:
+  mongodb:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: portfolio
+    command: ["--replSet", "rs0", "--bind_ip_all"]
+    healthcheck:
+      test: |
+        mongosh --eval "try { rs.status().ok } catch(e) { rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: 'localhost:27017' }] }).ok }"
+      interval: 5s
+      timeout: 30s
+      start_period: 10s
+      retries: 30
+
+  api:
+    build:
+      context: ./packages/api
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./packages/api/src:/app/src
+      - ./packages/api/prisma:/app/prisma
+    environment:
+      PORT: 3001
+      DATABASE_URL: mongodb://mongodb:27017/portfolio?replicaSet=rs0&directConnection=true
+      JWT_SECRET: dev-secret-change-in-production
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    command: npm run dev
+
+  portfolio:
+    build:
+      context: ./packages/portfolio
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./packages/portfolio/src:/app/src
+      - ./packages/portfolio/public:/app/public
+    environment:
+      API_URL: http://api:3001
+    depends_on:
+      - api
+
+  admin:
+    build:
+      context: ./packages/admin
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./packages/admin/src:/app/src
+      - ./packages/admin/public:/app/public
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3001
+    depends_on:
+      - api
+
+volumes:
+  mongodb_data:
