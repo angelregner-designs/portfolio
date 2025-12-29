@@ -1,7 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
 import passport, { JWT_SECRET } from '../lib/passport.js'
 import { requireAuth, AuthRequest, AuthUser } from '../middleware/auth.js'
+import { prisma } from '../lib/prisma.js'
 
 const router = Router()
 
@@ -37,6 +39,46 @@ router.post('/logout', (_req: Request, res: Response) => {
 // GET /user
 router.get('/user', requireAuth, (req: Request, res: Response) => {
   res.json({ user: (req as AuthRequest).user })
+})
+
+// POST /change-password
+router.post('/change-password', requireAuth, async (req: Request, res: Response) => {
+  const { currentPassword, newPassword } = req.body
+  const user = (req as AuthRequest).user
+
+  if (!user) {
+    return res.status(401).json({ error: 'Unauthorized' })
+  }
+
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ error: 'Current and new password required' })
+  }
+
+  if (newPassword.length < 8) {
+    return res.status(400).json({ error: 'Password must be at least 8 characters' })
+  }
+
+  try {
+    const dbUser = await prisma.user.findUnique({ where: { id: user.id } })
+    if (!dbUser) {
+      return res.status(404).json({ error: 'User not found' })
+    }
+
+    const isValid = await bcrypt.compare(currentPassword, dbUser.password)
+    if (!isValid) {
+      return res.status(401).json({ error: 'Current password is incorrect' })
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10)
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { password: hashedPassword }
+    })
+
+    res.json({ success: true })
+  } catch {
+    res.status(500).json({ error: 'Failed to change password' })
+  }
 })
 
 export default router
