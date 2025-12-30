@@ -1,3 +1,4 @@
+export { DecorativeLogo } from './DecorativeLogo'
 export { HeroSection } from './HeroSection'
 export { ProjectsSection } from './ProjectsSection'
 export { BoxesSection } from './BoxesSection'

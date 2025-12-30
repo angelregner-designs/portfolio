@@ -44,11 +44,22 @@ services:
     volumes:
       - ./packages/portfolio:/app
       - /app/node_modules
-      
+
     environment:
       API_URL: ${PORTFOLIO_API_URL}
     depends_on:
       - api
+
+  storybook:
+    build:
+      context: ./packages/portfolio
+      dockerfile: Dockerfile
+    ports:
+      - "6006:6006"
+    volumes:
+      - ./packages/portfolio:/app
+      - /app/node_modules
+    command: npm run storybook -- --host 0.0.0.0
 
   admin:
     build:

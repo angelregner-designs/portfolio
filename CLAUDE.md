@@ -112,8 +112,13 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
   - Avoid unnecessary classes or deep inheritance hierarchies. Use OOP only when it naturally fits the problem (e.g., modeling real-world entities with behavior)
 - Keep components small, single-responsibility
 
-**Development**
-- when doing npm install, do it in both docker container then on the host machine
+**Packages**
+- when doing npm install
+  - do it in both docker container then on the host machine
+  - restart windsurf's typescript server
+
+**Storybook**
+- do not define title property, let storybook infer
 
 ---
 
