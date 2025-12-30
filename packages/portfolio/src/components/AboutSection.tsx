@@ -1,4 +1,4 @@
-interface AboutSectionProps {
+type AboutSectionProps = {
   title: string
   content: string
 }

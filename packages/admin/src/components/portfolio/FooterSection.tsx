@@ -4,7 +4,7 @@ type FooterField =
   | 'footerNavTestimonials'
   | 'footerNavAbout'
 
-interface FooterSectionProps {
+type FooterSectionProps = {
   footerCopyright: string
   footerNavProjects: string
   footerNavTestimonials: string

@@ -1,4 +1,4 @@
-interface WhyIDesignSectionProps {
+type WhyIDesignSectionProps = {
   title: string
   content: string
 }

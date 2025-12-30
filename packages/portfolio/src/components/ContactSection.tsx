@@ -1,4 +1,4 @@
-interface SocialLinks {
+type SocialLinks = {
   behance?: string
   linkedin?: string
   whatsapp?: string
@@ -7,7 +7,7 @@ interface SocialLinks {
   email?: string
 }
 
-interface ContactSectionProps {
+type ContactSectionProps = {
   headline: string
   ctaText: string
   socialLinks: SocialLinks

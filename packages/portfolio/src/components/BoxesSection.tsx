@@ -1,9 +1,9 @@
-interface Box {
+type Box = {
   title: string
   content: string
 }
 
-interface BoxesSectionProps {
+type BoxesSectionProps = {
   box1: Box
   box2: Box
 }

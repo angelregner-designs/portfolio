@@ -2,7 +2,7 @@
 
 import type { Project } from '@/types/portfolio'
 
-interface ProjectsSectionProps {
+type ProjectsSectionProps = {
   projects: Project[]
   onChange: (projects: Project[]) => void
 }

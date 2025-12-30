@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-interface UseScrollSpyOptions<T extends string> {
+type UseScrollSpyOptions<T extends string> = {
   sections: readonly T[]
   deactivateOn?: string
   initialSection?: T | null

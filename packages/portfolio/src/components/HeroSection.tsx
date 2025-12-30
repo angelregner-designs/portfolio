@@ -10,7 +10,7 @@ import {
   STICKY_SUBHEAD_TOP_PAD,
 } from './HeroSection.const'
 
-interface HeroSectionProps {
+type HeroSectionProps = {
   headline: string
   subheadline: string
 }
@@ -91,7 +91,7 @@ const FixedLogo = ({ isSticky }: { isSticky: boolean }) => (
   </div>
 )
 
-interface StickySubheadlineProps {
+type StickySubheadlineProps = {
   subheadline: string
 }
 

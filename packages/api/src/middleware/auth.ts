@@ -1,12 +1,12 @@
 import type { NextFunction, Request, Response } from 'express'
 import passport from '../lib/passport.js'
 
-export interface AuthUser {
+export type AuthUser = {
   id: string
   accountId: string
 }
 
-export interface AuthRequest extends Request {
+export type AuthRequest = Request & {
   user?: AuthUser
 }
 
