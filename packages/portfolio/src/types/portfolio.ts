@@ -1,4 +1,4 @@
-export interface Project {
+export type Project = {
   id: string
   title: string
   thumbnail: string
@@ -7,14 +7,14 @@ export interface Project {
   link: string
 }
 
-export interface Testimonial {
+export type Testimonial = {
   id: string
   content: string
   personName: string
   company?: string
 }
 
-export interface SocialLinks {
+export type SocialLinks = {
   behance?: string
   linkedin?: string
   whatsapp?: string
@@ -23,13 +23,13 @@ export interface SocialLinks {
   email?: string
 }
 
-export interface FooterNav {
+export type FooterNav = {
   projects: string
   testimonials: string
   about: string
 }
 
-export interface Portfolio {
+export type Portfolio = {
   id: string
   heroHeadline: string
   heroSubheadline: string

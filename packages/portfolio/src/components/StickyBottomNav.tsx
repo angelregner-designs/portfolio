@@ -3,7 +3,7 @@
 import { useScrollSpy } from '@/hooks/useScrollSpy'
 import classNames from 'classnames'
 
-interface StickyBottomNavProps {
+type StickyBottomNavProps = {
   nav: {
     projects: string
     testimonials: string

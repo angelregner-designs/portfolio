@@ -1,4 +1,4 @@
-export interface Project {
+export type Project = {
   id: string
   thumbnail: string
   photos: string[]
@@ -6,13 +6,13 @@ export interface Project {
   link: string
 }
 
-export interface Testimonial {
+export type Testimonial = {
   id: string
   content: string
   personName: string
 }
 
-export interface Portfolio {
+export type Portfolio = {
   id?: string
   heroHeadline: string
   heroSubheadline: string

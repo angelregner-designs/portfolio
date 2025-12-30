@@ -1,6 +1,6 @@
 import type { Testimonial } from '@/types/portfolio'
 
-interface TestimonialsSectionProps {
+type TestimonialsSectionProps = {
   testimonials: Testimonial[]
 }
 

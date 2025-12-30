@@ -1,4 +1,4 @@
-interface HeroSectionProps {
+type HeroSectionProps = {
   heroHeadline: string
   heroSubheadline: string
   onChange: (field: 'heroHeadline' | 'heroSubheadline', value: string) => void

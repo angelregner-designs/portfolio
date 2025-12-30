@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { NEXT_SECTION_MARGIN_TOP } from './HeroSection.const'
 import { ProjectModal } from './ProjectModal'
 
-interface ProjectsSectionProps {
+type ProjectsSectionProps = {
   projects: Project[]
 }
 
@@ -87,7 +87,7 @@ export const ProjectsSection = ({ projects }: ProjectsSectionProps) => {
   )
 }
 
-interface ProjectCardProps {
+type ProjectCardProps = {
   project: Project
   onOpenModal: (project: Project) => void
 }

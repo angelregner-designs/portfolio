@@ -5,7 +5,7 @@ import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { useCallback, useEffect, useState } from 'react'
 
-interface ProjectModalProps {
+type ProjectModalProps = {
   project: Project | null
   isOpen: boolean
   onClose: () => void

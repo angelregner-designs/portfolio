@@ -13,7 +13,7 @@ import { type FormEvent, useEffect, useState } from 'react'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
-interface User {
+type User = {
   id: string
   accountId: string
 }

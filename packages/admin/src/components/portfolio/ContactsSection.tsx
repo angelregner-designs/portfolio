@@ -7,7 +7,7 @@ type ContactField =
   | 'linkFacebook'
   | 'linkInstagram'
 
-interface ContactsSectionProps {
+type ContactsSectionProps = {
   contactsHeadline: string
   contactsCtaText: string
   linkBehance: string

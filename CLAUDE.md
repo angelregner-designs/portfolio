@@ -103,7 +103,7 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
 **TypeScript:**
 - Strict mode enabled
 - Avoid `any` - use `unknown` or proper types
-- Prefer `interface` for object shapes, `type` for unions/aliases
+- Prefer `type` for object shapes, unions, aliases
 
 **Architecture:**
 - Loosely prefer FP over OOP, unless it sacrifices clarity and simplicity

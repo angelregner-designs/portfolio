@@ -1,4 +1,4 @@
-interface BoxSectionProps {
+type BoxSectionProps = {
   box1Title: string
   box1Content: string
   box2Title: string

@@ -9,7 +9,7 @@ import { StickyBottomNav } from './StickyBottomNav'
 import { TestimonialsSection } from './TestimonialsSection'
 import { WhyIDesignSection } from './WhyIDesignSection'
 
-interface PortfolioPageProps {
+type PortfolioPageProps = {
   portfolio: Portfolio
 }
 
