@@ -91,8 +91,12 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
 - Use tailwind for styling
 - use classnames lib for conditional class handling
 - Use Figma MCP when applying design from figma. Always aim for pixel perfect replication of Figma design.
-- Put the main component/function first, followed by helper functions/hooks if any
+- Always put the main component/function first, put anything else (functions, hooks, components, etc.) after if possible
 - Move SVG elements to their own components
+
+**Animations**
+- Use Framer Motion for complex animations beyond simple transition from A to B
+- When using framer motion, add descriptive comment about what we are trying to achieve
 
 **General**
 - Prefer arrow functions over function declarations
@@ -104,6 +108,7 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
 - Strict mode enabled
 - Avoid `any` - use `unknown` or proper types
 - Prefer `type` for object shapes, unions, aliases
+- When writing objects to be passed to library functions and components, use type annotation from that library if any
 
 **Architecture:**
 - Loosely prefer FP over OOP, unless it sacrifices clarity and simplicity
@@ -115,6 +120,7 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
 **Packages**
 - when doing npm install
   - do it in both docker container then on the host machine
+  - do it in storybook container as well, if it's running and we've installed it to the portfolio app
   - restart windsurf's typescript server
 
 **Storybook**
