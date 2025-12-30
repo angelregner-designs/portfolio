@@ -54,5 +54,5 @@ export const emptyPortfolio: Portfolio = {
   footerCopyright: '',
   footerNavProjects: '',
   footerNavTestimonials: '',
-  footerNavAbout: ''
+  footerNavAbout: '',
 }

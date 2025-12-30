@@ -1,4 +1,3 @@
-
 // sticky header relative to page pt-[76px] pb-[52px]
 // sticky header relative to headline pt-[20px]
 export const STICKY_SUBHEAD_TOP_PAD = 76

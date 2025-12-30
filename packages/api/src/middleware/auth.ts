@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express'
+import type { NextFunction, Request, Response } from 'express'
 import passport from '../lib/passport.js'
 
 export interface AuthUser {
@@ -18,7 +18,7 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
     if (!user) {
       return res.status(401).json({ error: 'Unauthorized' })
     }
-    (req as AuthRequest).user = user
+    ;(req as AuthRequest).user = user
     return next()
   })(req, res, next)
 }

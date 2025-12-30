@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 interface UseScrollSpyOptions<T extends string> {
   sections: readonly T[]
@@ -20,45 +20,47 @@ export const useScrollSpy = <T extends string>({
   useEffect(() => {
     const observers: IntersectionObserver[] = []
 
-    sections.forEach((sectionId) => {
+    for (const sectionId of sections) {
       const element = document.getElementById(sectionId)
-      if (!element) return
+      if (!element) continue
 
       const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
+        entries => {
+          for (const entry of entries) {
             if (entry.isIntersecting) {
               setActiveSection(sectionId)
             }
-          })
+          }
         },
-        { threshold }
+        { threshold },
       )
 
       observer.observe(element)
       observers.push(observer)
-    })
+    }
 
     // Observe deactivation section
     if (deactivateOn) {
       const deactivateElement = document.getElementById(deactivateOn)
       if (deactivateElement) {
         const deactivateObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
+          entries => {
+            for (const entry of entries) {
               if (entry.isIntersecting) {
                 setActiveSection(null)
               }
-            })
+            }
           },
-          { threshold }
+          { threshold },
         )
         deactivateObserver.observe(deactivateElement)
         observers.push(deactivateObserver)
       }
     }
 
-    return () => observers.forEach((obs) => obs.disconnect())
+    return () => {
+      for (const obs of observers) obs.disconnect()
+    }
   }, [sections, deactivateOn, threshold])
 
   return activeSection

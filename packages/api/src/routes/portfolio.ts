@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express'
+import { type Request, type Response, Router } from 'express'
 import { prisma } from '../lib/prisma.js'
 import { requireAuth } from '../middleware/auth.js'
 
@@ -39,7 +39,7 @@ router.post('/portfolio', requireAuth, async (req: Request, res: Response) => {
       footerCopyright,
       footerNavProjects,
       footerNavTestimonials,
-      footerNavAbout
+      footerNavAbout,
     } = req.body
 
     const data = {
@@ -61,7 +61,7 @@ router.post('/portfolio', requireAuth, async (req: Request, res: Response) => {
       footerCopyright,
       footerNavProjects,
       footerNavTestimonials,
-      footerNavAbout
+      footerNavAbout,
     }
 
     // Upsert: update if exists, create if not
@@ -69,7 +69,7 @@ router.post('/portfolio', requireAuth, async (req: Request, res: Response) => {
     if (portfolio) {
       portfolio = await prisma.portfolio.update({
         where: { id: portfolio.id },
-        data
+        data,
       })
     } else {
       portfolio = await prisma.portfolio.create({ data })

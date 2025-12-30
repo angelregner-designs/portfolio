@@ -11,7 +11,7 @@ export const HARDCODED_PORTFOLIO: Portfolio = {
       thumbnail: '/project1.png',
       photos: [],
       description: '',
-      link: ''
+      link: '',
     },
     {
       id: '2',
@@ -19,7 +19,7 @@ export const HARDCODED_PORTFOLIO: Portfolio = {
       thumbnail: '/project2.png',
       photos: [],
       description: '',
-      link: 'https://www.instagram.com/p/DOT55FFk1ch/?img_index=1'
+      link: 'https://www.instagram.com/p/DOT55FFk1ch/?img_index=1',
     },
     {
       id: '3',
@@ -27,7 +27,7 @@ export const HARDCODED_PORTFOLIO: Portfolio = {
       thumbnail: '/project3.png',
       photos: [],
       description: '',
-      link: 'https://www.instagram.com/p/DOG-tyUAcB3/?img_index=1'
+      link: 'https://www.instagram.com/p/DOG-tyUAcB3/?img_index=1',
     },
     {
       id: '4',
@@ -35,7 +35,7 @@ export const HARDCODED_PORTFOLIO: Portfolio = {
       thumbnail: '/project4.png',
       photos: [],
       description: '',
-      link: 'https://laurenroxburgh.com/'
+      link: 'https://laurenroxburgh.com/',
     },
     {
       id: '5',
@@ -43,7 +43,7 @@ export const HARDCODED_PORTFOLIO: Portfolio = {
       thumbnail: '/project5.png',
       photos: [],
       description: '',
-      link: 'https://www.propelio.com/'
+      link: 'https://www.propelio.com/',
     },
     {
       id: '6',
@@ -51,7 +51,7 @@ export const HARDCODED_PORTFOLIO: Portfolio = {
       thumbnail: '/project6.png',
       photos: [],
       description: '',
-      link: ''
+      link: '',
     },
     {
       id: '7',
@@ -59,7 +59,7 @@ export const HARDCODED_PORTFOLIO: Portfolio = {
       thumbnail: '/project7.png',
       photos: [],
       description: '',
-      link: 'https://www.instagram.com/p/DOMdalCk5Vm/'
+      link: 'https://www.instagram.com/p/DOMdalCk5Vm/',
     },
     {
       id: '8',
@@ -67,7 +67,7 @@ export const HARDCODED_PORTFOLIO: Portfolio = {
       thumbnail: '/project8.png',
       photos: [],
       description: '',
-      link: 'https://mumbrain.app/'
+      link: 'https://mumbrain.app/',
     },
     {
       id: '9',
@@ -75,7 +75,7 @@ export const HARDCODED_PORTFOLIO: Portfolio = {
       thumbnail: '/project9.png',
       photos: [],
       description: '',
-      link: 'https://www.behance.net/gallery/231874015/The-Chunks-Brand-Identity-Design'
+      link: 'https://www.behance.net/gallery/231874015/The-Chunks-Brand-Identity-Design',
     },
     {
       id: '10',
@@ -83,8 +83,8 @@ export const HARDCODED_PORTFOLIO: Portfolio = {
       thumbnail: '/project10.png',
       photos: [],
       description: '',
-      link: 'https://www.instagram.com/akoki.ta/'
-    }
+      link: 'https://www.instagram.com/akoki.ta/',
+    },
   ],
   testimonials: [
     {
@@ -95,7 +95,7 @@ Her leadership style blends high standards with strong mentorship, ensuring her 
 
 Her ability to transition from trainee to department head in such a short period of time is a testament to her intelligence, dedication, and natural leadership ability. She is not only a stellar designer but also a strategic thinker who understands how to scale a team, define processes, and drive results. Any organization would be fortunate to have her—she is, without question, one of the best in her profession.`,
       personName: 'Daniel Moore',
-      company: 'Propelio'
+      company: 'Propelio',
     },
     {
       id: '2',
@@ -105,14 +105,15 @@ What really sets her apart is her ability to understand a brand and translate a 
 
 Without a doubt, I would highly recommend Angelica to anyone looking for a talented, reliable, and creative designer. She's a joy to work with and a real asset to any project.`,
       personName: 'Jack',
-      company: 'Villa Vision Builders'
+      company: 'Villa Vision Builders',
     },
     {
       id: '3',
-      content: 'Working with Angelica and her team has been an absolute pleasure for us. Their attention to detail, responsiveness and collaboration has been fantastic - so much so that we are bringing Angel on in an ongoing capacity to handle our design needs going forward. I would recommend them to anyone looking for a great designer and a very professional collaborator.',
+      content:
+        'Working with Angelica and her team has been an absolute pleasure for us. Their attention to detail, responsiveness and collaboration has been fantastic - so much so that we are bringing Angel on in an ongoing capacity to handle our design needs going forward. I would recommend them to anyone looking for a great designer and a very professional collaborator.',
       personName: 'Gus Roxburgh',
-      company: 'LO ROX Studio'
-    }
+      company: 'LO ROX Studio',
+    },
   ],
   aboutMeTitle: 'About Me',
   aboutMeContent: `I'm an all-around creative with over 4 years of experience working remotely.
@@ -153,5 +154,5 @@ I design to help people feel seen, understood, and proud of what they create.`,
   footerNavProjects: 'Client Works',
   footerNavTestimonials: 'Testimonials',
   footerNavAbout: 'About',
-  footerCtaText: "Let's Work Together"
+  footerCtaText: "Let's Work Together",
 }
