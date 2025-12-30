@@ -38,3 +38,6 @@ next-env.d.ts
 # Temporary files
 tmp/
 
+
+*storybook.log
+storybook-static
