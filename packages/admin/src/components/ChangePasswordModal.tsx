@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
+import { type FormEvent, useState } from 'react'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
@@ -38,7 +38,7 @@ const ChangePasswordModal = ({ onClose }: ChangePasswordModalProps) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ currentPassword, newPassword })
+        body: JSON.stringify({ currentPassword, newPassword }),
       })
 
       const data = await res.json()
@@ -57,64 +57,64 @@ const ChangePasswordModal = ({ onClose }: ChangePasswordModalProps) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
-        <h2 className="text-xl font-semibold mb-4">Change Password</h2>
+    <div className='fixed inset-0 bg-black/50 flex items-center justify-center z-50'>
+      <div className='bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4'>
+        <h2 className='text-xl font-semibold mb-4'>Change Password</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="currentPassword" className="block mb-2 text-sm font-medium">
+          <div className='mb-4'>
+            <label htmlFor='currentPassword' className='block mb-2 text-sm font-medium'>
               Current Password
             </label>
             <input
-              id="currentPassword"
-              type="password"
+              id='currentPassword'
+              type='password'
               value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
+              onChange={e => setCurrentPassword(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="newPassword" className="block mb-2 text-sm font-medium">
+          <div className='mb-4'>
+            <label htmlFor='newPassword' className='block mb-2 text-sm font-medium'>
               New Password (min 8 characters)
             </label>
             <input
-              id="newPassword"
-              type="password"
+              id='newPassword'
+              type='password'
               value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
+              onChange={e => setNewPassword(e.target.value)}
               required
               minLength={8}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium">
+          <div className='mb-4'>
+            <label htmlFor='confirmPassword' className='block mb-2 text-sm font-medium'>
               Confirm New Password
             </label>
             <input
-              id="confirmPassword"
-              type="password"
+              id='confirmPassword'
+              type='password'
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={e => setConfirmPassword(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             />
           </div>
-          {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
-          {success && <p className="text-green-600 text-sm mb-4">{success}</p>}
-          <div className="flex gap-3">
+          {error && <p className='text-red-600 text-sm mb-4'>{error}</p>}
+          {success && <p className='text-green-600 text-sm mb-4'>{success}</p>}
+          <div className='flex gap-3'>
             <button
-              type="submit"
+              type='submit'
               disabled={loading}
-              className="flex-1 py-2 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-wait"
+              className='flex-1 py-2 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-wait'
             >
               {loading ? 'Changing...' : 'Change Password'}
             </button>
             <button
-              type="button"
+              type='button'
               onClick={onClose}
-              className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
+              className='px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50'
             >
               Cancel
             </button>

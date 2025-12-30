@@ -1,35 +1,29 @@
 import type { Portfolio } from '@/types/portfolio'
-import { HeroSection, StickySubheadline } from './HeroSection'
-import { ProjectsSection } from './ProjectsSection'
-import { TestimonialsSection } from './TestimonialsSection'
 import { AboutSection } from './AboutSection'
-import { WhyIDesignSection } from './WhyIDesignSection'
+import { BottomFade } from './BottomFade'
 import { ContactSection } from './ContactSection'
 import { Footer } from './Footer'
+import { HeroSection, StickySubheadline } from './HeroSection'
+import { ProjectsSection } from './ProjectsSection'
 import { StickyBottomNav } from './StickyBottomNav'
-import { BottomFade } from './BottomFade'
+import { TestimonialsSection } from './TestimonialsSection'
+import { WhyIDesignSection } from './WhyIDesignSection'
 
 interface PortfolioPageProps {
   portfolio: Portfolio
 }
 
 export const PortfolioPage = ({ portfolio }: PortfolioPageProps) => (
-  <main className="min-h-screen bg-[#770B1B]">
+  <main className='min-h-screen bg-[#770B1B]'>
     <HeroSection headline={portfolio.heroHeadline} subheadline={portfolio.heroSubheadline} />
 
     <ProjectsSection projects={portfolio.projects} />
 
     <TestimonialsSection testimonials={portfolio.testimonials} />
 
-    <AboutSection
-      title={portfolio.aboutMeTitle}
-      content={portfolio.aboutMeContent}
-    />
+    <AboutSection title={portfolio.aboutMeTitle} content={portfolio.aboutMeContent} />
 
-    <WhyIDesignSection
-      title={portfolio.whyIDesignTitle}
-      content={portfolio.whyIDesignContent}
-    />
+    <WhyIDesignSection title={portfolio.whyIDesignTitle} content={portfolio.whyIDesignContent} />
 
     <ContactSection
       headline={portfolio.contactsHeadline}
@@ -44,12 +38,10 @@ export const PortfolioPage = ({ portfolio }: PortfolioPageProps) => (
       }}
     />
 
-    <Footer
-      copyright={portfolio.footerCopyright}
-    />
-    
+    <Footer copyright={portfolio.footerCopyright} />
+
     <BottomFade />
-    
+
     <StickyBottomNav
       nav={{
         projects: portfolio.footerNavProjects,

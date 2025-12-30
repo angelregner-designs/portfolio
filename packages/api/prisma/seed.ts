@@ -15,15 +15,15 @@ const DEFAULT_PORTFOLIO = {
       thumbnail: 'https://picsum.photos/200/300',
       photos: ['https://picsum.photos/200/300'],
       description: 'projectDescription',
-      link: 'https://example.com'
-    }
+      link: 'https://example.com',
+    },
   ],
   testimonials: [
     {
       id: '1',
       content: 'testimonialContent',
-      personName: 'testimonialPersonName'
-    }
+      personName: 'testimonialPersonName',
+    },
   ],
   box1Title: 'box1Title',
   box1Content: 'box1Content',
@@ -39,7 +39,7 @@ const DEFAULT_PORTFOLIO = {
   footerCopyright: 'footerCopyright',
   footerNavProjects: 'footerNavProjects',
   footerNavTestimonials: 'footerNavTestimonials',
-  footerNavAbout: 'footerNavAbout'
+  footerNavAbout: 'footerNavAbout',
 }
 
 const main = async () => {
@@ -54,8 +54,8 @@ const main = async () => {
       const user = await prisma.user.create({
         data: {
           accountId,
-          password: hashedPassword
-        }
+          password: hashedPassword,
+        },
       })
       console.log('Created user:', user.accountId)
     } else {
@@ -67,7 +67,7 @@ const main = async () => {
   const existingPortfolio = await prisma.portfolio.findFirst()
   if (!existingPortfolio) {
     const portfolio = await prisma.portfolio.create({
-      data: DEFAULT_PORTFOLIO
+      data: DEFAULT_PORTFOLIO,
     })
     console.log('Created portfolio:', portfolio.id)
   } else {
@@ -78,7 +78,7 @@ const main = async () => {
 }
 
 main()
-  .catch((e) => {
+  .catch(e => {
     console.error(e)
     process.exit(1)
   })

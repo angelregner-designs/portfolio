@@ -1,6 +1,6 @@
-import type { Portfolio } from '@/types/portfolio'
 import { PortfolioPage } from '@/components/PortfolioPage'
 import { HARDCODED_PORTFOLIO } from '@/data/portfolio'
+import type { Portfolio } from '@/types/portfolio'
 
 // Toggle this to switch between hardcoded data and API fetch
 const USE_HARDCODED_DATA = true
@@ -18,14 +18,12 @@ const fetchPortfolio = async (): Promise<Portfolio | null> => {
 }
 
 const HomePage = async () => {
-  const portfolio = USE_HARDCODED_DATA
-    ? HARDCODED_PORTFOLIO
-    : await fetchPortfolio()
+  const portfolio = USE_HARDCODED_DATA ? HARDCODED_PORTFOLIO : await fetchPortfolio()
 
   if (!portfolio) {
     return (
-      <main className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500">Failed to load portfolio data</p>
+      <main className='min-h-screen flex items-center justify-center'>
+        <p className='text-gray-500'>Failed to load portfolio data</p>
       </main>
     )
   }

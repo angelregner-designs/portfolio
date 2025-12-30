@@ -1,4 +1,11 @@
-type ContactField = 'contactsHeadline' | 'contactsCtaText' | 'linkBehance' | 'linkLinkedin' | 'linkWhatsapp' | 'linkFacebook' | 'linkInstagram'
+type ContactField =
+  | 'contactsHeadline'
+  | 'contactsCtaText'
+  | 'linkBehance'
+  | 'linkLinkedin'
+  | 'linkWhatsapp'
+  | 'linkFacebook'
+  | 'linkInstagram'
 
 interface ContactsSectionProps {
   contactsHeadline: string
@@ -19,82 +26,103 @@ const ContactsSection = ({
   linkWhatsapp,
   linkFacebook,
   linkInstagram,
-  onChange
+  onChange,
 }: ContactsSectionProps) => (
-  <section className="bg-white rounded-lg shadow-md p-6 mb-6">
-    <h2 className="text-xl font-semibold mb-4">Contacts Section</h2>
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <section className='bg-white rounded-lg shadow-md p-6 mb-6'>
+    <h2 className='text-xl font-semibold mb-4'>Contacts Section</h2>
+    <div className='space-y-4'>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
         <div>
-          <label className="block mb-1 text-sm font-medium">Headline</label>
+          <label htmlFor='contactsHeadline' className='block mb-1 text-sm font-medium'>
+            Headline
+          </label>
           <input
-            type="text"
+            id='contactsHeadline'
+            type='text'
             value={contactsHeadline}
-            onChange={(e) => onChange('contactsHeadline', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            onChange={e => onChange('contactsHeadline', e.target.value)}
+            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
           />
         </div>
         <div>
-          <label className="block mb-1 text-sm font-medium">CTA Text</label>
+          <label htmlFor='contactsCtaText' className='block mb-1 text-sm font-medium'>
+            CTA Text
+          </label>
           <input
-            type="text"
+            id='contactsCtaText'
+            type='text'
             value={contactsCtaText}
-            onChange={(e) => onChange('contactsCtaText', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            onChange={e => onChange('contactsCtaText', e.target.value)}
+            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
           />
         </div>
       </div>
 
-      <h3 className="font-medium text-gray-700 pt-2">Social Links</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <h3 className='font-medium text-gray-700 pt-2'>Social Links</h3>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
         <div>
-          <label className="block mb-1 text-sm font-medium">Behance</label>
+          <label htmlFor='linkBehance' className='block mb-1 text-sm font-medium'>
+            Behance
+          </label>
           <input
-            type="text"
+            id='linkBehance'
+            type='text'
             value={linkBehance}
-            onChange={(e) => onChange('linkBehance', e.target.value)}
-            placeholder="https://behance.net/..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+            onChange={e => onChange('linkBehance', e.target.value)}
+            placeholder='https://behance.net/...'
+            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
           />
         </div>
         <div>
-          <label className="block mb-1 text-sm font-medium">LinkedIn</label>
+          <label htmlFor='linkLinkedin' className='block mb-1 text-sm font-medium'>
+            LinkedIn
+          </label>
           <input
-            type="text"
+            id='linkLinkedin'
+            type='text'
             value={linkLinkedin}
-            onChange={(e) => onChange('linkLinkedin', e.target.value)}
-            placeholder="https://linkedin.com/in/..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+            onChange={e => onChange('linkLinkedin', e.target.value)}
+            placeholder='https://linkedin.com/in/...'
+            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
           />
         </div>
         <div>
-          <label className="block mb-1 text-sm font-medium">WhatsApp</label>
+          <label htmlFor='linkWhatsapp' className='block mb-1 text-sm font-medium'>
+            WhatsApp
+          </label>
           <input
-            type="text"
+            id='linkWhatsapp'
+            type='text'
             value={linkWhatsapp}
-            onChange={(e) => onChange('linkWhatsapp', e.target.value)}
-            placeholder="https://wa.me/..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+            onChange={e => onChange('linkWhatsapp', e.target.value)}
+            placeholder='https://wa.me/...'
+            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
           />
         </div>
         <div>
-          <label className="block mb-1 text-sm font-medium">Facebook</label>
+          <label htmlFor='linkFacebook' className='block mb-1 text-sm font-medium'>
+            Facebook
+          </label>
           <input
-            type="text"
+            id='linkFacebook'
+            type='text'
             value={linkFacebook}
-            onChange={(e) => onChange('linkFacebook', e.target.value)}
-            placeholder="https://facebook.com/..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+            onChange={e => onChange('linkFacebook', e.target.value)}
+            placeholder='https://facebook.com/...'
+            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
           />
         </div>
         <div>
-          <label className="block mb-1 text-sm font-medium">Instagram</label>
+          <label htmlFor='linkInstagram' className='block mb-1 text-sm font-medium'>
+            Instagram
+          </label>
           <input
-            type="text"
+            id='linkInstagram'
+            type='text'
             value={linkInstagram}
-            onChange={(e) => onChange('linkInstagram', e.target.value)}
-            placeholder="https://instagram.com/..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+            onChange={e => onChange('linkInstagram', e.target.value)}
+            placeholder='https://instagram.com/...'
+            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
           />
         </div>
       </div>

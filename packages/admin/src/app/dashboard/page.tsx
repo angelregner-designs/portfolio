@@ -1,15 +1,15 @@
 'use client'
 
-import { useState, useEffect, FormEvent } from 'react'
-import { useRouter } from 'next/navigation'
 import ChangePasswordModal from '@/components/ChangePasswordModal'
-import HeroSection from '@/components/portfolio/HeroSection'
-import ProjectsSection from '@/components/portfolio/ProjectsSection'
-import TestimonialsSection from '@/components/portfolio/TestimonialsSection'
 import BoxSection from '@/components/portfolio/BoxSection'
 import ContactsSection from '@/components/portfolio/ContactsSection'
 import FooterSection from '@/components/portfolio/FooterSection'
-import { Portfolio, Project, Testimonial, emptyPortfolio } from '@/types/portfolio'
+import HeroSection from '@/components/portfolio/HeroSection'
+import ProjectsSection from '@/components/portfolio/ProjectsSection'
+import TestimonialsSection from '@/components/portfolio/TestimonialsSection'
+import { type Portfolio, type Project, type Testimonial, emptyPortfolio } from '@/types/portfolio'
+import { useRouter } from 'next/navigation'
+import { type FormEvent, useEffect, useState } from 'react'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
@@ -67,7 +67,7 @@ const DashboardPage = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify(portfolio)
+        body: JSON.stringify(portfolio),
       })
 
       if (!res.ok) throw new Error('Failed to save')
@@ -85,34 +85,36 @@ const DashboardPage = () => {
   const handleLogout = async () => {
     await fetch(`${API_URL}/logout`, {
       method: 'POST',
-      credentials: 'include'
+      credentials: 'include',
     })
     router.push('/')
   }
 
   if (loading) {
     return (
-      <main className="p-8">
-        <p className="text-gray-600">Loading...</p>
+      <main className='p-8'>
+        <p className='text-gray-600'>Loading...</p>
       </main>
     )
   }
 
   return (
-    <main className="max-w-4xl mx-auto p-8">
-      <header className="flex justify-between items-center mb-8 pb-4 border-b border-gray-200">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <div className="flex items-center gap-4">
-          <span className="text-gray-600">{user?.accountId}</span>
+    <main className='max-w-4xl mx-auto p-8'>
+      <header className='flex justify-between items-center mb-8 pb-4 border-b border-gray-200'>
+        <h1 className='text-2xl font-bold'>Dashboard</h1>
+        <div className='flex items-center gap-4'>
+          <span className='text-gray-600'>{user?.accountId}</span>
           <button
+            type='button'
             onClick={() => setShowPasswordModal(true)}
-            className="px-3 py-1.5 text-sm border border-gray-300 rounded-md hover:bg-gray-50"
+            className='px-3 py-1.5 text-sm border border-gray-300 rounded-md hover:bg-gray-50'
           >
             Change Password
           </button>
           <button
+            type='button'
             onClick={handleLogout}
-            className="px-3 py-1.5 text-sm text-red-600 border border-red-300 rounded-md hover:bg-red-50"
+            className='px-3 py-1.5 text-sm text-red-600 border border-red-300 rounded-md hover:bg-red-50'
           >
             Logout
           </button>
@@ -164,25 +166,25 @@ const DashboardPage = () => {
         />
 
         {message && (
-          <p className={`text-sm mb-4 ${message.includes('success') ? 'text-green-600' : 'text-red-600'}`}>
+          <p
+            className={`text-sm mb-4 ${message.includes('success') ? 'text-green-600' : 'text-red-600'}`}
+          >
             {message}
           </p>
         )}
 
-        <div className="sticky bottom-4 bg-white p-4 rounded-lg shadow-lg border border-gray-200">
+        <div className='sticky bottom-4 bg-white p-4 rounded-lg shadow-lg border border-gray-200'>
           <button
-            type="submit"
+            type='submit'
             disabled={saving}
-            className="w-full py-3 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-wait"
+            className='w-full py-3 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-wait'
           >
             {saving ? 'Saving...' : 'Save All Changes'}
           </button>
         </div>
       </form>
 
-      {showPasswordModal && (
-        <ChangePasswordModal onClose={() => setShowPasswordModal(false)} />
-      )}
+      {showPasswordModal && <ChangePasswordModal onClose={() => setShowPasswordModal(false)} />}
     </main>
   )
 }

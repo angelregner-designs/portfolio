@@ -1,6 +1,6 @@
-import express from 'express'
-import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
+import express from 'express'
 import passport from './lib/passport.js'
 import { prisma } from './lib/prisma.js'
 import authRoutes from './routes/auth.js'
@@ -10,10 +10,12 @@ const app = express()
 const PORT = process.env.PORT || 3001
 
 // Middleware
-app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3002'],
-  credentials: true
-}))
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'http://localhost:3002'],
+    credentials: true,
+  }),
+)
 app.use(express.json())
 app.use(cookieParser())
 app.use(passport.initialize())
