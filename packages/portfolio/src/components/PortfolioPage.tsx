@@ -1,5 +1,5 @@
 import type { Portfolio } from '@/types/portfolio'
-import { HeroSection } from './HeroSection'
+import { HeroSection, StickySubheadline } from './HeroSection'
 import { ProjectsSection } from './ProjectsSection'
 import { TestimonialsSection } from './TestimonialsSection'
 import { AboutSection } from './AboutSection'
@@ -7,7 +7,6 @@ import { WhyIDesignSection } from './WhyIDesignSection'
 import { ContactSection } from './ContactSection'
 import { Footer } from './Footer'
 import { StickyBottomNav } from './StickyBottomNav'
-import { StickyHeader } from './StickyHeader'
 import { BottomFade } from './BottomFade'
 
 interface PortfolioPageProps {
@@ -16,12 +15,7 @@ interface PortfolioPageProps {
 
 export const PortfolioPage = ({ portfolio }: PortfolioPageProps) => (
   <main className="min-h-screen bg-[#770B1B]">
-    <StickyHeader />
-
-    <HeroSection
-      headline={portfolio.heroHeadline}
-      subheadline={portfolio.heroSubheadline}
-    />
+    <HeroSection headline={portfolio.heroHeadline} subheadline={portfolio.heroSubheadline} />
 
     <ProjectsSection projects={portfolio.projects} />
 

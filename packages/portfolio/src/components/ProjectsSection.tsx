@@ -4,6 +4,7 @@ import { useState } from 'react'
 import type { Project } from '@/types/portfolio'
 import classNames from 'classnames'
 import { ProjectModal } from './ProjectModal'
+import { NEXT_SECTION_MARGIN_TOP } from './HeroSection.const'
 
 interface ProjectsSectionProps {
   projects: Project[]
@@ -33,7 +34,13 @@ export const ProjectsSection = ({ projects }: ProjectsSectionProps) => {
   }
 
   return (
-    <section id="projects" className="py-0 px-20 bg-[#770B1B]">
+    <section
+      id="projects"
+      className={"pb-0 px-20 bg-[#770B1B] pt-[var(--next-section-margin-top)]"}
+      style={{
+        '--next-section-margin-top': `${NEXT_SECTION_MARGIN_TOP}px`,
+      } as React.CSSProperties}
+    >
       <div className="max-w-[1280px] mx-auto">
         <div className="flex flex-col gap-14">
           {
