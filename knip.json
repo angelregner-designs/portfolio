@@ -18,5 +18,13 @@
     }
   },
   "ignore": ["**/node_modules/**", "**/dist/**", "**/.next/**"],
-  "ignoreDependencies": ["autoprefixer"]
+  "ignoreDependencies": [
+    "autoprefixer",
+    "tailwindcss",
+    "@types/uuid",
+    "@vitest/coverage-v8",
+    "playwright",
+    "postcss-load-config",
+    "postcss"
+  ]
 }

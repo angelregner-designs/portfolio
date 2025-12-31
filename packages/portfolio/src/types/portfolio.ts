@@ -14,21 +14,6 @@ export type Testimonial = {
   company?: string
 }
 
-export type SocialLinks = {
-  behance?: string
-  linkedin?: string
-  whatsapp?: string
-  facebook?: string
-  instagram?: string
-  email?: string
-}
-
-export type FooterNav = {
-  projects: string
-  testimonials: string
-  about: string
-}
-
 export type Portfolio = {
   id: string
   heroHeadline: string

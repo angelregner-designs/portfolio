@@ -28,7 +28,6 @@ if (totalChance !== 100) {
 // ========================================
 
 export const EXPAND_FRAME_DURATION = 0.5 * DURATION_MULTIPLIER
-export const EXPAND_EYELID_DURATION = 0.5 * DURATION_MULTIPLIER
 export const EXPAND_EYELID_DELAY = 0.3 * DURATION_MULTIPLIER
 export const EXPAND_EYELID_SCALE = 2.425
 export const EXPAND_PUPIL_DURATION = 0.5 * DURATION_MULTIPLIER

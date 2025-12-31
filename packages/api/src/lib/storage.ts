@@ -74,10 +74,3 @@ export const deleteFile = async (url: string): Promise<void> => {
     console.warn(`Failed to delete file: ${filename}`, error)
   }
 }
-
-// Delete all files for a project (e.g., when project is deleted)
-export const deleteProjectFiles = async (projectId: string): Promise<void> => {
-  const bucket = getBucket()
-  const [files] = await bucket.getFiles({ prefix: `projects/${projectId}/` })
-  await Promise.all(files.map(file => file.delete()))
-}
