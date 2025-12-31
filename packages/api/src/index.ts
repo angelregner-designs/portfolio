@@ -10,10 +10,16 @@ import uploadRoutes from './routes/upload.js'
 const app = express()
 const PORT = process.env.PORT || 3001
 
-// Middleware
+// CORS configuration
+// In production, CORS_ORIGINS env var contains comma-separated allowed origins
+// In development, defaults to localhost
+const corsOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(',')
+  : ['http://localhost:3000', 'http://localhost:3002']
+
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'http://localhost:3002'],
+    origin: corsOrigins,
     credentials: true,
   }),
 )

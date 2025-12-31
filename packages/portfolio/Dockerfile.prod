@@ -1,0 +1,86 @@
+# =============================================================================
+# PORTFOLIO PRODUCTION DOCKERFILE
+# =============================================================================
+# Multi-stage build using Next.js standalone output.
+# Final image ~120MB vs ~1GB for dev.
+#
+# Build: docker build -f Dockerfile.prod -t portfolio:prod --build-arg API_URL=https://api.dev.angelregner.com .
+# Run:   docker run -p 3000:3000 portfolio:prod
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Stage 1: Dependencies
+# -----------------------------------------------------------------------------
+# Install dependencies in a separate stage for better caching.
+# -----------------------------------------------------------------------------
+FROM node:22-alpine AS deps
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci
+
+
+# -----------------------------------------------------------------------------
+# Stage 2: Build
+# -----------------------------------------------------------------------------
+# Build the Next.js application with standalone output.
+# The standalone output includes only necessary files for production.
+# -----------------------------------------------------------------------------
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+
+# Copy dependencies from deps stage
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Build argument for API URL - needed at build time for server components
+# This gets baked into the build, so it must be correct at build time
+ARG API_URL
+ENV API_URL=$API_URL
+
+# Build Next.js in standalone mode (configured in next.config.ts)
+# This creates a minimal .next/standalone directory
+RUN npm run build
+
+
+# -----------------------------------------------------------------------------
+# Stage 3: Production
+# -----------------------------------------------------------------------------
+# Minimal image with only the standalone build output.
+# Next.js standalone includes a minimal Node.js server.
+# -----------------------------------------------------------------------------
+FROM node:22-alpine AS runner
+
+WORKDIR /app
+
+# Create non-root user for security
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
+
+# Set production environment
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+# Copy standalone build output
+# The standalone folder contains server.js and required node_modules
+COPY --from=builder /app/.next/standalone ./
+
+# Copy static files (not included in standalone by default)
+COPY --from=builder /app/.next/static ./.next/static
+
+# Copy public folder (images, fonts, etc.)
+COPY --from=builder /app/public ./public
+
+# Switch to non-root user
+USER nextjs
+
+EXPOSE 3000
+
+# Start Next.js standalone server
+CMD ["node", "server.js"]
