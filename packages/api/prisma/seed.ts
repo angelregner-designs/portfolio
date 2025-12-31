@@ -148,7 +148,7 @@ For the fitness expert, I helped her see that a brand goes beyond color. I added
 That's when I knew. This is what I love doing.
 I design to help people feel seen, understood, and proud of what they create.`,
   contactsHeadline: "Let's Connect",
-  contactsCtaText: '',
+  contactsCtaText: "Let's Work Together",
   linkBehance: 'https://www.behance.net/angelicaregner',
   linkLinkedin: 'https://www.linkedin.com/in/angelicaregner',
   linkWhatsapp: 'https://wa.me/639361822966',
