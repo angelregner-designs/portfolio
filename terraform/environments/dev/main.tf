@@ -98,6 +98,15 @@ output "bucket_url" {
   value = module.storage.bucket_url
 }
 
+# For Cloudflare CDN setup
+output "bucket_origin_hostname" {
+  value = module.storage.bucket_origin_hostname
+}
+
+output "bucket_origin_path" {
+  value = module.storage.bucket_origin_path
+}
+
 output "service_account_email" {
   value = module.storage.service_account_email
 }
