@@ -49,4 +49,4 @@ storybook-static
 .terraform.lock.hcl
 
 # GCP credentials
-gcs-key.json
+secrets/

@@ -112,9 +112,9 @@ output "service_account_email" {
 }
 
 # After terraform apply, export the key with:
-#   terraform output -raw service_account_key | base64 -d > ../../../gcs-key.json
+#   terraform output -raw service_account_key | base64 -d > ../../../secrets/gcs-key.json
 output "service_account_key" {
-  description = "Run: terraform output -raw service_account_key | base64 -d > ../../../gcs-key.json"
+  description = "Run: terraform output -raw service_account_key | base64 -d > ../../../secrets/gcs-key.json"
   value       = module.storage.service_account_key
   sensitive   = true
 }
