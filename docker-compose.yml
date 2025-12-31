@@ -1,14 +1,84 @@
 services:
-  frontend:
+  mongodb:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    command: ["--replSet", "rs0", "--bind_ip_all"]
+    healthcheck:
+      test: |
+        mongosh --eval "try { rs.status().ok } catch(e) { rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: 'localhost:27017' }] }).ok }"
+      interval: 5s
+      timeout: 30s
+      start_period: 10s
+      retries: 30
+
+  api:
     build:
-      context: ./frontend
+      context: ./packages/api
+      dockerfile: Dockerfile
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    volumes:
+      - ./packages/api:/app
+      - /app/node_modules
+      - ./secrets:/app/secrets:ro  # GCS credentials for local dev
+    environment:
+      PORT: ${API_PORT}
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      DEFAULT_PASSWORD: ${DEFAULT_PASSWORD}
+      # Google Cloud Storage
+      GCS_PROJECT_ID: ${GCS_PROJECT_ID}
+      GCS_BUCKET_NAME: ${GCS_BUCKET_NAME}
+      GOOGLE_APPLICATION_CREDENTIALS: /app/secrets/gcs-key.json
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    command: npm run dev
+
+  portfolio:
+    build:
+      context: ./packages/portfolio
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend:/app
+      - ./packages/portfolio:/app
       - /app/node_modules
-      - /app/.next
+
     environment:
-      - NODE_ENV=development
-      - WATCHPACK_POLLING=true
+      API_URL: ${PORTFOLIO_API_URL}
+    depends_on:
+      - api
+
+  storybook:
+    build:
+      context: ./packages/portfolio
+      dockerfile: Dockerfile
+    ports:
+      - "6006:6006"
+    volumes:
+      - ./packages/portfolio:/app
+      - /app/node_modules
+    command: npm run storybook -- --host 0.0.0.0
+
+  admin:
+    build:
+      context: ./packages/admin
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./packages/admin:/app
+      - /app/node_modules
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+    depends_on:
+      - api
+
+volumes:
+  mongodb_data:

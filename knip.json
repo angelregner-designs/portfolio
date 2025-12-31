@@ -1,0 +1,31 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "workspaces": {
+    "packages/portfolio": {
+      "entry": [
+        "src/app/**/*.{ts,tsx}",
+        "src/components/**/*.stories.{ts,tsx}",
+        ".storybook/**/*.{ts,tsx}"
+      ],
+      "project": ["src/**/*.{ts,tsx}"]
+    },
+    "packages/admin": {
+      "entry": ["src/app/**/*.{ts,tsx}"],
+      "project": ["src/**/*.{ts,tsx}"]
+    },
+    "packages/api": {
+      "project": ["src/**/*.ts", "prisma/**/*.ts"]
+    }
+  },
+  "ignore": ["**/node_modules/**", "**/dist/**", "**/.next/**"],
+  "ignoreDependencies": [
+    "autoprefixer",
+    "tailwindcss",
+    "@types/uuid",
+    "@vitest/coverage-v8",
+    "playwright",
+    "postcss-load-config",
+    "postcss"
+  ],
+  "ignoreBinaries": ["tsc"]
+}

@@ -18,7 +18,9 @@ npm-debug.log*
 
 # IDE
 .idea
-.vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 *.swp
 *.swo
 
@@ -31,3 +33,20 @@ Thumbs.db
 
 # TypeScript
 *.tsbuildinfo
+next-env.d.ts
+
+# Temporary files
+tmp/
+
+
+*storybook.log
+storybook-static
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# GCP credentials
+secrets/

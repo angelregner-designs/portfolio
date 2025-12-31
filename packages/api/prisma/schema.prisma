@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  accountId String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Portfolio {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // Hero Section
+  heroHeadline    String
+  heroSubheadline String
+
+  // Projects (embedded array)
+  projects Project[]
+
+  // Testimonials (embedded array)
+  testimonials Testimonial[]
+
+  // About Sections
+  aboutMeTitle      String
+  aboutMeContent    String
+  whyIDesignTitle   String
+  whyIDesignContent String
+
+  // Contacts
+  contactsHeadline String
+  contactsCtaText  String
+  linkBehance      String
+  linkLinkedin     String
+  linkWhatsapp     String
+  linkFacebook     String
+  linkInstagram    String
+  linkEmail        String
+
+  // Footer
+  footerCopyright       String
+  footerNavProjects     String
+  footerNavTestimonials String
+  footerNavAbout        String
+  footerCtaText         String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+type Project {
+  id          String
+  title       String
+  thumbnail   String
+  photos      String[]
+  description String
+  link        String
+}
+
+type Testimonial {
+  id         String
+  content    String
+  personName String
+  company    String?
+}
