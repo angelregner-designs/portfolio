@@ -26,5 +26,6 @@
     "playwright",
     "postcss-load-config",
     "postcss"
-  ]
+  ],
+  "ignoreBinaries": ["tsc"]
 }
