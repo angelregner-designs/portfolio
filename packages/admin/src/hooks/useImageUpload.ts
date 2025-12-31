@@ -1,20 +1,19 @@
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
 type UploadState = {
   uploading: boolean
-  error: string | null
 }
 
 export const useImageUpload = () => {
   const [state, setState] = useState<UploadState>({
     uploading: false,
-    error: null,
   })
 
   const uploadThumbnail = async (projectId: string, file: File): Promise<string | null> => {
-    setState({ uploading: true, error: null })
+    setState({ uploading: true })
 
     try {
       const formData = new FormData()
@@ -32,17 +31,19 @@ export const useImageUpload = () => {
       }
 
       const data = await res.json()
-      setState({ uploading: false, error: null })
+      setState({ uploading: false })
+      toast.success('Thumbnail uploaded')
       return data.url
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Upload failed'
-      setState({ uploading: false, error: message })
+      setState({ uploading: false })
+      toast.error(message)
       return null
     }
   }
 
   const uploadPhotos = async (projectId: string, files: File[]): Promise<string[]> => {
-    setState({ uploading: true, error: null })
+    setState({ uploading: true })
 
     try {
       const formData = new FormData()
@@ -60,11 +61,13 @@ export const useImageUpload = () => {
       }
 
       const data = await res.json()
-      setState({ uploading: false, error: null })
+      setState({ uploading: false })
+      toast.success(`${files.length} photo${files.length > 1 ? 's' : ''} uploaded`)
       return data.urls
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Upload failed'
-      setState({ uploading: false, error: message })
+      setState({ uploading: false })
+      toast.error(message)
       return []
     }
   }
@@ -77,8 +80,14 @@ export const useImageUpload = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url }),
       })
-      return res.ok
+      if (res.ok) {
+        toast.success('Image deleted')
+        return true
+      }
+      toast.error('Failed to delete image')
+      return false
     } catch {
+      toast.error('Failed to delete image')
       return false
     }
   }

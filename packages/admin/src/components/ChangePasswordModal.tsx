@@ -1,6 +1,7 @@
 'use client'
 
 import { type FormEvent, useState } from 'react'
+import { toast } from 'sonner'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
@@ -12,22 +13,18 @@ const ChangePasswordModal = ({ onClose }: ChangePasswordModalProps) => {
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    setError('')
-    setSuccess('')
 
     if (newPassword.length < 8) {
-      setError('Password must be at least 8 characters')
+      toast.error('Password must be at least 8 characters')
       return
     }
 
     if (newPassword !== confirmPassword) {
-      setError('Passwords do not match')
+      toast.error('Passwords do not match')
       return
     }
 
@@ -47,10 +44,10 @@ const ChangePasswordModal = ({ onClose }: ChangePasswordModalProps) => {
         throw new Error(data.error || 'Failed to change password')
       }
 
-      setSuccess('Password changed successfully')
+      toast.success('Password changed successfully')
       setTimeout(onClose, 1500)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to change password')
+      toast.error(err instanceof Error ? err.message : 'Failed to change password')
     } finally {
       setLoading(false)
     }
@@ -101,8 +98,6 @@ const ChangePasswordModal = ({ onClose }: ChangePasswordModalProps) => {
               className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
             />
           </div>
-          {error && <p className='text-red-600 text-sm mb-4'>{error}</p>}
-          {success && <p className='text-green-600 text-sm mb-4'>{success}</p>}
           <div className='flex gap-3'>
             <button
               type='submit'
