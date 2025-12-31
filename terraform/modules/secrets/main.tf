@@ -76,20 +76,28 @@ resource "google_secret_manager_secret_version" "version" {
 # Grant service accounts permission to read secret values.
 # Cloud Run's service account needs this to inject secrets as env vars.
 #
-# The setproduct function creates all combinations of secrets x service accounts.
-# Example: 2 secrets + 2 service accounts = 4 IAM bindings
+# We use count with flatten to handle the cross-product of secrets x service accounts.
+# This avoids the for_each limitation with computed values.
 # -----------------------------------------------------------------------------
+locals {
+  # Create a flat list of {secret_index, sa_index} pairs
+  # Example: 2 secrets x 2 SAs = 4 pairs: [{0,0}, {0,1}, {1,0}, {1,1}]
+  secret_sa_pairs = flatten([
+    for si, secret in var.secret_names : [
+      for sai, sa in var.accessor_service_accounts : {
+        secret_index = si
+        secret_name  = secret
+        sa_index     = sai
+      }
+    ]
+  ])
+}
+
 resource "google_secret_manager_secret_iam_member" "accessor" {
-  for_each = {
-    for pair in setproduct(var.secret_names, var.accessor_service_accounts) :
-    "${pair[0]}-${pair[1]}" => {
-      secret = pair[0]
-      sa     = pair[1]
-    }
-  }
+  count = length(local.secret_sa_pairs)
 
   project   = var.project_id
-  secret_id = google_secret_manager_secret.secret[each.value.secret].secret_id
+  secret_id = google_secret_manager_secret.secret[local.secret_sa_pairs[count.index].secret_name].secret_id
   role      = "roles/secretmanager.secretAccessor"
-  member    = "serviceAccount:${each.value.sa}"
+  member    = "serviceAccount:${var.accessor_service_accounts[local.secret_sa_pairs[count.index].sa_index]}"
 }

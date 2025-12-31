@@ -233,7 +233,7 @@ module "api" {
 
   env_vars = [
     { name = "NODE_ENV", value = "production" },
-    { name = "PORT", value = "3001" },
+    # PORT is reserved by Cloud Run - it sets it automatically
     { name = "GCS_PROJECT_ID", value = var.project_id },
     { name = "GCS_BUCKET_NAME", value = module.storage.bucket_name },
     # CORS origins for the API
