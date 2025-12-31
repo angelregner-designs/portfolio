@@ -16,7 +16,6 @@ It has 3 Sites
   - requires login credentials
   - accepts edits to portfolio content
     - uses MongoDB to persist editable text
-    - when edit is published, calls GitHub API to retrigger static generation and deployment of portfolio
   - served via cloud run with CDN front
 
 - API

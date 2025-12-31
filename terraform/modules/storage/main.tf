@@ -21,7 +21,7 @@
 # Files uploaded here get a public URL: https://storage.googleapis.com/BUCKET/FILENAME
 # -----------------------------------------------------------------------------
 resource "google_storage_bucket" "portfolio_images" {
-  name          = var.bucket_name   # var.X references input variables
+  name          = var.bucket_name # var.X references input variables
   location      = var.location
   project       = var.project_id
   force_destroy = var.force_destroy
@@ -38,10 +38,10 @@ resource "google_storage_bucket" "portfolio_images" {
   # Browsers block requests from one domain to another by default.
   # This tells the browser: "It's OK for these origins to fetch our images"
   cors {
-    origin          = var.cors_origins  # e.g., ["http://localhost:3002"]
+    origin          = var.cors_origins # e.g., ["http://localhost:3002"]
     method          = ["GET", "HEAD", "OPTIONS"]
     response_header = ["Content-Type", "Cache-Control"]
-    max_age_seconds = 3600  # Browser can cache CORS response for 1 hour
+    max_age_seconds = 3600 # Browser can cache CORS response for 1 hour
   }
 }
 
@@ -54,9 +54,9 @@ resource "google_storage_bucket" "portfolio_images" {
 # Result: Anyone can view/download images, but only authenticated users can upload.
 # -----------------------------------------------------------------------------
 resource "google_storage_bucket_iam_member" "public_read" {
-  bucket = google_storage_bucket.portfolio_images.name  # Reference our bucket
-  role   = "roles/storage.objectViewer"                 # Can read objects
-  member = "allUsers"                                   # Everyone on the internet
+  bucket = google_storage_bucket.portfolio_images.name # Reference our bucket
+  role   = "roles/storage.objectViewer"                # Can read objects
+  member = "allUsers"                                  # Everyone on the internet
 }
 
 

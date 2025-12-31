@@ -48,5 +48,5 @@ storybook-static
 *.tfstate.*
 .terraform.lock.hcl
 
-# GCP credentials
-secrets/
+# GCP credentials (root-level only, not terraform/modules/secrets)
+/secrets/
