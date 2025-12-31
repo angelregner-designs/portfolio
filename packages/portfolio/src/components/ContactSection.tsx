@@ -56,7 +56,7 @@ const InstagramIcon = () => (
 )
 
 export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectionProps) => (
-  <section id='connect' className='pt-50 px-20 bg-[#770B1B]'>
+  <section id='connect' className='pt-10 px-20 bg-[#770B1B]'>
     <div className='max-w-[952px] mx-auto flex flex-col items-center gap-16'>
       {/* Title and Icons */}
       <div className='flex flex-col items-center gap-8'>

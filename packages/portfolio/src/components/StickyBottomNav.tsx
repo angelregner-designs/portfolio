@@ -23,7 +23,16 @@ export const StickyBottomNav = ({ nav, ctaText }: StickyBottomNavProps) => {
   })
 
   const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' })
+    // Projects is first section - scroll to page top
+    if (sectionId === 'projects') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
+    const element = document.getElementById(sectionId)
+    if (!element) return
+    // Offset for fixed header background (120px)
+    const top = element.getBoundingClientRect().top + window.scrollY - 120
+    window.scrollTo({ top, behavior: 'smooth' })
   }
 
   const navLinkClasses = (section: NavSection) =>

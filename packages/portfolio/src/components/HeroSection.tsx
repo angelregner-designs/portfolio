@@ -29,7 +29,7 @@ export const HeroSection = ({ headline, subheadline }: HeroSectionProps) => {
         style={{ boxShadow: '0 4px 12px 0 #770B1B' }}
       />
 
-      <section id='hero' className='pt-16 px-20 bg-[#770B1B] relative z-20'>
+      <section id='hero' className='pt-16 pb-10 px-20 bg-[#770B1B] relative z-20'>
         <div className='max-w-[1280px] mx-auto grid grid-cols-[1fr_auto] gap-y-5'>
           <h1 className='text-[48px] font-normal italic leading-none text-[#F1EDE4] max-w-[612px]'>
             {headline}
