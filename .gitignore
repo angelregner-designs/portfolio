@@ -41,3 +41,12 @@ tmp/
 
 *storybook.log
 storybook-static
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# GCP credentials
+gcs-key.json
