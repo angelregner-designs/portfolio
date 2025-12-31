@@ -3,27 +3,23 @@
 import { type AnimationOptions, type AnimationPlaybackControls, useAnimate } from 'motion/react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
-  AUTO_BLINK_INTERVAL_RANGE,
   BLINK_EYELID_DURATION,
   BLINK_PUPIL_FADE_DURATION,
   BLINK_PUPIL_FADE_IN_DELAY,
   BLINK_PUPIL_FADE_OUT_DELAY,
   COLLAPSE_BLINK_DELAY,
-  DOUBLE_BLINK_CHANCE,
-  DOUBLE_BLINK_DELAY,
   EXPAND_BLINK_DELAY,
   EXPAND_BLINK_GAP,
   EXPAND_EYELID_DELAY,
   EXPAND_EYELID_SCALE,
   EXPAND_FRAME_DURATION,
   EXPAND_PUPIL_DURATION,
-  PUPIL_FOLLOW_MOUSE_CHANCE,
   PUPIL_FOLLOW_MOUSE_DURATION_RANGE,
-  PUPIL_LOOK_CENTER_CHANCE,
   PUPIL_LOOK_DISTANCE_MAX,
   PUPIL_LOOK_DURATION_RANGE,
-  PUPIL_LOOK_INTERVAL_RANGE,
   PUPIL_LOOK_TRANSITION_DURATION,
+  RANDOM_ACTION_CHANCES,
+  RANDOM_ACTION_INTERVAL_RANGE,
 } from './DecorativeLogo.const'
 
 type DecorativeLogoProps = {
@@ -55,6 +51,7 @@ export const DecorativeLogo = ({
   const [isHovered, setIsHovered] = useState(false)
   const pupilAngleRef = useRef<number | null>(null)
   const pupilAnimationRef = useRef<AnimationPlaybackControls | null>(null)
+  const lastMouseAngleRef = useRef<number | null>(null)
 
   // Controlled follow mouse from prop
   const shouldFollowMouse = controlledFollowMouse ?? isFollowingMouse
@@ -116,35 +113,6 @@ export const DecorativeLogo = ({
     if (blinkCounter === undefined) return
     animateBlink()
   }, [blinkCounter])
-
-  // Auto-blink at random intervals (4-8s), with 33% chance of double blink
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
-  useEffect(() => {
-    if (isAnimatingExpansion) return
-
-    let timeoutId: ReturnType<typeof setTimeout>
-
-    const scheduleNextBlink = () => {
-      const interval = randomInRange(AUTO_BLINK_INTERVAL_RANGE) * 1000
-
-      timeoutId = setTimeout(() => {
-        const shouldDoubleBlink = Math.random() < DOUBLE_BLINK_CHANCE
-        const durationPerStep = shouldDoubleBlink ? BLINK_EYELID_DURATION / 2 : undefined
-
-        if (shouldDoubleBlink) {
-          animateBlink({ durationPerStep })
-            .then(() => new Promise(r => setTimeout(r, DOUBLE_BLINK_DELAY * 1000)))
-            .then(() => animateBlink({ durationPerStep }))
-            .then(scheduleNextBlink)
-        } else {
-          animateBlink({ durationPerStep }).then(scheduleNextBlink)
-        }
-      }, interval)
-    }
-
-    scheduleNextBlink()
-    return () => clearTimeout(timeoutId)
-  }, [isAnimatingExpansion])
 
   // ================================================
   // Expansion animations
@@ -318,10 +286,25 @@ export const DecorativeLogo = ({
     return Math.atan2(e.clientY - centerY, e.clientX - centerX)
   }
 
+  // Track mouse position globally for smooth initial animation when entering follow mode
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      lastMouseAngleRef.current = calculateMouseAngle(e)
+    }
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [])
+
   // Mouse following effect - uses raf to throttle to screen refresh rate
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     if (!shouldFollowMouse) return
+
+    // smooth initial animation to current mouse position
+    if (lastMouseAngleRef.current !== null) {
+      animatePupilToAngle(lastMouseAngleRef.current)
+    }
 
     let rafId: number
     let pendingAngle: number | null = null
@@ -341,48 +324,76 @@ export const DecorativeLogo = ({
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
       if (rafId) cancelAnimationFrame(rafId)
+      animatePupilToCenter()
     }
   }, [shouldFollowMouse])
 
-  // Auto look around: random directions at random intervals, occasionally follows mouse
+  // Unified random action loop: picks from blink, blinkTwice, lookAround, followMouse, lookCenter
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     if (isAnimatingExpansion) return
 
     let timeoutId: ReturnType<typeof setTimeout>
 
-    const scheduleLookCycle = () => {
-      const interval = randomInRange(PUPIL_LOOK_INTERVAL_RANGE) * 1000
-      const shouldFollow = Math.random() < PUPIL_FOLLOW_MOUSE_CHANCE
+    // picks a random action based on weighted chances
+    const pickRandomAction = () => {
+      const roll = Math.random() * 100
+      let cumulative = 0
+
+      for (const [action, chance] of Object.entries(RANDOM_ACTION_CHANCES)) {
+        cumulative += chance
+        if (roll < cumulative) return action as keyof typeof RANDOM_ACTION_CHANCES
+      }
+      return 'blink' // fallback
+    }
+
+    const scheduleNextAction = () => {
+      const interval = randomInRange(RANDOM_ACTION_INTERVAL_RANGE) * 1000
 
       timeoutId = setTimeout(() => {
-        if (shouldFollow) {
-          const followDuration = randomInRange(PUPIL_FOLLOW_MOUSE_DURATION_RANGE) * 1000
-          setIsFollowingMouse(true)
+        const action = pickRandomAction()
 
-          timeoutId = setTimeout(() => {
-            setIsFollowingMouse(false)
-            scheduleLookCycle()
-          }, followDuration)
-        } else {
-          const lookDuration = randomInRange(PUPIL_LOOK_DURATION_RANGE) * 1000
-          const shouldLookAtCenter = Math.random() < PUPIL_LOOK_CENTER_CHANCE
+        switch (action) {
+          case 'blink':
+            animateBlink().then(scheduleNextAction)
+            break
 
-          // sync animation with screen refresh
-          requestAnimationFrame(() => {
-            if (shouldLookAtCenter) {
-              animatePupilToCenter()
-            } else {
-              animatePupilToAngle(getRandomAngle())
-            }
-          })
+          case 'blinkTwice': {
+            const durationPerStep = BLINK_EYELID_DURATION / 2
+            animateBlink({ durationPerStep })
+              .then(() => animateBlink({ durationPerStep }))
+              .then(scheduleNextAction)
+            break
+          }
 
-          timeoutId = setTimeout(scheduleLookCycle, lookDuration)
+          case 'lookAround': {
+            const lookDuration = randomInRange(PUPIL_LOOK_DURATION_RANGE) * 1000
+            requestAnimationFrame(() => animatePupilToAngle(getRandomAngle()))
+            timeoutId = setTimeout(scheduleNextAction, lookDuration)
+            break
+          }
+
+          case 'followMouse': {
+            const followDuration = randomInRange(PUPIL_FOLLOW_MOUSE_DURATION_RANGE) * 1000
+            setIsFollowingMouse(true)
+            timeoutId = setTimeout(() => {
+              setIsFollowingMouse(false)
+              scheduleNextAction()
+            }, followDuration)
+            break
+          }
+
+          case 'lookCenter': {
+            const lookDuration = randomInRange(PUPIL_LOOK_DURATION_RANGE) * 1000
+            requestAnimationFrame(() => animatePupilToCenter())
+            timeoutId = setTimeout(scheduleNextAction, lookDuration)
+            break
+          }
         }
       }, interval)
     }
 
-    scheduleLookCycle()
+    scheduleNextAction()
 
     return () => {
       setIsFollowingMouse(false)
