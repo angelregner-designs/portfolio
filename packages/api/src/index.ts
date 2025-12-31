@@ -5,6 +5,7 @@ import passport from './lib/passport.js'
 import { prisma } from './lib/prisma.js'
 import authRoutes from './routes/auth.js'
 import portfolioRoutes from './routes/portfolio.js'
+import uploadRoutes from './routes/upload.js'
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -23,6 +24,7 @@ app.use(passport.initialize())
 // Routes
 app.use(authRoutes)
 app.use(portfolioRoutes)
+app.use(uploadRoutes)
 
 // Health check
 app.get('/health', (_req, res) => {
