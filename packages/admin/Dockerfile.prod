@@ -55,7 +55,9 @@ ENV HOSTNAME="0.0.0.0"
 # Copy standalone build
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/public ./public
+
+# Create public folder (may be empty in admin)
+RUN mkdir -p ./public
 
 USER nextjs
 
