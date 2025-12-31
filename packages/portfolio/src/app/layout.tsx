@@ -1,5 +1,13 @@
 import type { Metadata } from 'next'
+import { Averia_Serif_Libre } from 'next/font/google'
 import './globals.css'
+
+const averiaSerifLibre = Averia_Serif_Libre({
+  subsets: ['latin'],
+  weight: ['300', '400', '700'],
+  style: ['normal', 'italic'],
+  display: 'block',
+})
 
 export const metadata: Metadata = {
   title: 'Angel Regner | Product, Brand, and Digital Designer',
@@ -8,15 +16,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <html lang='en'>
-    <head>
-      <link rel='preconnect' href='https://fonts.googleapis.com' />
-      <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='anonymous' />
-      <link
-        href='https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap'
-        rel='stylesheet'
-      />
-    </head>
-    <body className="font-['Averia_Serif_Libre',serif]">{children}</body>
+    <body className={averiaSerifLibre.className}>{children}</body>
   </html>
 )
 
