@@ -7,22 +7,24 @@
 It has 3 Sites
 
 - Portfolio (angelregner.com)
-  - client statically generated with NextJS
-  - served through CDN for global speed
+  - NextJS client
+  - served via cloud run with CDN front
 
 - Admin page (admin.angelregner.com)
+  - NextJS client
   - client built with NextJS
   - requires login credentials
   - accepts edits to portfolio content
     - uses MongoDB to persist editable text
     - when edit is published, calls GitHub API to retrigger static generation and deployment of portfolio
-  - built with NextJS
-  - deployed via container and cloudrun
+  - served via cloud run with CDN front
 
 - API
+  - Express server
+  - MongoDB integration for data persistence
   - RESTful endpoints for content management
   - authentication and authorization
-  - MongoDB integration for data persistence
+  - served via cloud run with CDN front
 
 **Tech Stack:**
 - Fullstack
@@ -119,9 +121,10 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
 
 **Packages**
 - when doing npm install
-  - do it in both docker container then on the host machine
-  - do it in storybook container as well, if it's running and we've installed it to the portfolio app
-  - restart windsurf's typescript server
+  - ALWAYS do it in corresponding both docker container IF running
+  - ALWAYS do it in host machine
+  - ALWAYS do it in storybook container IF installed to portfolio app
+  - ALWAYS restart windsurf's typescript server
 
 **Storybook**
 - do not define title property, let storybook infer
