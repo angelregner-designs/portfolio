@@ -36,7 +36,7 @@ export const ProjectsSection = ({ projects }: ProjectsSectionProps) => {
   return (
     <section
       id='projects'
-      className={'pb-0 px-20 bg-[#770B1B] pt-20'}
+      className={'pb-40 px-20 bg-[#770B1B] pt-10'}
       style={
         {
           '--next-section-margin-top': `${NEXT_SECTION_MARGIN_TOP}px`,
