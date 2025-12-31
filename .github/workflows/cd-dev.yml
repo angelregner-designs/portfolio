@@ -1,0 +1,155 @@
+# =============================================================================
+# CD WORKFLOW - DEV ENVIRONMENT
+# =============================================================================
+# Builds and deploys all 3 services to Cloud Run when develop branch is updated.
+# Uses Workload Identity Federation for secure GCP authentication (no keys!).
+#
+# Required GitHub Secrets:
+#   WIF_PROVIDER:        Workload Identity Provider path (from terraform output)
+#   WIF_SERVICE_ACCOUNT: Service account email (from terraform output)
+# =============================================================================
+
+name: CD - Deploy to Dev
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch: # Allow manual trigger from GitHub UI
+
+env:
+  PROJECT_ID: angelregnerportfolio
+  REGION: us-central1
+  REGISTRY: us-central1-docker.pkg.dev/angelregnerportfolio/angel-portfolio-dev
+  API_URL: https://api.dev.angelregner.com
+
+# Cancel in-progress deploys if a new commit is pushed
+concurrency:
+  group: cd-dev-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Run CI checks first
+  # ---------------------------------------------------------------------------
+  ci:
+    name: CI Checks
+    uses: ./.github/workflows/ci.yml
+
+  # ---------------------------------------------------------------------------
+  # Build Docker images
+  # ---------------------------------------------------------------------------
+  build:
+    name: Build ${{ matrix.service.name }}
+    needs: ci
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Required for Workload Identity Federation
+
+    strategy:
+      matrix:
+        service:
+          - name: api
+            context: ./packages/api
+            dockerfile: Dockerfile.prod
+          - name: portfolio
+            context: ./packages/portfolio
+            dockerfile: Dockerfile.prod
+          - name: admin
+            context: ./packages/admin
+            dockerfile: Dockerfile.prod
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Authenticate to GCP using Workload Identity Federation
+      # This exchanges a GitHub OIDC token for GCP credentials
+      # No service account keys needed!
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      # Configure Docker to authenticate with Artifact Registry
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
+      # Build and push the Docker image
+      - name: Build and push ${{ matrix.service.name }}
+        run: |
+          IMAGE="${{ env.REGISTRY }}/${{ matrix.service.name }}:${{ github.sha }}"
+          IMAGE_LATEST="${{ env.REGISTRY }}/${{ matrix.service.name }}:latest"
+
+          echo "Building $IMAGE"
+
+          docker build \
+            --file ${{ matrix.service.context }}/${{ matrix.service.dockerfile }} \
+            --build-arg API_URL=${{ env.API_URL }} \
+            --build-arg NEXT_PUBLIC_API_URL=${{ env.API_URL }} \
+            --tag "$IMAGE" \
+            --tag "$IMAGE_LATEST" \
+            --cache-from "$IMAGE_LATEST" \
+            ${{ matrix.service.context }} || docker build \
+            --file ${{ matrix.service.context }}/${{ matrix.service.dockerfile }} \
+            --build-arg API_URL=${{ env.API_URL }} \
+            --build-arg NEXT_PUBLIC_API_URL=${{ env.API_URL }} \
+            --tag "$IMAGE" \
+            --tag "$IMAGE_LATEST" \
+            ${{ matrix.service.context }}
+
+          docker push "$IMAGE"
+          docker push "$IMAGE_LATEST"
+
+  # ---------------------------------------------------------------------------
+  # Deploy to Cloud Run
+  # ---------------------------------------------------------------------------
+  deploy:
+    name: Deploy ${{ matrix.service.name }}
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    strategy:
+      matrix:
+        service:
+          - name: api-dev
+            image: api
+            port: 3001
+          - name: portfolio-dev
+            image: portfolio
+            port: 3000
+          - name: admin-dev
+            image: admin
+            port: 3000
+
+    steps:
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Deploy ${{ matrix.service.name }} to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: ${{ matrix.service.name }}
+          region: ${{ env.REGION }}
+          image: ${{ env.REGISTRY }}/${{ matrix.service.image }}:${{ github.sha }}
+          flags: |
+            --port=${{ matrix.service.port }}
+            --allow-unauthenticated
+
+      - name: Show service URL
+        run: |
+          echo "Deployed ${{ matrix.service.name }}"
+          gcloud run services describe ${{ matrix.service.name }} \
+            --region ${{ env.REGION }} \
+            --format 'value(status.url)'
