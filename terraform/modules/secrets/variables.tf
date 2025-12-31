@@ -7,10 +7,15 @@ variable "project_id" {
   type        = string
 }
 
-variable "secrets" {
-  description = "Map of secret name to secret value. Example: { 'db-url': 'mongodb://...' }"
+variable "secret_names" {
+  description = "List of secret names to create (not sensitive, used for iteration)"
+  type        = list(string)
+}
+
+variable "secret_values" {
+  description = "Map of secret name to value. Keys must match secret_names"
   type        = map(string)
-  sensitive   = true # Prevents values from being shown in terraform plan/apply output
+  sensitive   = true
 }
 
 variable "accessor_service_accounts" {

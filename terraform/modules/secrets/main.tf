@@ -32,13 +32,13 @@
 # SECRETS
 # -----------------------------------------------------------------------------
 # Creates Secret Manager secret resources (containers for secret values).
-# The for_each loop creates one secret per entry in var.secrets map.
+# The for_each loop creates one secret per name in the list.
 #
-# Example: If var.secrets = { "db-password": "secret123" }
-# This creates: google_secret_manager_secret.secret["db-password"]
+# We use secret_names (non-sensitive) for iteration, and look up
+# values from secret_values (sensitive) separately.
 # -----------------------------------------------------------------------------
 resource "google_secret_manager_secret" "secret" {
-  for_each  = var.secrets
+  for_each  = toset(var.secret_names)
   secret_id = each.key # The secret name (e.g., "dev-database-url")
   project   = var.project_id
 
@@ -62,9 +62,9 @@ resource "google_secret_manager_secret" "secret" {
 # Old versions are kept for rollback purposes.
 # -----------------------------------------------------------------------------
 resource "google_secret_manager_secret_version" "version" {
-  for_each    = var.secrets
+  for_each    = toset(var.secret_names)
   secret      = google_secret_manager_secret.secret[each.key].id
-  secret_data = each.value # The actual secret value
+  secret_data = var.secret_values[each.key] # Look up value from the sensitive map
 
   # Note: Terraform stores this in state. Ensure state is encrypted/protected!
 }
@@ -81,7 +81,7 @@ resource "google_secret_manager_secret_version" "version" {
 # -----------------------------------------------------------------------------
 resource "google_secret_manager_secret_iam_member" "accessor" {
   for_each = {
-    for pair in setproduct(keys(var.secrets), var.accessor_service_accounts) :
+    for pair in setproduct(var.secret_names, var.accessor_service_accounts) :
     "${pair[0]}-${pair[1]}" => {
       secret = pair[0]
       sa     = pair[1]

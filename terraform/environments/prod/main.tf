@@ -87,11 +87,11 @@ module "storage" {
   source = "../../modules/storage"
 
   project_id             = var.project_id
-  bucket_name            = "${var.project_id}-images"  # e.g., "angelregnerportfolio-images"
+  bucket_name            = "${var.project_id}-images" # e.g., "angelregnerportfolio-images"
   location               = "US"
-  force_destroy          = false  # IMPORTANT: Prevent accidental data deletion
-  create_service_account = false  # Cloud Run uses Workload Identity
-  cors_origins           = ["https://admin.angelregner.com"]  # Production admin domain
+  force_destroy          = false                             # IMPORTANT: Prevent accidental data deletion
+  create_service_account = false                             # Cloud Run uses Workload Identity
+  cors_origins           = ["https://admin.angelregner.com"] # Production admin domain
 }
 
 

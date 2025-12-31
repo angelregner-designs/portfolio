@@ -1,0 +1,36 @@
+# =============================================================================
+# DEV ENVIRONMENT VARIABLES
+# =============================================================================
+# Copy this file to terraform.tfvars and fill in the values.
+# DO NOT commit terraform.tfvars - it contains sensitive data!
+#
+# Usage:
+#   cp terraform.tfvars.example terraform.tfvars
+#   # Edit terraform.tfvars with your values
+#   terraform init
+#   terraform plan
+#   terraform apply
+# =============================================================================
+
+# GCP project configuration
+project_id = "angelregnerportfolio"
+region     = "us-central1"
+
+# GitHub repository (for Workload Identity Federation)
+github_org  = "angelregner-designs"
+github_repo = "angel-portfolio"
+
+# Domain configuration
+domain_base = "dev.angelregner.com"
+
+# -----------------------------------------------------------------------------
+# SENSITIVE VALUES - Fill these in terraform.tfvars only!
+# -----------------------------------------------------------------------------
+# MongoDB Atlas connection string
+# Get this from: Atlas Console > Database > Connect > Drivers
+# Format: mongodb+srv://USER:PASSWORD@cluster.mongodb.net/DATABASE?retryWrites=true&w=majority
+database_url = ""
+
+# JWT signing secret - use a long random string (min 32 chars)
+# Generate with: openssl rand -base64 32
+jwt_secret = ""
