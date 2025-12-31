@@ -25,7 +25,7 @@ services:
     volumes:
       - ./packages/api:/app
       - /app/node_modules
-      - ./gcs-key.json:/app/gcs-key.json:ro  # GCS credentials for local dev
+      - ./secrets:/app/secrets:ro  # GCS credentials for local dev
     environment:
       PORT: ${API_PORT}
       DATABASE_URL: ${DATABASE_URL}
@@ -34,7 +34,7 @@ services:
       # Google Cloud Storage
       GCS_PROJECT_ID: ${GCS_PROJECT_ID}
       GCS_BUCKET_NAME: ${GCS_BUCKET_NAME}
-      GOOGLE_APPLICATION_CREDENTIALS: /app/gcs-key.json
+      GOOGLE_APPLICATION_CREDENTIALS: /app/secrets/gcs-key.json
     depends_on:
       mongodb:
         condition: service_healthy

@@ -131,6 +131,9 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
 - Use gcp for infrastructure
 - Add descriptive comments to terraform code that is best for developers with little to no knowledge of terraform but is looking to learn terraform
 
+**Database**
+- ALWAYS ask for permission before resetting the database
+
 ---
 
 ## Git Workflow
