@@ -10,6 +10,7 @@ import TestimonialsSection from '@/components/portfolio/TestimonialsSection'
 import { type Portfolio, type Project, type Testimonial, emptyPortfolio } from '@/types/portfolio'
 import { useRouter } from 'next/navigation'
 import { type FormEvent, useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
@@ -24,7 +25,6 @@ const DashboardPage = () => {
   const [portfolio, setPortfolio] = useState<Portfolio>(emptyPortfolio)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-  const [message, setMessage] = useState('')
   const [showPasswordModal, setShowPasswordModal] = useState(false)
 
   useEffect(() => {
@@ -60,7 +60,6 @@ const DashboardPage = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setSaving(true)
-    setMessage('')
 
     try {
       const res = await fetch(`${API_URL}/portfolio`, {
@@ -74,9 +73,9 @@ const DashboardPage = () => {
 
       const data = await res.json()
       setPortfolio(data)
-      setMessage('Saved successfully!')
+      toast.success('Saved successfully!')
     } catch {
-      setMessage('Failed to save')
+      toast.error('Failed to save')
     } finally {
       setSaving(false)
     }
@@ -166,14 +165,6 @@ const DashboardPage = () => {
           footerCtaText={portfolio.footerCtaText}
           onChange={(field, value) => updateField(field, value)}
         />
-
-        {message && (
-          <p
-            className={`text-sm mb-4 ${message.includes('success') ? 'text-green-600' : 'text-red-600'}`}
-          >
-            {message}
-          </p>
-        )}
 
         <div className='sticky bottom-4 bg-white p-4 rounded-lg shadow-lg border border-gray-200'>
           <button
