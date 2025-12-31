@@ -41,7 +41,7 @@ export const HeroSection = ({ headline, subheadline }: HeroSectionProps) => {
             </Sticky>
           </div>
 
-          <Sticky topOffset={48} onStickyChange={handleSubheadlineStickyChange}>
+          <Sticky topOffset={40} onStickyChange={handleSubheadlineStickyChange}>
             <p className='text-[24px] font-light italic text-[#AE8237] max-w-[663px]'>
               {subheadline}
             </p>
