@@ -33,6 +33,7 @@
     "@types/react-dom": "^19.1.5",
     "@vitest/browser-playwright": "^4.0.16",
     "@vitest/coverage-v8": "^4.0.16",
+    "knip": "^5.78.0",
     "playwright": "^1.57.0",
     "storybook": "^10.1.11",
     "typescript": "^5.7.2",
