@@ -1,5 +1,6 @@
 export type Project = {
   id: string
+  title: string
   thumbnail: string
   photos: string[]
   description: string
@@ -10,6 +11,7 @@ export type Testimonial = {
   id: string
   content: string
   personName: string
+  company?: string
 }
 
 export type Portfolio = {
@@ -18,10 +20,10 @@ export type Portfolio = {
   heroSubheadline: string
   projects: Project[]
   testimonials: Testimonial[]
-  box1Title: string
-  box1Content: string
-  box2Title: string
-  box2Content: string
+  aboutMeTitle: string
+  aboutMeContent: string
+  whyIDesignTitle: string
+  whyIDesignContent: string
   contactsHeadline: string
   contactsCtaText: string
   linkBehance: string
@@ -29,10 +31,12 @@ export type Portfolio = {
   linkWhatsapp: string
   linkFacebook: string
   linkInstagram: string
+  linkEmail: string
   footerCopyright: string
   footerNavProjects: string
   footerNavTestimonials: string
   footerNavAbout: string
+  footerCtaText: string
 }
 
 export const emptyPortfolio: Portfolio = {
@@ -40,10 +44,10 @@ export const emptyPortfolio: Portfolio = {
   heroSubheadline: '',
   projects: [],
   testimonials: [],
-  box1Title: '',
-  box1Content: '',
-  box2Title: '',
-  box2Content: '',
+  aboutMeTitle: '',
+  aboutMeContent: '',
+  whyIDesignTitle: '',
+  whyIDesignContent: '',
   contactsHeadline: '',
   contactsCtaText: '',
   linkBehance: '',
@@ -51,8 +55,10 @@ export const emptyPortfolio: Portfolio = {
   linkWhatsapp: '',
   linkFacebook: '',
   linkInstagram: '',
+  linkEmail: '',
   footerCopyright: '',
   footerNavProjects: '',
   footerNavTestimonials: '',
   footerNavAbout: '',
+  footerCtaText: '',
 }

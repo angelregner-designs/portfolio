@@ -28,11 +28,11 @@ model Portfolio {
   // Testimonials (embedded array)
   testimonials Testimonial[]
 
-  // Box Sections
-  box1Title   String
-  box1Content String
-  box2Title   String
-  box2Content String
+  // About Sections
+  aboutMeTitle      String
+  aboutMeContent    String
+  whyIDesignTitle   String
+  whyIDesignContent String
 
   // Contacts
   contactsHeadline String
@@ -42,12 +42,14 @@ model Portfolio {
   linkWhatsapp     String
   linkFacebook     String
   linkInstagram    String
+  linkEmail        String
 
   // Footer
   footerCopyright       String
   footerNavProjects     String
   footerNavTestimonials String
   footerNavAbout        String
+  footerCtaText         String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -55,6 +57,7 @@ model Portfolio {
 
 type Project {
   id          String
+  title       String
   thumbnail   String
   photos      String[]
   description String
@@ -65,4 +68,5 @@ type Testimonial {
   id         String
   content    String
   personName String
+  company    String?
 }

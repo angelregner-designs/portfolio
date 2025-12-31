@@ -6,6 +6,7 @@ type ContactField =
   | 'linkWhatsapp'
   | 'linkFacebook'
   | 'linkInstagram'
+  | 'linkEmail'
 
 type ContactsSectionProps = {
   contactsHeadline: string
@@ -15,6 +16,7 @@ type ContactsSectionProps = {
   linkWhatsapp: string
   linkFacebook: string
   linkInstagram: string
+  linkEmail: string
   onChange: (field: ContactField, value: string) => void
 }
 
@@ -26,6 +28,7 @@ const ContactsSection = ({
   linkWhatsapp,
   linkFacebook,
   linkInstagram,
+  linkEmail,
   onChange,
 }: ContactsSectionProps) => (
   <section className='bg-white rounded-lg shadow-md p-6 mb-6'>
@@ -122,6 +125,19 @@ const ContactsSection = ({
             value={linkInstagram}
             onChange={e => onChange('linkInstagram', e.target.value)}
             placeholder='https://instagram.com/...'
+            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
+          />
+        </div>
+        <div>
+          <label htmlFor='linkEmail' className='block mb-1 text-sm font-medium'>
+            Email
+          </label>
+          <input
+            id='linkEmail'
+            type='text'
+            value={linkEmail}
+            onChange={e => onChange('linkEmail', e.target.value)}
+            placeholder='mailto:email@example.com'
             className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
           />
         </div>

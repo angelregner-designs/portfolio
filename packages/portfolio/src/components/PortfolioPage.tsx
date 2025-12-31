@@ -26,7 +26,7 @@ export const PortfolioPage = ({ portfolio }: PortfolioPageProps) => (
 
     <ContactSection
       headline={portfolio.contactsHeadline}
-      ctaText={portfolio.footerCtaText}
+      ctaText={portfolio.contactsCtaText}
       socialLinks={{
         behance: portfolio.linkBehance,
         linkedin: portfolio.linkLinkedin,

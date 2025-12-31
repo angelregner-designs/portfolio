@@ -11,6 +11,7 @@ const ProjectsSection = ({ projects, onChange }: ProjectsSectionProps) => {
   const addProject = () => {
     const newProject: Project = {
       id: crypto.randomUUID(),
+      title: '',
       thumbnail: '',
       photos: [],
       description: '',
@@ -63,6 +64,19 @@ const ProjectsSection = ({ projects, onChange }: ProjectsSectionProps) => {
               </button>
             </div>
             <div className='space-y-3'>
+              <div>
+                <label htmlFor={`title-${project.id}`} className='block mb-1 text-sm font-medium'>
+                  Title
+                </label>
+                <input
+                  id={`title-${project.id}`}
+                  type='text'
+                  value={project.title}
+                  onChange={e => updateProject(project.id, 'title', e.target.value)}
+                  placeholder='Project title'
+                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
+                />
+              </div>
               <div>
                 <label
                   htmlFor={`thumbnail-${project.id}`}
