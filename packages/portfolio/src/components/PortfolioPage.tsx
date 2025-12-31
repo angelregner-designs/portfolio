@@ -1,6 +1,5 @@
 import type { Portfolio } from '@/types/portfolio'
 import { AboutSection } from './AboutSection'
-import { BottomFade } from './BottomFade'
 import { ContactSection } from './ContactSection'
 import { Footer } from './Footer'
 import { HeroSection } from './HeroSection'
@@ -39,8 +38,6 @@ export const PortfolioPage = ({ portfolio }: PortfolioPageProps) => (
     />
 
     <Footer copyright={portfolio.footerCopyright} />
-
-    <BottomFade />
 
     <StickyBottomNav
       nav={{
