@@ -126,6 +126,11 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
 **Storybook**
 - do not define title property, let storybook infer
 
+**Infrastructure**
+- Use terraform with modules for infrastructure as code
+- Use gcp for infrastructure
+- Add descriptive comments to terraform code that is best for developers with little to no knowledge of terraform but is looking to learn terraform
+
 ---
 
 ## Git Workflow
