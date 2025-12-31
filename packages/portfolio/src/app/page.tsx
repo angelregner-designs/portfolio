@@ -3,7 +3,7 @@ import { HARDCODED_PORTFOLIO } from '@/data/portfolio'
 import type { Portfolio } from '@/types/portfolio'
 
 // Toggle this to switch between hardcoded data and API fetch
-const USE_HARDCODED_DATA = true
+const USE_HARDCODED_DATA = false
 
 const API_URL = process.env.API_URL || 'http://localhost:3001'
 

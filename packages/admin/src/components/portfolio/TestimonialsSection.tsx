@@ -75,6 +75,22 @@ const TestimonialsSection = ({ testimonials, onChange }: TestimonialsSectionProp
               </div>
               <div>
                 <label
+                  htmlFor={`company-${testimonial.id}`}
+                  className='block mb-1 text-sm font-medium'
+                >
+                  Company (optional)
+                </label>
+                <input
+                  id={`company-${testimonial.id}`}
+                  type='text'
+                  value={testimonial.company || ''}
+                  onChange={e => updateTestimonial(testimonial.id, 'company', e.target.value)}
+                  placeholder='Company name'
+                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
+                />
+              </div>
+              <div>
+                <label
                   htmlFor={`content-${testimonial.id}`}
                   className='block mb-1 text-sm font-medium'
                 >

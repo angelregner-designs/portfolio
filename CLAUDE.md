@@ -45,7 +45,7 @@ It has 3 Sites
 - Infrastructure:
   - Cloud Run (container hosting)
   - MongoDB Atlas
-  - Cloud Storage + CDN (static files)
+  - Cloud Storage (photos)
   - Artifact Registry (Docker images)
   - Secret Manager (credentials)
 

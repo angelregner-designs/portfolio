@@ -1,7 +1,7 @@
 'use client'
 
 import ChangePasswordModal from '@/components/ChangePasswordModal'
-import BoxSection from '@/components/portfolio/BoxSection'
+import AboutSection from '@/components/portfolio/AboutSection'
 import ContactsSection from '@/components/portfolio/ContactsSection'
 import FooterSection from '@/components/portfolio/FooterSection'
 import HeroSection from '@/components/portfolio/HeroSection'
@@ -138,11 +138,11 @@ const DashboardPage = () => {
           onChange={(testimonials: Testimonial[]) => updateField('testimonials', testimonials)}
         />
 
-        <BoxSection
-          box1Title={portfolio.box1Title}
-          box1Content={portfolio.box1Content}
-          box2Title={portfolio.box2Title}
-          box2Content={portfolio.box2Content}
+        <AboutSection
+          aboutMeTitle={portfolio.aboutMeTitle}
+          aboutMeContent={portfolio.aboutMeContent}
+          whyIDesignTitle={portfolio.whyIDesignTitle}
+          whyIDesignContent={portfolio.whyIDesignContent}
           onChange={(field, value) => updateField(field, value)}
         />
 
@@ -154,6 +154,7 @@ const DashboardPage = () => {
           linkWhatsapp={portfolio.linkWhatsapp}
           linkFacebook={portfolio.linkFacebook}
           linkInstagram={portfolio.linkInstagram}
+          linkEmail={portfolio.linkEmail}
           onChange={(field, value) => updateField(field, value)}
         />
 
@@ -162,6 +163,7 @@ const DashboardPage = () => {
           footerNavProjects={portfolio.footerNavProjects}
           footerNavTestimonials={portfolio.footerNavTestimonials}
           footerNavAbout={portfolio.footerNavAbout}
+          footerCtaText={portfolio.footerCtaText}
           onChange={(field, value) => updateField(field, value)}
         />
 
