@@ -1,1 +1,49 @@
 @import "tailwindcss";
+
+@theme {
+  /* Brand Colors - Portfolio Primary Palette */
+  --color-oathfire: #770b1b;
+  --color-moon-paper: #f1ede4;
+  --color-golden-sol: #ae8237;
+  --color-earthward: #817548;
+
+  /* Extended Brand Palette */
+  --color-crystal-gleam: #ffffff;
+  --color-earthborn-radiance: #c08669;
+  --color-inner-flame: #a05035;
+  --color-ritual-shadow: #614f51;
+  --color-nude-glow: #e7d6c3;
+
+  /* UI Colors */
+  --color-background: #fcf8fb;
+  --color-foreground: #2b2635;
+  --color-ui-border: #e9e2e7;
+  --color-primary: #df7599;
+  --color-blush: #f2c2d1;
+  --color-blush-light: #fdf0f3;
+  --color-cream: #fdf5e6;
+
+  /* Semantic Colors */
+  --color-positive: #0fa115;
+  --color-negative: #eb4c4a;
+  --color-highlight: #ffcf77;
+
+  /* Neutral Colors */
+  --color-neutral-100: #e0f2ff;
+  --color-gray-600: #2d2d2d;
+  --color-gray-dark: #696969;
+  --color-gray: #a7a7a7;
+
+  /* Legacy/Additional Colors */
+  --color-brand-red: #a21412;
+  --color-pula: #a51d1d;
+  --color-gatas: #fffaef;
+  --color-special-sat-700: #401267;
+
+  /* Shadows */
+  --shadow-default: 0 10px 20px rgba(0, 0, 0, 0.25);
+  --shadow-sm: 0 4px 4px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 69px 139px rgba(0, 0, 0, 0.25);
+  --shadow-inset: inset 0px 4px 4px rgba(0, 0, 0, 0.1);
+}

@@ -10,12 +10,12 @@ type ProjectsSectionProps = {
   projects: Project[]
 }
 
-// Arrow icon for project cards
+// Arrow icon for project cards - uses currentColor for token support
 const ArrowIcon = () => (
   <svg width='24' height='24' viewBox='0 0 24 24' fill='none' aria-hidden='true'>
     <path
       d='M6.14017 17.5729L14.8022 8.91084H7.3776L7.31396 7.91382H16.5064V17.1062L15.5093 17.0426V9.61795L6.84727 18.28L6.14017 17.5729Z'
-      fill='#F1EDE4'
+      fill='currentColor'
     />
   </svg>
 )
@@ -36,7 +36,7 @@ export const ProjectsSection = ({ projects }: ProjectsSectionProps) => {
   return (
     <section
       id='projects'
-      className={'pb-40 px-20 bg-[#770B1B] pt-10'}
+      className={'pb-40 px-20 bg-oathfire pt-10'}
       style={
         {
           '--next-section-margin-top': `${NEXT_SECTION_MARGIN_TOP}px`,
@@ -104,7 +104,7 @@ const ProjectCard = ({ project, onOpenModal }: ProjectCardProps) => {
       className='group block cursor-pointer w-full text-left'
     >
       {/* Card container with transparent border */}
-      <div className='bg-[rgba(241,237,228,0.1)] border border-[#f1ede4] rounded-[12px] overflow-hidden'>
+      <div className='bg-moon-paper/10 border border-moon-paper rounded-[12px] overflow-hidden'>
         {/* Image area - 420px height */}
         {project.thumbnail && (
           <div className='h-[420px] overflow-hidden'>
@@ -116,15 +116,15 @@ const ProjectCard = ({ project, onOpenModal }: ProjectCardProps) => {
           </div>
         )}
         {/* Title bar - 70px height */}
-        <div className='bg-[rgba(241,237,228,0.1)] h-[70px] flex items-center justify-between px-6 gap-[10px]'>
-          <p className='text-[18px] not-italic text-[#F1EDE4] flex-1'>{project.title}</p>
+        <div className='bg-moon-paper/10 h-[70px] flex items-center justify-between px-6 gap-[10px]'>
+          <p className='text-[18px] not-italic text-moon-paper flex-1'>{project.title}</p>
           {project.link && (
             <a
               href={project.link}
               target='_blank'
               rel='noopener noreferrer'
               onClick={e => e.stopPropagation()}
-              className='hover:opacity-70 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F1EDE4] rounded'
+              className='text-moon-paper hover:opacity-70 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-moon-paper rounded'
               aria-label={`Open ${project.title} in new tab`}
             >
               <ArrowIcon />

@@ -12,12 +12,12 @@ type ProjectModalProps = {
   onClose: () => void
 }
 
-// Close X icon
+// Close X icon - uses currentColor for token support
 const CloseIcon = () => (
   <svg width='24' height='24' viewBox='0 0 24 24' fill='none' aria-hidden='true'>
     <path
       d='M18 6L6 18M6 6L18 18'
-      stroke='#F1EDE4'
+      stroke='currentColor'
       strokeWidth='2'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -25,12 +25,12 @@ const CloseIcon = () => (
   </svg>
 )
 
-// Chevron left icon
+// Chevron left icon - uses currentColor for token support
 const ChevronLeftIcon = () => (
   <svg width='32' height='32' viewBox='0 0 32 32' fill='none' aria-hidden='true'>
     <path
       d='M20 24L12 16L20 8'
-      stroke='#F1EDE4'
+      stroke='currentColor'
       strokeWidth='2'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -38,12 +38,12 @@ const ChevronLeftIcon = () => (
   </svg>
 )
 
-// Chevron right icon
+// Chevron right icon - uses currentColor for token support
 const ChevronRightIcon = () => (
   <svg width='32' height='32' viewBox='0 0 32 32' fill='none' aria-hidden='true'>
     <path
       d='M12 24L20 16L12 8'
-      stroke='#F1EDE4'
+      stroke='currentColor'
       strokeWidth='2'
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -95,7 +95,7 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className='fixed inset-0 bg-[#770B1B]/80 backdrop-blur-[5px]'
+            className='fixed inset-0 bg-oathfire/80 backdrop-blur-[5px]'
             aria-hidden='true'
           />
 
@@ -108,12 +108,12 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
             className='fixed inset-0 flex items-stretch justify-stretch p-12'
           >
             {/* Modal container - scale and fade in/out */}
-            <DialogPanel className='relative w-full bg-[#F1EDE4]/10 rounded-[1.25rem] border-[0.125rem] border-[#F1EDE4] shadow-[0px_69px_139px_0px_rgba(0,0,0,0.25)] overflow-hidden flex flex-col'>
+            <DialogPanel className='relative w-full bg-moon-paper/10 rounded-[1.25rem] border-[0.125rem] border-moon-paper shadow-lg overflow-hidden flex flex-col'>
               {/* Close button */}
               <button
                 type='button'
                 onClick={onClose}
-                className='absolute top-2 right-2 p-2 hover:opacity-70 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F1EDE4] rounded z-1'
+                className='absolute top-2 right-2 p-2 text-moon-paper hover:opacity-70 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-moon-paper rounded z-1'
                 aria-label='Close modal'
               >
                 <CloseIcon />
@@ -149,8 +149,8 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
               </div>
 
               {/* Footer section with project title */}
-              <div className='bg-[#F1EDE4]/10 py-4 px-6 flex-[0_1_auto] h-[112px] flex items-center'>
-                <h2 className='text-[24px] text-[#F1EDE4] font-normal text-center w-full'>
+              <div className='bg-moon-paper/10 py-4 px-6 flex-[0_1_auto] h-[112px] flex items-center'>
+                <h2 className='text-[24px] text-moon-paper font-normal text-center w-full'>
                   {project.title}
                 </h2>
               </div>
@@ -161,7 +161,7 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
                   type='button'
                   onClick={scrollPrev}
                   disabled={!canScrollPrev}
-                  className='absolute left-1 top-1/2 -translate-y-1/2 z-10 p-2 hover:opacity-70 transition-opacity disabled:opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F1EDE4] rounded'
+                  className='absolute left-1 top-1/2 -translate-y-1/2 z-10 p-2 text-moon-paper hover:opacity-70 transition-opacity disabled:opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-moon-paper rounded'
                   aria-label='Previous image'
                 >
                   <ChevronLeftIcon />
@@ -173,7 +173,7 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
                   type='button'
                   onClick={scrollNext}
                   disabled={!canScrollNext}
-                  className='absolute right-1 top-1/2 -translate-y-1/2 z-10 p-2 hover:opacity-70 transition-opacity disabled:opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F1EDE4] rounded'
+                  className='absolute right-1 top-1/2 -translate-y-1/2 z-10 p-2 text-moon-paper hover:opacity-70 transition-opacity disabled:opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-moon-paper rounded'
                   aria-label='Next image'
                 >
                   <ChevronRightIcon />

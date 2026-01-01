@@ -1,0 +1,49 @@
+{
+  "colors": {
+    "brand": {
+      "oathfire": "#770b1b",
+      "moonPaper": "#f1ede4",
+      "goldenSol": "#ae8237",
+      "earthward": "#817548"
+    },
+    "extended": {
+      "crystalGleam": "#ffffff",
+      "earthbornRadiance": "#c08669",
+      "innerFlame": "#a05035",
+      "ritualShadow": "#614f51",
+      "nudeGlow": "#e7d6c3"
+    },
+    "ui": {
+      "background": "#fcf8fb",
+      "foreground": "#2b2635",
+      "border": "#e9e2e7",
+      "primary": "#df7599",
+      "blush": "#f2c2d1",
+      "blushLight": "#fdf0f3",
+      "cream": "#fdf5e6"
+    },
+    "semantic": {
+      "positive": "#0fa115",
+      "negative": "#eb4c4a",
+      "highlight": "#ffcf77"
+    },
+    "neutral": {
+      "100": "#e0f2ff",
+      "600": "#2d2d2d",
+      "grayDark": "#696969",
+      "gray": "#a7a7a7"
+    },
+    "legacy": {
+      "brandRed": "#a21412",
+      "pula": "#a51d1d",
+      "gatas": "#fffaef",
+      "specialSat700": "#401267"
+    }
+  },
+  "shadows": {
+    "default": "0 10px 20px rgba(0, 0, 0, 0.25)",
+    "small": "0 4px 4px rgba(0, 0, 0, 0.15)",
+    "medium": "0 4px 20px rgba(0, 0, 0, 0.25)",
+    "large": "0 69px 139px rgba(0, 0, 0, 0.25)"
+  }
+}

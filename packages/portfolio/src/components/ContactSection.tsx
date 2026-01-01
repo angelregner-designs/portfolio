@@ -56,18 +56,18 @@ const InstagramIcon = () => (
 )
 
 export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectionProps) => (
-  <section id='connect' className='pt-10 px-20 bg-[#770B1B]'>
+  <section id='connect' className='pt-10 px-20 bg-oathfire'>
     <div className='max-w-[952px] mx-auto flex flex-col items-center gap-16'>
       {/* Title and Icons */}
       <div className='flex flex-col items-center gap-8'>
-        <h2 className='text-[32px] font-light italic text-[#F1EDE4] text-center'>{headline}</h2>
+        <h2 className='text-[32px] font-light italic text-moon-paper text-center'>{headline}</h2>
         <div className='flex items-center gap-10'>
           {socialLinks.whatsapp && (
             <a
               href={socialLinks.whatsapp}
               target='_blank'
               rel='noopener noreferrer'
-              className='text-[#AE8237] hover:text-[#F1EDE4] transition-colors'
+              className='text-golden-sol hover:text-moon-paper transition-colors'
               aria-label='WhatsApp'
             >
               <WhatsAppIcon />
@@ -78,7 +78,7 @@ export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectio
               href={socialLinks.behance}
               target='_blank'
               rel='noopener noreferrer'
-              className='text-[#AE8237] hover:text-[#F1EDE4] transition-colors'
+              className='text-golden-sol hover:text-moon-paper transition-colors'
               aria-label='Behance'
             >
               <BehanceIcon />
@@ -89,7 +89,7 @@ export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectio
               href={socialLinks.facebook}
               target='_blank'
               rel='noopener noreferrer'
-              className='text-[#AE8237] hover:text-[#F1EDE4] transition-colors'
+              className='text-golden-sol hover:text-moon-paper transition-colors'
               aria-label='Facebook'
             >
               <FacebookIcon />
@@ -98,7 +98,7 @@ export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectio
           {socialLinks.email && (
             <a
               href={socialLinks.email}
-              className='text-[#AE8237] hover:text-[#F1EDE4] transition-colors'
+              className='text-golden-sol hover:text-moon-paper transition-colors'
               aria-label='Email'
             >
               <EmailIcon />
@@ -109,7 +109,7 @@ export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectio
               href={socialLinks.linkedin}
               target='_blank'
               rel='noopener noreferrer'
-              className='text-[#AE8237] hover:text-[#F1EDE4] transition-colors'
+              className='text-golden-sol hover:text-moon-paper transition-colors'
               aria-label='LinkedIn'
             >
               <LinkedInIcon />
@@ -120,7 +120,7 @@ export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectio
               href={socialLinks.instagram}
               target='_blank'
               rel='noopener noreferrer'
-              className='text-[#AE8237] hover:text-[#F1EDE4] transition-colors'
+              className='text-golden-sol hover:text-moon-paper transition-colors'
               aria-label='Instagram'
             >
               <InstagramIcon />
@@ -132,7 +132,7 @@ export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectio
       {/* CTA Button */}
       <a
         href={`mailto:${socialLinks.email}`}
-        className='bg-[#F1EDE4] border-2 border-[#F1EDE4] rounded-lg px-5 py-3 text-[18px] font-light text-[#770B1B] text-center hover:bg-[#AE8237] hover:text-[#F1EDE4] hover:border-[#AE8237] transition-colors'
+        className='bg-moon-paper border-2 border-moon-paper rounded-lg px-5 py-3 text-[18px] font-light text-oathfire text-center hover:bg-golden-sol hover:text-moon-paper hover:border-golden-sol transition-colors'
       >
         {ctaText}
       </a>
