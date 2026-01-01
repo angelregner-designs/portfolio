@@ -52,6 +52,7 @@ services:
       - /app/node_modules
     environment:
       API_URL: ${PORTFOLIO_API_URL}
+      NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}  # Optional, empty by default
     depends_on:
       - api
 
