@@ -65,7 +65,9 @@ const MultiImageUpload = ({
           {values.map((url, index) => (
             <div key={`${index}-${url}`} className='flex items-center gap-2'>
               {url && (
-                <div className='h-12 w-16 flex-shrink-0 overflow-hidden rounded border'>
+                <div
+                  className={cn('h-12 w-16', 'flex-shrink-0', 'border', 'rounded overflow-hidden')}
+                >
                   <img src={url} alt='' className='h-full w-full object-cover' />
                 </div>
               )}
@@ -75,13 +77,20 @@ const MultiImageUpload = ({
                 onChange={e => handleUrlChange(index, e.target.value)}
                 placeholder='Image URL'
                 disabled={disabled}
-                className='flex-1 rounded border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none'
+                className={cn(
+                  'flex-1',
+                  'px-2 py-1',
+                  'text-sm',
+                  'border border-gray-300',
+                  'rounded',
+                  'focus:border-blue-500 focus:outline-none',
+                )}
               />
               <button
                 type='button'
                 onClick={() => handleRemove(index)}
                 disabled={disabled}
-                className='text-sm text-red-500 hover:text-red-700 hover:underline'
+                className={cn('text-sm', 'text-red-500', 'hover:text-red-700 hover:underline')}
               >
                 Remove
               </button>
@@ -105,9 +114,9 @@ const MultiImageUpload = ({
         onDrop={handleDrop}
       >
         {uploading ? (
-          <p className='text-center text-sm text-gray-500'>Uploading...</p>
+          <p className={cn('text-center text-sm', 'text-gray-500')}>Uploading...</p>
         ) : (
-          <div className='flex items-center justify-center gap-4'>
+          <div className={cn('flex items-center justify-center', 'gap-4')}>
             <button
               type='button'
               onClick={() => inputRef.current?.click()}

@@ -1,12 +1,14 @@
+import { cn } from '@angel-portfolio/shared'
+
 type FooterProps = {
   copyright: string
 }
 
 export const Footer = ({ copyright }: FooterProps) => (
-  <footer className='pt-50 pb-43 px-10 desktop:px-20 bg-oathfire'>
-    <div className='max-w-[1280px] mx-auto flex flex-col items-center gap-8'>
+  <footer className={cn('pt-50 pb-43 px-10 desktop:px-20', 'bg-oathfire')}>
+    <div className={cn('flex flex-col items-center', 'max-w-[1280px] mx-auto', 'gap-8')}>
       {/* Copyright */}
-      <p className='text-[14px] text-moon-paper/70 text-center'>{copyright}</p>
+      <p className={cn('text-[14px] text-moon-paper/70 text-center')}>{copyright}</p>
     </div>
   </footer>
 )

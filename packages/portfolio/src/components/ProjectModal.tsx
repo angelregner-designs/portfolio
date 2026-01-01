@@ -1,6 +1,7 @@
 'use client'
 
 import type { Project } from '@/types/portfolio'
+import { cn } from '@angel-portfolio/shared'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { AnimatePresence, motion } from 'motion/react'
@@ -95,7 +96,7 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className='fixed inset-0 bg-oathfire/80 backdrop-blur-[5px]'
+            className={cn('fixed inset-0', 'bg-oathfire/80 backdrop-blur-[5px]')}
             aria-hidden='true'
           />
 
@@ -105,36 +106,68 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.3 }}
-            className='fixed inset-0 flex items-stretch justify-stretch p-12'
+            className={cn('fixed inset-0', 'flex items-stretch justify-stretch', 'p-12')}
           >
             {/* Modal container - scale and fade in/out */}
-            <DialogPanel className='relative w-full bg-moon-paper/10 rounded-[1.25rem] border-[0.125rem] border-moon-paper shadow-lg overflow-hidden flex flex-col'>
+            <DialogPanel
+              className={cn(
+                'relative',
+                'flex flex-col',
+                'w-full',
+                'bg-moon-paper/10 border-[0.125rem] border-moon-paper',
+                'rounded-[1.25rem] shadow-lg overflow-hidden',
+              )}
+            >
               {/* Close button */}
               <button
                 type='button'
                 onClick={onClose}
-                className='absolute top-2 right-2 p-2 text-moon-paper hover:opacity-70 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-moon-paper rounded z-1'
+                className={cn(
+                  'absolute top-2 right-2 z-1',
+                  'p-2',
+                  'text-moon-paper',
+                  'rounded',
+                  'transition-opacity',
+                  'hover:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-moon-paper',
+                )}
                 aria-label='Close modal'
               >
                 <CloseIcon />
               </button>
 
               {/* Carousel container */}
-              <div className='relative flex-[1_1_0%] flex flex-col justify-stretch items-stretch'>
+              <div
+                className={cn(
+                  'relative',
+                  'flex flex-col justify-stretch items-stretch',
+                  'flex-[1_1_0%]',
+                )}
+              >
                 {/* Embla carousel - overflow-hidden required */}
                 <div
-                  className='overflow-hidden flex-[1_1_0%] flex flex-col justify-stretch items-stretch'
+                  className={cn(
+                    'flex flex-col justify-stretch items-stretch',
+                    'flex-[1_1_0%]',
+                    'overflow-hidden',
+                  )}
                   ref={emblaRef}
                 >
                   {/* Embla container for slides - flex required */}
                   <div className='flex flex-[1_1_0%]'>
                     {photos.map((photo, index) => (
                       /* Embla slide item */
-                      <div key={photo} className='flex-[0_0_100%] min-w-0 p-10 relative'>
+                      <div
+                        key={photo}
+                        className={cn('relative', 'flex-[0_0_100%] min-w-0', 'p-10')}
+                      >
                         {/* Absolute container for scrollable content */}
-                        <div className='absolute top-0 left-0 w-full h-full overflow-auto'>
+                        <div
+                          className={cn('absolute top-0 left-0', 'w-full h-full', 'overflow-auto')}
+                        >
                           {/* Separate container for padding */}
-                          <div className='p-10 min-h-full flex justify-center items-center '>
+                          <div
+                            className={cn('flex justify-center items-center', 'min-h-full', 'p-10')}
+                          >
                             <img
                               src={photo}
                               alt={`${project.title} - ${index + 1}`}
@@ -149,8 +182,15 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
               </div>
 
               {/* Footer section with project title */}
-              <div className='bg-moon-paper/10 py-4 px-6 flex-[0_1_auto] h-[112px] flex items-center'>
-                <h2 className='text-[24px] text-moon-paper font-normal text-center w-full'>
+              <div
+                className={cn(
+                  'flex items-center',
+                  'flex-[0_1_auto] h-[112px]',
+                  'py-4 px-6',
+                  'bg-moon-paper/10',
+                )}
+              >
+                <h2 className={cn('w-full', 'text-[24px] font-normal text-moon-paper text-center')}>
                   {project.title}
                 </h2>
               </div>
@@ -161,7 +201,14 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
                   type='button'
                   onClick={scrollPrev}
                   disabled={!canScrollPrev}
-                  className='absolute left-1 top-1/2 -translate-y-1/2 z-10 p-2 text-moon-paper hover:opacity-70 transition-opacity disabled:opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-moon-paper rounded'
+                  className={cn(
+                    'absolute left-1 top-1/2 -translate-y-1/2 z-10',
+                    'p-2',
+                    'text-moon-paper',
+                    'rounded',
+                    'transition-opacity',
+                    'hover:opacity-70 disabled:opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-moon-paper',
+                  )}
                   aria-label='Previous image'
                 >
                   <ChevronLeftIcon />
@@ -173,7 +220,14 @@ export const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) =>
                   type='button'
                   onClick={scrollNext}
                   disabled={!canScrollNext}
-                  className='absolute right-1 top-1/2 -translate-y-1/2 z-10 p-2 text-moon-paper hover:opacity-70 transition-opacity disabled:opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-moon-paper rounded'
+                  className={cn(
+                    'absolute right-1 top-1/2 -translate-y-1/2 z-10',
+                    'p-2',
+                    'text-moon-paper',
+                    'rounded',
+                    'transition-opacity',
+                    'hover:opacity-70 disabled:opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-moon-paper',
+                  )}
                   aria-label='Next image'
                 >
                   <ChevronRightIcon />

@@ -1,3 +1,5 @@
+import { cn } from '@angel-portfolio/shared'
+
 type ContactField =
   | 'contactsHeadline'
   | 'contactsCtaText'
@@ -31,12 +33,12 @@ const ContactsSection = ({
   linkEmail,
   onChange,
 }: ContactsSectionProps) => (
-  <section className='bg-white rounded-lg shadow-md p-6 mb-6'>
-    <h2 className='text-xl font-semibold mb-4'>Contacts Section</h2>
+  <section className={cn('mb-6 p-6', 'bg-white', 'rounded-lg shadow-md')}>
+    <h2 className={cn('mb-4', 'text-xl font-semibold')}>Contacts Section</h2>
     <div className='space-y-4'>
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+      <div className={cn('grid grid-cols-1 md:grid-cols-2', 'gap-4')}>
         <div>
-          <label htmlFor='contactsHeadline' className='block mb-1 text-sm font-medium'>
+          <label htmlFor='contactsHeadline' className={cn('block', 'mb-1', 'text-sm font-medium')}>
             Headline
           </label>
           <input
@@ -44,11 +46,17 @@ const ContactsSection = ({
             type='text'
             value={contactsHeadline}
             onChange={e => onChange('contactsHeadline', e.target.value)}
-            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+            className={cn(
+              'w-full',
+              'px-3 py-2',
+              'border border-gray-300',
+              'rounded-md',
+              'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+            )}
           />
         </div>
         <div>
-          <label htmlFor='contactsCtaText' className='block mb-1 text-sm font-medium'>
+          <label htmlFor='contactsCtaText' className={cn('block', 'mb-1', 'text-sm font-medium')}>
             CTA Text
           </label>
           <input
@@ -56,15 +64,21 @@ const ContactsSection = ({
             type='text'
             value={contactsCtaText}
             onChange={e => onChange('contactsCtaText', e.target.value)}
-            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+            className={cn(
+              'w-full',
+              'px-3 py-2',
+              'border border-gray-300',
+              'rounded-md',
+              'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+            )}
           />
         </div>
       </div>
 
-      <h3 className='font-medium text-gray-700 pt-2'>Social Links</h3>
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+      <h3 className={cn('pt-2', 'font-medium', 'text-gray-700')}>Social Links</h3>
+      <div className={cn('grid grid-cols-1 md:grid-cols-2', 'gap-4')}>
         <div>
-          <label htmlFor='linkBehance' className='block mb-1 text-sm font-medium'>
+          <label htmlFor='linkBehance' className={cn('block', 'mb-1', 'text-sm font-medium')}>
             Behance
           </label>
           <input
@@ -73,11 +87,18 @@ const ContactsSection = ({
             value={linkBehance}
             onChange={e => onChange('linkBehance', e.target.value)}
             placeholder='https://behance.net/...'
-            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
+            className={cn(
+              'w-full',
+              'px-3 py-2',
+              'text-sm',
+              'border border-gray-300',
+              'rounded-md',
+              'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+            )}
           />
         </div>
         <div>
-          <label htmlFor='linkLinkedin' className='block mb-1 text-sm font-medium'>
+          <label htmlFor='linkLinkedin' className={cn('block', 'mb-1', 'text-sm font-medium')}>
             LinkedIn
           </label>
           <input
@@ -86,11 +107,18 @@ const ContactsSection = ({
             value={linkLinkedin}
             onChange={e => onChange('linkLinkedin', e.target.value)}
             placeholder='https://linkedin.com/in/...'
-            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
+            className={cn(
+              'w-full',
+              'px-3 py-2',
+              'text-sm',
+              'border border-gray-300',
+              'rounded-md',
+              'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+            )}
           />
         </div>
         <div>
-          <label htmlFor='linkWhatsapp' className='block mb-1 text-sm font-medium'>
+          <label htmlFor='linkWhatsapp' className={cn('block', 'mb-1', 'text-sm font-medium')}>
             WhatsApp
           </label>
           <input
@@ -99,11 +127,18 @@ const ContactsSection = ({
             value={linkWhatsapp}
             onChange={e => onChange('linkWhatsapp', e.target.value)}
             placeholder='https://wa.me/...'
-            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
+            className={cn(
+              'w-full',
+              'px-3 py-2',
+              'text-sm',
+              'border border-gray-300',
+              'rounded-md',
+              'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+            )}
           />
         </div>
         <div>
-          <label htmlFor='linkFacebook' className='block mb-1 text-sm font-medium'>
+          <label htmlFor='linkFacebook' className={cn('block', 'mb-1', 'text-sm font-medium')}>
             Facebook
           </label>
           <input
@@ -112,11 +147,18 @@ const ContactsSection = ({
             value={linkFacebook}
             onChange={e => onChange('linkFacebook', e.target.value)}
             placeholder='https://facebook.com/...'
-            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
+            className={cn(
+              'w-full',
+              'px-3 py-2',
+              'text-sm',
+              'border border-gray-300',
+              'rounded-md',
+              'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+            )}
           />
         </div>
         <div>
-          <label htmlFor='linkInstagram' className='block mb-1 text-sm font-medium'>
+          <label htmlFor='linkInstagram' className={cn('block', 'mb-1', 'text-sm font-medium')}>
             Instagram
           </label>
           <input
@@ -125,11 +167,18 @@ const ContactsSection = ({
             value={linkInstagram}
             onChange={e => onChange('linkInstagram', e.target.value)}
             placeholder='https://instagram.com/...'
-            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
+            className={cn(
+              'w-full',
+              'px-3 py-2',
+              'text-sm',
+              'border border-gray-300',
+              'rounded-md',
+              'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+            )}
           />
         </div>
         <div>
-          <label htmlFor='linkEmail' className='block mb-1 text-sm font-medium'>
+          <label htmlFor='linkEmail' className={cn('block', 'mb-1', 'text-sm font-medium')}>
             Email
           </label>
           <input
@@ -138,7 +187,14 @@ const ContactsSection = ({
             value={linkEmail}
             onChange={e => onChange('linkEmail', e.target.value)}
             placeholder='mailto:email@example.com'
-            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
+            className={cn(
+              'w-full',
+              'px-3 py-2',
+              'text-sm',
+              'border border-gray-300',
+              'rounded-md',
+              'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+            )}
           />
         </div>
       </div>

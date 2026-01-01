@@ -1,5 +1,6 @@
 'use client'
 
+import { cn } from '@angel-portfolio/shared'
 import { type FormEvent, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -54,12 +55,12 @@ const ChangePasswordModal = ({ onClose }: ChangePasswordModalProps) => {
   }
 
   return (
-    <div className='fixed inset-0 bg-black/50 flex items-center justify-center z-50'>
-      <div className='bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4'>
-        <h2 className='text-xl font-semibold mb-4'>Change Password</h2>
+    <div className={cn('fixed inset-0', 'flex items-center justify-center', 'bg-black/50', 'z-50')}>
+      <div className={cn('w-full max-w-md', 'mx-4 p-6', 'bg-white', 'rounded-lg shadow-xl')}>
+        <h2 className={cn('mb-4', 'text-xl font-semibold')}>Change Password</h2>
         <form onSubmit={handleSubmit}>
           <div className='mb-4'>
-            <label htmlFor='currentPassword' className='block mb-2 text-sm font-medium'>
+            <label htmlFor='currentPassword' className={cn('block', 'mb-2', 'text-sm font-medium')}>
               Current Password
             </label>
             <input
@@ -68,11 +69,17 @@ const ChangePasswordModal = ({ onClose }: ChangePasswordModalProps) => {
               value={currentPassword}
               onChange={e => setCurrentPassword(e.target.value)}
               required
-              className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+              className={cn(
+                'w-full',
+                'px-3 py-2',
+                'border border-gray-300',
+                'rounded-md',
+                'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+              )}
             />
           </div>
           <div className='mb-4'>
-            <label htmlFor='newPassword' className='block mb-2 text-sm font-medium'>
+            <label htmlFor='newPassword' className={cn('block', 'mb-2', 'text-sm font-medium')}>
               New Password (min 8 characters)
             </label>
             <input
@@ -82,11 +89,17 @@ const ChangePasswordModal = ({ onClose }: ChangePasswordModalProps) => {
               onChange={e => setNewPassword(e.target.value)}
               required
               minLength={8}
-              className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+              className={cn(
+                'w-full',
+                'px-3 py-2',
+                'border border-gray-300',
+                'rounded-md',
+                'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+              )}
             />
           </div>
           <div className='mb-4'>
-            <label htmlFor='confirmPassword' className='block mb-2 text-sm font-medium'>
+            <label htmlFor='confirmPassword' className={cn('block', 'mb-2', 'text-sm font-medium')}>
               Confirm New Password
             </label>
             <input
@@ -95,21 +108,39 @@ const ChangePasswordModal = ({ onClose }: ChangePasswordModalProps) => {
               value={confirmPassword}
               onChange={e => setConfirmPassword(e.target.value)}
               required
-              className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+              className={cn(
+                'w-full',
+                'px-3 py-2',
+                'border border-gray-300',
+                'rounded-md',
+                'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+              )}
             />
           </div>
           <div className='flex gap-3'>
             <button
               type='submit'
               disabled={loading}
-              className='flex-1 py-2 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-wait'
+              className={cn(
+                'flex-1',
+                'py-2 px-4',
+                'font-medium',
+                'text-white bg-blue-600',
+                'rounded-md',
+                'hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-wait',
+              )}
             >
               {loading ? 'Changing...' : 'Change Password'}
             </button>
             <button
               type='button'
               onClick={onClose}
-              className='px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50'
+              className={cn(
+                'px-4 py-2',
+                'border border-gray-300',
+                'rounded-md',
+                'hover:bg-gray-50',
+              )}
             >
               Cancel
             </button>

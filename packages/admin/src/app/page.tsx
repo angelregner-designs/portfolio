@@ -1,5 +1,6 @@
 'use client'
 
+import { cn } from '@angel-portfolio/shared'
 import { useRouter } from 'next/navigation'
 import { type FormEvent, useState } from 'react'
 import { toast } from 'sonner'
@@ -38,12 +39,12 @@ const LoginPage = () => {
   }
 
   return (
-    <main className='max-w-md mx-auto mt-24 p-8'>
-      <div className='bg-white rounded-lg shadow-md p-8'>
-        <h1 className='text-2xl font-bold mb-6 text-center'>Admin Login</h1>
+    <main className={cn('max-w-md', 'mx-auto mt-24 p-8')}>
+      <div className={cn('p-8', 'bg-white', 'rounded-lg shadow-md')}>
+        <h1 className={cn('mb-6', 'text-2xl font-bold', 'text-center')}>Admin Login</h1>
         <form onSubmit={handleSubmit}>
           <div className='mb-4'>
-            <label htmlFor='accountId' className='block mb-2 text-sm font-medium'>
+            <label htmlFor='accountId' className={cn('block', 'mb-2', 'text-sm font-medium')}>
               Account ID
             </label>
             <input
@@ -52,11 +53,17 @@ const LoginPage = () => {
               value={accountId}
               onChange={e => setAccountId(e.target.value)}
               required
-              className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+              className={cn(
+                'w-full',
+                'px-3 py-2',
+                'border border-gray-300',
+                'rounded-md',
+                'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+              )}
             />
           </div>
           <div className='mb-4'>
-            <label htmlFor='password' className='block mb-2 text-sm font-medium'>
+            <label htmlFor='password' className={cn('block', 'mb-2', 'text-sm font-medium')}>
               Password
             </label>
             <input
@@ -65,13 +72,26 @@ const LoginPage = () => {
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
-              className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+              className={cn(
+                'w-full',
+                'px-3 py-2',
+                'border border-gray-300',
+                'rounded-md',
+                'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+              )}
             />
           </div>
           <button
             type='submit'
             disabled={loading}
-            className='w-full py-2 px-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-wait'
+            className={cn(
+              'w-full',
+              'py-2 px-4',
+              'font-medium',
+              'text-white bg-blue-600',
+              'rounded-md',
+              'hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-wait',
+            )}
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>

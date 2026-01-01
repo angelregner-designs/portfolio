@@ -42,7 +42,15 @@ export const StickyBottomNav = ({ nav, ctaText }: StickyBottomNavProps) => {
     })
 
   return (
-    <div className='fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-moon-paper border-2 border-golden-sol rounded-2xl p-3 shadow-md flex items-center gap-8'>
+    <div
+      className={cn(
+        'fixed bottom-6 left-1/2 transform -translate-x-1/2',
+        'flex items-center',
+        'gap-8 p-3',
+        'bg-moon-paper border-2 border-golden-sol',
+        'rounded-2xl shadow-md',
+      )}
+    >
       <nav className='flex items-center gap-4'>
         <button
           type='button'
@@ -69,7 +77,14 @@ export const StickyBottomNav = ({ nav, ctaText }: StickyBottomNavProps) => {
       <button
         type='button'
         onClick={() => scrollToSection('connect')}
-        className='bg-earthward rounded-lg px-5 py-3 text-[18px] font-light text-moon-paper shadow-sm hover:bg-golden-sol transition-colors'
+        className={cn(
+          'px-5 py-3',
+          'text-[18px] font-light text-moon-paper',
+          'bg-earthward',
+          'rounded-lg shadow-sm',
+          'transition-colors',
+          'hover:bg-golden-sol',
+        )}
       >
         {ctaText}
       </button>

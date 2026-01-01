@@ -1,3 +1,4 @@
+import { cn } from '@angel-portfolio/shared'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { useEffect, useState } from 'react'
 import { DecorativeLogo } from './DecorativeLogo'
@@ -58,7 +59,7 @@ export const InteractiveExpand: Story = {
         <button
           type='button'
           onClick={() => setIsExpanded(!isExpanded)}
-          className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600'
+          className={cn('px-4 py-2', 'text-white bg-blue-500', 'rounded', 'hover:bg-blue-600')}
         >
           {isExpanded ? 'Collapse' : 'Expand'}
         </button>
@@ -80,7 +81,7 @@ export const InteractiveBlink: Story = {
         <button
           type='button'
           onClick={() => setIsEyeOpen(!isEyeOpen)}
-          className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600'
+          className={cn('px-4 py-2', 'text-white bg-blue-500', 'rounded', 'hover:bg-blue-600')}
         >
           {isEyeOpen ? 'Close Eye' : 'Open Eye'}
         </button>
@@ -133,7 +134,7 @@ export const FollowMouse: Story = {
   decorators: [
     Story => (
       <div className='w-[200px]'>
-        <p className='text-sm text-gray-500 mb-4 text-center'>Move mouse around</p>
+        <p className={cn('mb-4', 'text-sm text-gray-500 text-center')}>Move mouse around</p>
         <Story />
       </div>
     ),
@@ -150,7 +151,7 @@ export const InteractiveRandomLook: Story = {
         <button
           type='button'
           onClick={() => setCounter(c => c + 1)}
-          className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600'
+          className={cn('px-4 py-2', 'text-white bg-blue-500', 'rounded', 'hover:bg-blue-600')}
         >
           Look Random Direction ({counter})
         </button>
@@ -172,7 +173,7 @@ export const InteractiveFollowMouse: Story = {
         <button
           type='button'
           onClick={() => setShouldFollow(!shouldFollow)}
-          className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600'
+          className={cn('px-4 py-2', 'text-white bg-blue-500', 'rounded', 'hover:bg-blue-600')}
         >
           {shouldFollow ? 'Stop Following' : 'Follow Mouse'}
         </button>

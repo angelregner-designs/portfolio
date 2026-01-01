@@ -1,16 +1,17 @@
 import type { Testimonial } from '@/types/portfolio'
+import { cn } from '@angel-portfolio/shared'
 
 type TestimonialsSectionProps = {
   testimonials: Testimonial[]
 }
 
 export const TestimonialsSection = ({ testimonials }: TestimonialsSectionProps) => (
-  <section id='testimonials' className='pt-10 pb-30 px-10 desktop:px-20 bg-oathfire'>
+  <section id='testimonials' className={cn('pt-10 pb-30 px-10 desktop:px-20', 'bg-oathfire')}>
     <div className='max-w-[663px] mx-auto'>
       <div className='flex flex-col gap-20'>
         {testimonials.map(testimonial => (
           <div key={testimonial.id} className='flex flex-col gap-4 text-center'>
-            <div className='text-[20px] italic text-moon-paper leading-normal'>
+            <div className={cn('text-[20px] italic text-moon-paper leading-normal')}>
               {testimonial.content
                 .split('\n\n')
                 .filter(p => p.trim())
@@ -20,7 +21,7 @@ export const TestimonialsSection = ({ testimonials }: TestimonialsSectionProps) 
                   </p>
                 ))}
             </div>
-            <p className='text-[24px] font-light italic text-golden-sol'>
+            <p className={cn('text-[24px] font-light italic text-golden-sol')}>
               {testimonial.personName}
               {testimonial.company && ` | ${testimonial.company}`}
             </p>

@@ -55,12 +55,24 @@ const ImageUpload = ({
       {/* Preview with remove button */}
       {value && (
         <div className='relative inline-block'>
-          <img src={value} alt='Preview' className='h-24 w-32 rounded-md border object-cover' />
+          <img
+            src={value}
+            alt='Preview'
+            className={cn('h-24 w-32', 'border', 'rounded-md object-cover')}
+          />
           <button
             type='button'
             onClick={handleRemove}
             disabled={disabled}
-            className='absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white hover:bg-red-600'
+            className={cn(
+              'absolute -right-2 -top-2',
+              'flex items-center justify-center',
+              'h-5 w-5',
+              'text-xs',
+              'text-white bg-red-500',
+              'rounded-full',
+              'hover:bg-red-600',
+            )}
           >
             ×
           </button>
@@ -82,7 +94,7 @@ const ImageUpload = ({
         onDrop={handleDrop}
       >
         {uploading ? (
-          <p className='text-center text-sm text-gray-500'>Uploading...</p>
+          <p className={cn('text-center text-sm', 'text-gray-500')}>Uploading...</p>
         ) : (
           <div className='flex flex-col gap-2'>
             <input
@@ -91,9 +103,16 @@ const ImageUpload = ({
               onChange={e => onChange(e.target.value)}
               placeholder='Enter URL or upload image'
               disabled={disabled}
-              className='w-full rounded border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none'
+              className={cn(
+                'w-full',
+                'px-2 py-1',
+                'text-sm',
+                'border border-gray-300',
+                'rounded',
+                'focus:border-blue-500 focus:outline-none',
+              )}
             />
-            <div className='flex items-center gap-2 text-xs text-gray-400'>
+            <div className={cn('flex items-center', 'gap-2', 'text-xs', 'text-gray-400')}>
               <span>or</span>
               <button
                 type='button'

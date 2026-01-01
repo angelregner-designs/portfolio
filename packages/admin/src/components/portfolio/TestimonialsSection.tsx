@@ -1,6 +1,7 @@
 'use client'
 
 import type { Testimonial } from '@/types/portfolio'
+import { cn } from '@angel-portfolio/shared'
 
 type TestimonialsSectionProps = {
   testimonials: Testimonial[]
@@ -26,33 +27,39 @@ const TestimonialsSection = ({ testimonials, onChange }: TestimonialsSectionProp
   }
 
   return (
-    <section className='bg-white rounded-lg shadow-md p-6 mb-6'>
-      <div className='flex justify-between items-center mb-4'>
+    <section className={cn('mb-6 p-6', 'bg-white', 'rounded-lg shadow-md')}>
+      <div className={cn('flex justify-between items-center', 'mb-4')}>
         <h2 className='text-xl font-semibold'>Testimonials</h2>
         <button
           type='button'
           onClick={addTestimonial}
-          className='px-3 py-1.5 text-sm bg-green-600 text-white rounded-md hover:bg-green-700'
+          className={cn(
+            'px-3 py-1.5',
+            'text-sm',
+            'text-white bg-green-600',
+            'rounded-md',
+            'hover:bg-green-700',
+          )}
         >
           + Add Testimonial
         </button>
       </div>
 
       {testimonials.length === 0 && (
-        <p className='text-gray-500 text-sm'>
+        <p className={cn('text-sm', 'text-gray-500')}>
           No testimonials yet. Click "Add Testimonial" to create one.
         </p>
       )}
 
       <div className='space-y-4'>
         {testimonials.map((testimonial, index) => (
-          <div key={testimonial.id} className='border border-gray-200 rounded-lg p-4'>
-            <div className='flex justify-between items-center mb-3'>
-              <span className='font-medium text-gray-700'>Testimonial {index + 1}</span>
+          <div key={testimonial.id} className={cn('p-4', 'border border-gray-200', 'rounded-lg')}>
+            <div className={cn('flex justify-between items-center', 'mb-3')}>
+              <span className={cn('font-medium', 'text-gray-700')}>Testimonial {index + 1}</span>
               <button
                 type='button'
                 onClick={() => removeTestimonial(testimonial.id)}
-                className='text-red-600 hover:text-red-800 text-sm'
+                className={cn('text-sm', 'text-red-600', 'hover:text-red-800')}
               >
                 Remove
               </button>
@@ -61,7 +68,7 @@ const TestimonialsSection = ({ testimonials, onChange }: TestimonialsSectionProp
               <div>
                 <label
                   htmlFor={`personName-${testimonial.id}`}
-                  className='block mb-1 text-sm font-medium'
+                  className={cn('block', 'mb-1', 'text-sm font-medium')}
                 >
                   Person Name
                 </label>
@@ -70,13 +77,20 @@ const TestimonialsSection = ({ testimonials, onChange }: TestimonialsSectionProp
                   type='text'
                   value={testimonial.personName}
                   onChange={e => updateTestimonial(testimonial.id, 'personName', e.target.value)}
-                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
+                  className={cn(
+                    'w-full',
+                    'px-3 py-2',
+                    'text-sm',
+                    'border border-gray-300',
+                    'rounded-md',
+                    'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+                  )}
                 />
               </div>
               <div>
                 <label
                   htmlFor={`company-${testimonial.id}`}
-                  className='block mb-1 text-sm font-medium'
+                  className={cn('block', 'mb-1', 'text-sm font-medium')}
                 >
                   Company (optional)
                 </label>
@@ -86,13 +100,20 @@ const TestimonialsSection = ({ testimonials, onChange }: TestimonialsSectionProp
                   value={testimonial.company || ''}
                   onChange={e => updateTestimonial(testimonial.id, 'company', e.target.value)}
                   placeholder='Company name'
-                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
+                  className={cn(
+                    'w-full',
+                    'px-3 py-2',
+                    'text-sm',
+                    'border border-gray-300',
+                    'rounded-md',
+                    'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+                  )}
                 />
               </div>
               <div>
                 <label
                   htmlFor={`content-${testimonial.id}`}
-                  className='block mb-1 text-sm font-medium'
+                  className={cn('block', 'mb-1', 'text-sm font-medium')}
                 >
                   Content
                 </label>
@@ -101,7 +122,14 @@ const TestimonialsSection = ({ testimonials, onChange }: TestimonialsSectionProp
                   value={testimonial.content}
                   onChange={e => updateTestimonial(testimonial.id, 'content', e.target.value)}
                   rows={3}
-                  className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm'
+                  className={cn(
+                    'w-full',
+                    'px-3 py-2',
+                    'text-sm',
+                    'border border-gray-300',
+                    'rounded-md',
+                    'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+                  )}
                 />
               </div>
             </div>

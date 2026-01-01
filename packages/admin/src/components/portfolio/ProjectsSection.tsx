@@ -4,6 +4,7 @@ import ImageUpload from '@/components/ui/ImageUpload'
 import MultiImageUpload from '@/components/ui/MultiImageUpload'
 import { useImageUpload } from '@/hooks/useImageUpload'
 import type { Project } from '@/types/portfolio'
+import { cn } from '@angel-portfolio/shared'
 
 type ProjectsSectionProps = {
   projects: Project[]
@@ -34,38 +35,49 @@ const ProjectsSection = ({ projects, onChange }: ProjectsSectionProps) => {
   }
 
   return (
-    <section className='mb-6 rounded-lg bg-white p-6 shadow-md'>
-      <div className='mb-4 flex items-center justify-between'>
+    <section className={cn('mb-6 p-6', 'bg-white', 'rounded-lg shadow-md')}>
+      <div className={cn('flex items-center justify-between', 'mb-4')}>
         <h2 className='text-xl font-semibold'>Projects</h2>
         <button
           type='button'
           onClick={addProject}
-          className='rounded-md bg-green-600 px-3 py-1.5 text-sm text-white hover:bg-green-700'
+          className={cn(
+            'px-3 py-1.5',
+            'text-sm',
+            'text-white bg-green-600',
+            'rounded-md',
+            'hover:bg-green-700',
+          )}
         >
           + Add Project
         </button>
       </div>
 
       {projects.length === 0 && (
-        <p className='text-sm text-gray-500'>No projects yet. Click "Add Project" to create one.</p>
+        <p className={cn('text-sm', 'text-gray-500')}>
+          No projects yet. Click "Add Project" to create one.
+        </p>
       )}
 
       <div className='space-y-6'>
         {projects.map((project, index) => (
-          <div key={project.id} className='rounded-lg border border-gray-200 p-4'>
-            <div className='mb-3 flex items-center justify-between'>
-              <span className='font-medium text-gray-700'>Project {index + 1}</span>
+          <div key={project.id} className={cn('p-4', 'border border-gray-200', 'rounded-lg')}>
+            <div className={cn('flex items-center justify-between', 'mb-3')}>
+              <span className={cn('font-medium', 'text-gray-700')}>Project {index + 1}</span>
               <button
                 type='button'
                 onClick={() => removeProject(project.id)}
-                className='text-sm text-red-600 hover:text-red-800'
+                className={cn('text-sm', 'text-red-600', 'hover:text-red-800')}
               >
                 Remove
               </button>
             </div>
             <div className='space-y-3'>
               <div>
-                <label htmlFor={`title-${project.id}`} className='mb-1 block text-sm font-medium'>
+                <label
+                  htmlFor={`title-${project.id}`}
+                  className={cn('block', 'mb-1', 'text-sm font-medium')}
+                >
                   Title
                 </label>
                 <input
@@ -74,7 +86,14 @@ const ProjectsSection = ({ projects, onChange }: ProjectsSectionProps) => {
                   value={project.title}
                   onChange={e => updateProject(project.id, 'title', e.target.value)}
                   placeholder='Project title'
-                  className='w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500'
+                  className={cn(
+                    'w-full',
+                    'px-3 py-2',
+                    'text-sm',
+                    'border border-gray-300',
+                    'rounded-md',
+                    'focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500',
+                  )}
                 />
               </div>
 
@@ -90,7 +109,7 @@ const ProjectsSection = ({ projects, onChange }: ProjectsSectionProps) => {
               <div>
                 <label
                   htmlFor={`description-${project.id}`}
-                  className='mb-1 block text-sm font-medium'
+                  className={cn('block', 'mb-1', 'text-sm font-medium')}
                 >
                   Description
                 </label>
@@ -99,11 +118,21 @@ const ProjectsSection = ({ projects, onChange }: ProjectsSectionProps) => {
                   value={project.description}
                   onChange={e => updateProject(project.id, 'description', e.target.value)}
                   rows={2}
-                  className='w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500'
+                  className={cn(
+                    'w-full',
+                    'px-3 py-2',
+                    'text-sm',
+                    'border border-gray-300',
+                    'rounded-md',
+                    'focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500',
+                  )}
                 />
               </div>
               <div>
-                <label htmlFor={`link-${project.id}`} className='mb-1 block text-sm font-medium'>
+                <label
+                  htmlFor={`link-${project.id}`}
+                  className={cn('block', 'mb-1', 'text-sm font-medium')}
+                >
                   Link
                 </label>
                 <input
@@ -112,7 +141,14 @@ const ProjectsSection = ({ projects, onChange }: ProjectsSectionProps) => {
                   value={project.link}
                   onChange={e => updateProject(project.id, 'link', e.target.value)}
                   placeholder='https://example.com'
-                  className='w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500'
+                  className={cn(
+                    'w-full',
+                    'px-3 py-2',
+                    'text-sm',
+                    'border border-gray-300',
+                    'rounded-md',
+                    'focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500',
+                  )}
                 />
               </div>
 

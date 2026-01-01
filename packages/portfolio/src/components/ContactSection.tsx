@@ -1,3 +1,5 @@
+import { cn } from '@angel-portfolio/shared'
+
 type SocialLinks = {
   behance?: string
   linkedin?: string
@@ -56,11 +58,13 @@ const InstagramIcon = () => (
 )
 
 export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectionProps) => (
-  <section id='connect' className='pt-10 px-10 desktop:px-20 bg-oathfire'>
-    <div className='max-w-[952px] mx-auto flex flex-col items-center gap-16'>
+  <section id='connect' className={cn('pt-10 px-10 desktop:px-20', 'bg-oathfire')}>
+    <div className={cn('flex flex-col items-center', 'max-w-[952px] mx-auto', 'gap-16')}>
       {/* Title and Icons */}
       <div className='flex flex-col items-center gap-8'>
-        <h2 className='text-[32px] font-light italic text-moon-paper text-center'>{headline}</h2>
+        <h2 className={cn('text-[32px] font-light italic text-moon-paper text-center')}>
+          {headline}
+        </h2>
         <div className='flex items-center gap-10'>
           {socialLinks.whatsapp && (
             <a
@@ -132,7 +136,14 @@ export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectio
       {/* CTA Button */}
       <a
         href={`mailto:${socialLinks.email}`}
-        className='bg-moon-paper border-2 border-moon-paper rounded-lg px-5 py-3 text-[18px] font-light text-oathfire text-center hover:bg-golden-sol hover:text-moon-paper hover:border-golden-sol transition-colors'
+        className={cn(
+          'px-5 py-3',
+          'text-[18px] font-light text-oathfire text-center',
+          'bg-moon-paper border-2 border-moon-paper',
+          'rounded-lg',
+          'transition-colors',
+          'hover:bg-golden-sol hover:text-moon-paper hover:border-golden-sol',
+        )}
       >
         {ctaText}
       </a>
