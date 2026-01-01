@@ -20,35 +20,61 @@ export const Sticky = ({ topOffset = 0, children, className, onStickyChange }: S
     onStickyChange?.(isSticky)
   }, [isSticky, onStickyChange])
 
-  // Track dimensions - only update when not sticky to get true layout position
+  // Track dimensions - update from container (always in flow) and content height
   useEffect(() => {
     const container = containerRef.current
     const content = contentRef.current
     if (!container || !content) return
 
-    const updateDimensions = () => {
-      if (!isSticky) {
-        const containerRect = container.getBoundingClientRect()
-        const contentRect = content.getBoundingClientRect()
-        setDimensions({
-          left: containerRect.left,
-          width: containerRect.width,
-          height: contentRect.height,
-        })
+    const measureDimensions = () => {
+      const containerRect = container.getBoundingClientRect()
+      const contentRect = content.getBoundingClientRect()
+      return {
+        // Use content's left for accurate fixed positioning
+        left: contentRect.left,
+        width: containerRect.width,
+        height: contentRect.height,
       }
     }
 
-    updateDimensions()
+    // Initial/scroll-triggered update only when not sticky
+    if (!isSticky) {
+      setDimensions(measureDimensions())
+    }
 
-    const resizeObserver = new ResizeObserver(updateDimensions)
+    // ResizeObserver - only when not sticky to prevent loops from sticky changes
+    const resizeObserver = new ResizeObserver(() => {
+      if (!isSticky) {
+        setDimensions(measureDimensions())
+      }
+    })
     resizeObserver.observe(container)
     resizeObserver.observe(content)
 
-    window.addEventListener('resize', updateDimensions)
+    // Window resize - temporarily remove all constraints to measure true layout
+    const handleWindowResize = () => {
+      // Save current inline styles
+      const containerStyle = container.style.cssText
+      const contentStyle = content.style.cssText
+
+      // Clear all inline styles to measure true layout position
+      container.style.cssText = ''
+      content.style.cssText = ''
+
+      // Force reflow to get accurate measurement
+      void container.offsetWidth
+
+      setDimensions(measureDimensions())
+
+      // Restore for visual consistency until React re-renders
+      container.style.cssText = containerStyle
+      content.style.cssText = contentStyle
+    }
+    window.addEventListener('resize', handleWindowResize)
 
     return () => {
       resizeObserver.disconnect()
-      window.removeEventListener('resize', updateDimensions)
+      window.removeEventListener('resize', handleWindowResize)
     }
   }, [isSticky])
 
