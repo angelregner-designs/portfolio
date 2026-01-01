@@ -1,5 +1,6 @@
 'use client'
 
+import { trackEvent } from '@/lib/analytics'
 import { cn } from '@angel-portfolio/shared'
 import { Dialog, DialogBackdrop, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
@@ -162,7 +163,10 @@ export const MobileNav = ({ open, onClose, nav, ctaText }: MobileNavProps) => {
             <div className='mt-auto p-6'>
               <button
                 type='button'
-                onClick={() => scrollToSection('connect')}
+                onClick={() => {
+                  trackEvent('contact_click', { location: 'sticky_nav' })
+                  scrollToSection('connect')
+                }}
                 className={cn(
                   'w-full px-6 py-4',
                   'text-[20px] font-light text-moon-paper',

@@ -1,6 +1,7 @@
 'use client'
 
 import { useScrollSpy } from '@/hooks/useScrollSpy'
+import { trackEvent } from '@/lib/analytics'
 import { cn } from '@angel-portfolio/shared'
 
 type StickyBottomNavProps = {
@@ -76,7 +77,10 @@ export const StickyBottomNav = ({ nav, ctaText }: StickyBottomNavProps) => {
       </nav>
       <button
         type='button'
-        onClick={() => scrollToSection('connect')}
+        onClick={() => {
+          trackEvent('contact_click', { location: 'sticky_nav' })
+          scrollToSection('connect')
+        }}
         className={cn(
           'px-5 py-3',
           'text-[18px] font-light text-moon-paper',

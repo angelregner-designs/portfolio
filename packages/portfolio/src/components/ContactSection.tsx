@@ -1,3 +1,6 @@
+'use client'
+
+import { trackEvent } from '@/lib/analytics'
 import { cn } from '@angel-portfolio/shared'
 
 type SocialLinks = {
@@ -76,6 +79,12 @@ export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectio
               rel='noopener noreferrer'
               className='text-golden-sol hover:text-moon-paper transition-colors'
               aria-label='WhatsApp'
+              onClick={() =>
+                trackEvent('social_click', {
+                  platform: 'whatsapp',
+                  url: socialLinks.whatsapp || '',
+                })
+              }
             >
               <WhatsAppIcon />
             </a>
@@ -87,6 +96,9 @@ export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectio
               rel='noopener noreferrer'
               className='text-golden-sol hover:text-moon-paper transition-colors'
               aria-label='Behance'
+              onClick={() =>
+                trackEvent('social_click', { platform: 'behance', url: socialLinks.behance || '' })
+              }
             >
               <BehanceIcon />
             </a>
@@ -98,6 +110,12 @@ export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectio
               rel='noopener noreferrer'
               className='text-golden-sol hover:text-moon-paper transition-colors'
               aria-label='Facebook'
+              onClick={() =>
+                trackEvent('social_click', {
+                  platform: 'facebook',
+                  url: socialLinks.facebook || '',
+                })
+              }
             >
               <FacebookIcon />
             </a>
@@ -107,6 +125,7 @@ export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectio
               href={socialLinks.email}
               className='text-golden-sol hover:text-moon-paper transition-colors'
               aria-label='Email'
+              onClick={() => trackEvent('email_click', {})}
             >
               <EmailIcon />
             </a>
@@ -118,6 +137,12 @@ export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectio
               rel='noopener noreferrer'
               className='text-golden-sol hover:text-moon-paper transition-colors'
               aria-label='LinkedIn'
+              onClick={() =>
+                trackEvent('social_click', {
+                  platform: 'linkedin',
+                  url: socialLinks.linkedin || '',
+                })
+              }
             >
               <LinkedInIcon />
             </a>
@@ -129,6 +154,12 @@ export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectio
               rel='noopener noreferrer'
               className='text-golden-sol hover:text-moon-paper transition-colors'
               aria-label='Instagram'
+              onClick={() =>
+                trackEvent('social_click', {
+                  platform: 'instagram',
+                  url: socialLinks.instagram || '',
+                })
+              }
             >
               <InstagramIcon />
             </a>
@@ -147,6 +178,7 @@ export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectio
           'transition-colors',
           'hover:bg-golden-sol hover:text-moon-paper hover:border-golden-sol',
         )}
+        onClick={() => trackEvent('contact_click', { location: 'footer' })}
       >
         {ctaText}
       </a>

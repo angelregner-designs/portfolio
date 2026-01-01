@@ -1,5 +1,6 @@
 'use client'
 
+import { trackEvent } from '@/lib/analytics'
 import type { Project } from '@/types/portfolio'
 import { cn } from '@angel-portfolio/shared'
 import { useState } from 'react'
@@ -101,6 +102,7 @@ type ProjectCardProps = {
 
 const ProjectCard = ({ project, onOpenModal }: ProjectCardProps) => {
   const handleCardClick = () => {
+    trackEvent('project_view', { project_id: project.id, project_title: project.title })
     onOpenModal(project)
   }
 
