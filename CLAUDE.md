@@ -90,7 +90,22 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
   - When there's a big chunk of 1 coherent set of functionality or compnent within a component or another function, extract it into a separate utility or hook to keep functions and components focused and readable.
 - Keep components small and focused
 - Use tailwind for styling. Use CSS variables and theming according to Figma design.
-- use classnames lib for conditional class handling
+- Use `cn` utility from `@angel-portfolio/shared` for conditional class handling
+- Tailwind class order: Layout → Sizing → Spacing → Typography → Colors → Effects → States
+  ```tsx
+  <button
+    className={cn(
+      'flex items-center justify-center',     // layout
+      'w-full h-12',                           // sizing
+      'px-4 gap-2',                            // spacing
+      'text-sm font-semibold',                 // typography
+      'text-white bg-blue-600',                // colors
+      'rounded-lg shadow-sm transition',       // effects
+      'hover:bg-blue-700 disabled:opacity-50', // states
+      isActive && 'ring-2 ring-blue-500',      // conditional
+    )}
+  />
+  ```
 - Use Figma MCP when applying design from figma. Always aim for pixel perfect replication of Figma design.
 - Always put the main component/function first, put anything else (functions, hooks, components, etc.) after if possible
 - Move SVG elements to their own components
