@@ -12,6 +12,7 @@
 # Required GitHub Secrets:
 #   WIF_PROVIDER_PROD:        Workload Identity Provider path (from terraform output)
 #   WIF_SERVICE_ACCOUNT_PROD: Service account email (from terraform output)
+#   GA_ID_PROD:               Google Analytics 4 Measurement ID (optional)
 # =============================================================================
 
 name: CD - Deploy to Production
@@ -91,6 +92,7 @@ jobs:
             --file ${{ matrix.service.dockerfile }} \
             --build-arg API_URL=${{ env.API_URL }} \
             --build-arg NEXT_PUBLIC_API_URL=${{ env.API_URL }} \
+            --build-arg NEXT_PUBLIC_GA_ID=${{ secrets.GA_ID_PROD }} \
             --tag "$IMAGE" \
             .
 
