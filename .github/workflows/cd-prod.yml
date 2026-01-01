@@ -82,6 +82,7 @@ jobs:
         run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
 
       # Build and push the Docker image (from repo root for shared package access)
+      # Note: Prod uses immutable tags, so we only push SHA tags (no :latest)
       - name: Build and push ${{ matrix.service.name }}
         run: |
           IMAGE="${{ env.REGISTRY }}/${{ matrix.service.name }}:${{ github.sha }}"
