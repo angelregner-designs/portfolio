@@ -12,7 +12,7 @@ type SortableItemProps = {
 }
 
 // Drag handle icon (6-dot grip)
-export const DragHandle = ({ className }: { className?: string }) => (
+const DragHandle = ({ className }: { className?: string }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     viewBox='0 0 24 24'
