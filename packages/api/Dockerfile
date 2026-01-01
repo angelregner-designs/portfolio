@@ -2,9 +2,14 @@ FROM node:22-alpine
 
 WORKDIR /app
 
+# Change ownership of workdir to node user (UID 1000, already exists in node:alpine)
+RUN chown -R node:node /app
+
 # Copy package files
-COPY package*.json ./
-COPY prisma ./prisma/
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node prisma ./prisma/
+
+USER node
 
 # Install dependencies
 RUN npm install
@@ -13,7 +18,7 @@ RUN npm install
 RUN npx prisma generate
 
 # Copy source (will be overridden by volume mount in dev)
-COPY . .
+COPY --chown=node:node . .
 
 EXPOSE 3001
 

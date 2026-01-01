@@ -50,7 +50,6 @@ services:
       - ./packages/portfolio:/app
       - ./packages/shared:/app/node_modules/@angel-portfolio/shared
       - /app/node_modules
-
     environment:
       API_URL: ${PORTFOLIO_API_URL}
     depends_on:
