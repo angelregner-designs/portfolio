@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test --update-snapshots",
+    "test:visual:ui": "playwright test --ui"
   },
   "optionalDependencies": {
     "@angel-portfolio/shared": "*"
@@ -37,7 +40,7 @@
     "@vitest/browser-playwright": "^4.0.16",
     "@vitest/coverage-v8": "^4.0.16",
     "knip": "^5.78.0",
-    "playwright": "^1.57.0",
+    "@playwright/test": "^1.57.0",
     "storybook": "^10.1.11",
     "typescript": "^5.7.2",
     "vite": "^7.3.0",
