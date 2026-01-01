@@ -11,7 +11,7 @@ export const WhyIDesignSection = ({ title, content }: WhyIDesignSectionProps) =>
 
   return (
     <section
-      className={cn('pt-5 md:pt-10 pb-[120px] md:pb-40 px-6 md:px-10 desktop:px-20', 'bg-oathfire')}
+      className={cn('pt-5 md:pt-0 pb-[120px] md:pb-40 px-6 md:px-10 desktop:px-20', 'bg-oathfire')}
     >
       <div className='max-w-[1112px] mx-auto'>
         <div

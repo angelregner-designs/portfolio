@@ -8,7 +8,7 @@ type TestimonialsSectionProps = {
 export const TestimonialsSection = ({ testimonials }: TestimonialsSectionProps) => (
   <section
     id='testimonials'
-    className={cn('pt-10 pb-[108px] md:pb-30 px-6 md:px-10 desktop:px-20', 'bg-oathfire')}
+    className={cn('pt-10 md:pt-0 pb-[108px] md:pb-30 px-6 md:px-10 desktop:px-20', 'bg-oathfire')}
   >
     <div className='max-w-[663px] mx-auto'>
       <div className='flex flex-col gap-20'>

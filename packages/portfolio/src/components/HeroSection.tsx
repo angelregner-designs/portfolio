@@ -99,7 +99,7 @@ export const HeroSection = ({ headline, subheadline, nav, ctaText }: HeroSection
           {isHeaderSticky && <div className='h-[60px] md:h-[72px]' />}
 
           {/* Text content */}
-          <div className='flex flex-col gap-6'>
+          <div className='flex flex-col gap-6 md:gap-5'>
             <h1 className={cn('text-[40px] font-normal italic leading-none text-moon-paper')}>
               {headline}
             </h1>
