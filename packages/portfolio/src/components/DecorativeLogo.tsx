@@ -14,6 +14,7 @@ import {
   EXPAND_EYELID_SCALE,
   EXPAND_FRAME_DURATION,
   EXPAND_PUPIL_DURATION,
+  EXPAND_SECOND_BLINK_DELAY,
   PUPIL_FOLLOW_MOUSE_DURATION_RANGE,
   PUPIL_LOOK_DISTANCE_MAX,
   PUPIL_LOOK_DURATION_RANGE,
@@ -183,10 +184,13 @@ export const DecorativeLogo = ({
       { duration: EXPAND_PUPIL_DURATION, delay: eyelidDelay, ease: 'easeInOut' as const },
     )
 
-    // trigger blink with gap, then re-enable other animations
+    // trigger blink with gap, then second blink, then re-enable other animations
     const blinkDelay = (shouldExpand ? EXPAND_BLINK_DELAY : COLLAPSE_BLINK_DELAY) * 1000
     const timeoutId = setTimeout(() => {
-      animateBlink({ gapDuration: EXPAND_BLINK_GAP }).then(() => setIsAnimatingExpansion(false))
+      animateBlink({ gapDuration: EXPAND_BLINK_GAP })
+        .then(() => new Promise(r => setTimeout(r, EXPAND_SECOND_BLINK_DELAY * 1000)))
+        .then(() => animateBlink())
+        .then(() => setIsAnimatingExpansion(false))
     }, blinkDelay)
 
     return () => clearTimeout(timeoutId)
