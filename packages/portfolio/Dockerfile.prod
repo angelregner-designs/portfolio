@@ -4,31 +4,32 @@
 # Multi-stage build using Next.js standalone output.
 # Final image ~120MB vs ~1GB for dev.
 #
-# Build: docker build -f Dockerfile.prod -t portfolio:prod --build-arg API_URL=https://api.dev.angelregner.com .
-# Run:   docker run -p 3000:3000 portfolio:prod
+# Build from repo root:
+#   docker build -f packages/portfolio/Dockerfile.prod -t portfolio:prod \
+#     --build-arg API_URL=https://api.dev.angelregner.com .
+# Run: docker run -p 3000:3000 portfolio:prod
 # =============================================================================
 
 # -----------------------------------------------------------------------------
 # Stage 1: Dependencies
 # -----------------------------------------------------------------------------
-# Install dependencies in a separate stage for better caching.
-# -----------------------------------------------------------------------------
 FROM node:22-alpine AS deps
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files for portfolio and shared
+COPY packages/portfolio/package*.json ./
+COPY packages/shared/package.json ./shared/
 
-# Install dependencies
+# Install portfolio dependencies
 RUN npm ci
+
+# Install shared package dependencies
+RUN cd shared && npm install --omit=dev
 
 
 # -----------------------------------------------------------------------------
 # Stage 2: Build
-# -----------------------------------------------------------------------------
-# Build the Next.js application with standalone output.
-# The standalone output includes only necessary files for production.
 # -----------------------------------------------------------------------------
 FROM node:22-alpine AS builder
 
@@ -36,23 +37,24 @@ WORKDIR /app
 
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+
+# Copy shared package to node_modules so imports resolve
+COPY packages/shared ./node_modules/@angel-portfolio/shared
+COPY --from=deps /app/shared/node_modules ./node_modules/@angel-portfolio/shared/node_modules
+
+# Copy portfolio source
+COPY packages/portfolio .
 
 # Build argument for API URL - needed at build time for server components
-# This gets baked into the build, so it must be correct at build time
 ARG API_URL
 ENV API_URL=$API_URL
 
-# Build Next.js in standalone mode (configured in next.config.ts)
-# This creates a minimal .next/standalone directory
+# Build Next.js in standalone mode
 RUN npm run build
 
 
 # -----------------------------------------------------------------------------
 # Stage 3: Production
-# -----------------------------------------------------------------------------
-# Minimal image with only the standalone build output.
-# Next.js standalone includes a minimal Node.js server.
 # -----------------------------------------------------------------------------
 FROM node:22-alpine AS runner
 
@@ -67,24 +69,17 @@ ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# API URL for server-side data fetching (passed as build arg, needed at runtime)
+# API URL for runtime
 ARG API_URL
 ENV API_URL=$API_URL
 
 # Copy standalone build output
-# The standalone folder contains server.js and required node_modules
 COPY --from=builder /app/.next/standalone ./
-
-# Copy static files (not included in standalone by default)
 COPY --from=builder /app/.next/static ./.next/static
-
-# Copy public folder (images, fonts, etc.)
 COPY --from=builder /app/public ./public
 
-# Switch to non-root user
 USER nextjs
 
 EXPOSE 3000
 
-# Start Next.js standalone server
 CMD ["node", "server.js"]

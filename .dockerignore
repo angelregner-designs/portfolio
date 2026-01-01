@@ -1,0 +1,51 @@
+# Git
+.git
+.gitignore
+
+# Node modules (installed fresh in Docker)
+node_modules
+**/node_modules
+
+# Build outputs
+.next
+**/.next
+dist
+**/dist
+
+# Environment files
+.env
+.env.*
+**/.env
+**/.env.*
+
+# Logs
+*.log
+**/*.log
+
+# IDE
+.idea
+.vscode
+*.swp
+
+# Test artifacts
+coverage
+**/coverage
+.playwright
+**/.playwright
+
+# Storybook
+storybook-static
+
+# Terraform
+terraform
+.terraform
+
+# Docs and misc
+docs
+tmp
+*.md
+!packages/*/README.md
+
+# OS files
+.DS_Store
+Thumbs.db
