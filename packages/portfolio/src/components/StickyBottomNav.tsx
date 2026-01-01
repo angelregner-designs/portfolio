@@ -45,7 +45,7 @@ export const StickyBottomNav = ({ nav, ctaText }: StickyBottomNavProps) => {
     <div
       className={cn(
         'fixed bottom-6 left-1/2 transform -translate-x-1/2',
-        'flex items-center',
+        'hidden desktop:flex items-center',
         'gap-8 p-3',
         'bg-moon-paper border-2 border-golden-sol',
         'rounded-2xl shadow-md',
