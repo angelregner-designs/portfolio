@@ -35,6 +35,9 @@ COPY . .
 # Build TypeScript to JavaScript
 RUN npm run build
 
+# Compile seed script separately (not in src/, so needs separate compilation)
+RUN npx tsc prisma/seed.ts --outDir dist/prisma --esModuleInterop --module ESNext --moduleResolution bundler --skipLibCheck
+
 
 # -----------------------------------------------------------------------------
 # Stage 2: Production
@@ -60,7 +63,7 @@ COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
-# Copy compiled JavaScript from builder
+# Copy compiled JavaScript from builder (includes seed script)
 COPY --from=builder /app/dist ./dist
 
 # Switch to non-root user

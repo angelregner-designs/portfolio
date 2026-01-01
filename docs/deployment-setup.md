@@ -113,7 +113,28 @@ Monitor deployment:
 
 First deploy may take 5-10 minutes to build all images.
 
-## Step 8: Verify Deployment
+## Step 8: Seed the Database
+
+After the first deployment, seed the database with initial users and portfolio content:
+
+```bash
+# Run the seed job (one-time setup)
+gcloud run jobs execute seed-dev --region=us-central1 --wait
+
+# Check logs to verify seeding
+gcloud logging read "resource.type=cloud_run_job AND resource.labels.job_name=seed-dev" --limit=10
+```
+
+This creates:
+- Default users: `dev` and `admin` (password: `DEFAULT_PASSWORD` env var or `helloluis`)
+- Initial portfolio content
+
+To re-run seeding (e.g., after DB reset):
+```bash
+gcloud run jobs execute seed-dev --region=us-central1 --wait
+```
+
+## Step 9: Verify Deployment
 
 After workflow completes:
 
