@@ -67,6 +67,10 @@ ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
+# API URL for server-side data fetching (passed as build arg, needed at runtime)
+ARG API_URL
+ENV API_URL=$API_URL
+
 # Copy standalone build output
 # The standalone folder contains server.js and required node_modules
 COPY --from=builder /app/.next/standalone ./
