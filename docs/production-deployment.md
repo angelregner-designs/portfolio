@@ -77,10 +77,11 @@ terraform output -raw github_actions_sa_email
 
 Add to GitHub (Repository → Settings → Secrets and variables → Actions):
 
-| Secret | Value |
-|--------|-------|
-| `WIF_PROVIDER_PROD` | Output from `workload_identity_provider` |
-| `WIF_SERVICE_ACCOUNT_PROD` | Output from `github_actions_sa_email` |
+| Secret                     | Value                                      |
+|----------------------------|--------------------------------------------|
+| `WIF_PROVIDER_PROD`        | Output from `workload_identity_provider`   |
+| `WIF_SERVICE_ACCOUNT_PROD` | Output from `github_actions_sa_email`      |
+| `GA_ID_PROD`               | Google Analytics 4 Measurement ID (optional) |
 
 ## Step 5: Configure GitHub Environment
 
@@ -111,13 +112,21 @@ Using Cloudflare provides CDN caching, DDoS protection, and handles the root dom
 
 3. **Configure DNS records in Cloudflare:**
 
-   | Type | Name | Content | Proxy |
-   |------|------|---------|-------|
-   | CNAME | `@` | `ghs.googlehosted.com` | Proxied (orange) |
-   | CNAME | `api` | `ghs.googlehosted.com` | Proxied (orange) |
-   | CNAME | `admin` | `ghs.googlehosted.com` | Proxied (orange) |
+   **Important:** Set records to **DNS only (gray cloud)** initially for SSL certificate provisioning.
 
-   Note: Cloudflare's CNAME flattening handles the root domain automatically.
+   For root domain, use A records (get IPs from `terraform output portfolio_domain_records`):
+
+   | Type  | Name    | Content             | Proxy    |
+   |-------|---------|---------------------|----------|
+   | A     | `@`     | `216.239.32.21`     | DNS only |
+   | A     | `@`     | `216.239.34.21`     | DNS only |
+   | A     | `@`     | `216.239.36.21`     | DNS only |
+   | A     | `@`     | `216.239.38.21`     | DNS only |
+   | CNAME | `api`   | `ghs.googlehosted.com` | DNS only |
+   | CNAME | `admin` | `ghs.googlehosted.com` | DNS only |
+   | CNAME | `www`   | `ghs.googlehosted.com` | DNS only |
+
+   After SSL certificates are provisioned (~15-30 min), you can optionally switch to Proxied (orange cloud) for CDN benefits.
 
 4. **Get credentials for cache purge:**
    - **Zone ID:** Dashboard → domain → Overview → right sidebar
@@ -211,8 +220,17 @@ gcloud run domain-mappings list --region us-central1
 ### Domain mapping stuck on "pending"
 
 - Verify domain in Google Search Console
-- Check DNS records are correct
+- Ensure DNS records are set to **DNS only** (gray cloud) in Cloudflare - Google needs direct access for SSL verification
+- Check DNS records resolve correctly: `curl -s "https://dns.google/resolve?name=yourdomain.com&type=A"`
 - Wait for SSL provisioning (up to 30 min)
+- After SSL is provisioned, you can switch to Proxied
+
+### Old domain registrar interfering
+
+If you migrated DNS to Cloudflare from another registrar (e.g., Porkbun):
+- Check for **URL forwarding** rules at old registrar and delete them
+- Porkbun's "pixie proxy" or redirect service can intercept traffic even after DNS migration
+- Flush local DNS cache: `sudo resolvectl flush-caches` (Linux) or `ipconfig /flushdns` (Windows)
 
 ### 502/503 errors after deployment
 

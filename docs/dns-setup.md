@@ -1,150 +1,129 @@
 # DNS Setup Guide
 
-Configure DNS records in Porkbun for Cloud Run custom domains.
+Configure DNS records in Cloudflare for Cloud Run custom domains.
 
 ## Overview
 
 Cloud Run custom domain mapping requires:
 1. Domain verification in Google Search Console
-2. CNAME records pointing to Cloud Run's load balancer
+2. DNS records pointing to Cloud Run's load balancer
+3. SSL certificate provisioning (automatic)
 
-## Step 1: Verify Domain (if not done)
+## Prerequisites
+
+- Domain registered (any registrar)
+- Cloudflare account (free tier works)
+- Domain nameservers pointing to Cloudflare
+
+## Step 1: Add Domain to Cloudflare
+
+1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com)
+2. Click "Add Site" → enter your domain
+3. Select Free plan
+4. Cloudflare will show nameserver addresses (e.g., `arnold.ns.cloudflare.com`)
+5. Update nameservers at your domain registrar
+6. Wait for propagation (up to 24h, usually faster)
+
+## Step 2: Verify Domain in Google Search Console
 
 1. Go to [Google Search Console](https://search.google.com/search-console)
-2. Add property → Domain → `angelregner.com`
-3. Add TXT record to Porkbun:
+2. Add property → Domain → `yourdomain.com`
+3. Add TXT record in Cloudflare:
 
-| Type | Host | Value | TTL |
-|------|------|-------|-----|
-| TXT | @ | (provided by Google) | 300 |
+| Type | Name | Content                     | Proxy    |
+|------|------|-----------------------------|----------|
+| TXT  | `@`  | (provided by Google)        | DNS only |
 
 4. Click Verify in Google Search Console
-5. Wait for verification (usually minutes, up to 24 hours)
 
-## Step 2: Get DNS Records from Terraform
+## Step 3: Get DNS Records from Terraform
 
-After `terraform apply`, the required DNS records are in the outputs:
+After `terraform apply`, check the outputs for required records:
 
 ```bash
-cd terraform/environments/dev
-terraform output api_domain_records
 terraform output portfolio_domain_records
+terraform output api_domain_records
 terraform output admin_domain_records
 ```
 
-The records will look like:
-```
-[
-  {
-    "name" = ""
-    "rrdata" = "ghs.googlehosted.com."
-    "type" = "CNAME"
-  }
-]
-```
+## Step 4: Configure DNS Records in Cloudflare
 
-## Step 3: Add CNAME Records in Porkbun
+**Important:** Set records to **DNS only (gray cloud)** initially for SSL provisioning.
 
-1. Log in to [Porkbun](https://porkbun.com)
-2. Go to Domain Management → angelregner.com → DNS Records
-3. Add these CNAME records:
+### Root Domain (portfolio)
 
-### Dev Environment
+For root domain, use A records from terraform output:
 
-| Type | Host | Answer | TTL |
-|------|------|--------|-----|
-| CNAME | dev | ghs.googlehosted.com | 300 |
-| CNAME | api.dev | ghs.googlehosted.com | 300 |
-| CNAME | admin.dev | ghs.googlehosted.com | 300 |
+| Type | Name | Content         | Proxy    |
+|------|------|-----------------|----------|
+| A    | `@`  | `216.239.32.21` | DNS only |
+| A    | `@`  | `216.239.34.21` | DNS only |
+| A    | `@`  | `216.239.36.21` | DNS only |
+| A    | `@`  | `216.239.38.21` | DNS only |
 
-**Important:** The "Answer" must include the trailing dot: `ghs.googlehosted.com.`
+### Subdomains (api, admin, dev)
 
-## Step 4: Wait for DNS Propagation
+Use CNAME records for subdomains:
 
-DNS changes typically propagate in 5-30 minutes.
-
-Check propagation:
-```bash
-# Check if CNAME is set
-dig dev.angelregner.com CNAME
-
-# Expected output includes:
-# dev.angelregner.com.  300  IN  CNAME  ghs.googlehosted.com.
-```
+| Type  | Name        | Content               | Proxy    |
+|-------|-------------|-----------------------|----------|
+| CNAME | `api`       | `ghs.googlehosted.com` | DNS only |
+| CNAME | `admin`     | `ghs.googlehosted.com` | DNS only |
+| CNAME | `www`       | `ghs.googlehosted.com` | DNS only |
+| CNAME | `dev`       | `ghs.googlehosted.com` | DNS only |
+| CNAME | `api.dev`   | `ghs.googlehosted.com` | DNS only |
+| CNAME | `admin.dev` | `ghs.googlehosted.com` | DNS only |
 
 ## Step 5: Wait for SSL Certificates
 
-Cloud Run automatically provisions SSL certificates via Google-managed certificates.
+Cloud Run automatically provisions SSL certificates after DNS is configured.
 
-Check certificate status:
+Check status:
 ```bash
-gcloud run domain-mappings describe \
-  --domain dev.angelregner.com \
-  --region us-central1 \
-  --format 'yaml(status)'
+gcloud beta run domain-mappings list --region us-central1
 ```
 
-Certificate provisioning takes 15-30 minutes after DNS propagates.
+- `✔` = SSL certificate ready
+- `…` = Certificate provisioning in progress (wait 15-30 min)
+
+## Step 6: Enable Cloudflare Proxy (Optional)
+
+After SSL certificates show `✔`, you can switch records to **Proxied (orange cloud)** for:
+- CDN caching
+- DDoS protection
+- Analytics
+
+**Note:** Dev subdomain CNAMEs (`api.dev`, `admin.dev`) should stay DNS only - Cloudflare's free SSL doesn't cover multi-level subdomains.
 
 ## Troubleshooting
 
 ### Certificate stuck in "pending"
 
-Common causes:
-1. **DNS not propagated** - Wait longer or check with `dig`
-2. **Wrong CNAME value** - Must be exactly `ghs.googlehosted.com.`
-3. **CAA record blocking** - Check for CAA records
+- Ensure DNS records are **DNS only** (gray cloud), not Proxied
+- Verify records resolve correctly:
+  ```bash
+  curl -s "https://dns.google/resolve?name=yourdomain.com&type=A"
+  ```
+- Wait 15-30 minutes after DNS is correct
 
-Check CAA records:
-```bash
-dig angelregner.com CAA
-```
+### Getting redirects to old domain registrar
 
-If CAA records exist, add:
-```
-0 issue "pki.goog"
-```
-
-### Domain mapping shows "CertificatePending"
-
-This is normal for the first 15-30 minutes. If it persists:
-
-1. Delete and recreate the mapping:
-```bash
-gcloud run domain-mappings delete \
-  --domain dev.angelregner.com \
-  --region us-central1
-
-# Then re-run terraform apply
-terraform apply
-```
-
-2. Verify domain ownership is still valid in Google Search Console
+If you migrated from another registrar (e.g., Porkbun):
+- Check for **URL forwarding** rules at old registrar and delete them
+- Flush local DNS cache:
+  - Linux: `sudo resolvectl flush-caches`
+  - Mac: `sudo dscacheutil -flushcache`
+  - Windows: `ipconfig /flushdns`
 
 ### "Domain not verified" error
 
 1. Ensure domain is verified in Google Search Console
-2. The verification must be for the exact domain (`angelregner.com`)
-3. Verification is tied to GCP project - ensure you're using the right project
+2. Verification must be for the exact domain (not subdomain)
+3. Verification is tied to GCP project
 
-### HTTPS works but HTTP doesn't redirect
+### Testing with DNS cache bypass
 
-Cloud Run automatically redirects HTTP to HTTPS. If it doesn't:
-- Clear browser cache
-- Try incognito mode
-- Wait for DNS cache to expire
-
-## Production Domains (Future)
-
-When setting up production, add these records:
-
-| Type | Host | Answer | TTL |
-|------|------|--------|-----|
-| CNAME | @ or root | (use A record instead) | 300 |
-| CNAME | api | ghs.googlehosted.com | 300 |
-| CNAME | admin | ghs.googlehosted.com | 300 |
-
-**Note:** Root/apex domains (@) cannot use CNAME. For production, you may need:
-- A load balancer with a static IP, or
-- Porkbun's ALIAS/ANAME record (if supported), or
-- Use `www.angelregner.com` with a redirect from the apex
+Test bypassing local DNS cache:
+```bash
+curl -sI --resolve yourdomain.com:443:216.239.32.21 https://yourdomain.com
+```

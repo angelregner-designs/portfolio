@@ -37,7 +37,7 @@ mongodb+srv://USER:PASSWORD@cluster.mongodb.net/portfolio?retryWrites=true&w=maj
 
 1. Go to [Google Search Console](https://search.google.com/search-console)
 2. Add property → Domain → `angelregner.com`
-3. Add TXT record to Porkbun (provided by Google)
+3. Add TXT record to your DNS provider (Cloudflare) with the value provided by Google
 4. Wait for verification (can take up to 24 hours)
 
 ## Step 4: Apply Terraform
