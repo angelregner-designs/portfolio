@@ -51,9 +51,9 @@ export default defineConfig({
   ],
 
   expect: {
+    timeout: 15000, // Allow more time for animations to settle
     toHaveScreenshot: {
       maxDiffPixelRatio: 0.01, // 1% tolerance for visual differences
-      timeout: 15000, // Allow more time for animations to settle
       animations: 'disabled', // Disable CSS animations for stable screenshots
     },
   },
