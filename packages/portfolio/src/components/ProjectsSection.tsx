@@ -36,7 +36,7 @@ export const ProjectsSection = ({ projects }: ProjectsSectionProps) => {
   return (
     <section
       id='projects'
-      className={cn('pt-10 pb-40 px-10 desktop:px-20', 'bg-oathfire')}
+      className={cn('pt-10 pb-[108px] md:pb-40 px-6 md:px-10 desktop:px-20', 'bg-oathfire')}
       style={
         {
           '--next-section-margin-top': `${NEXT_SECTION_MARGIN_TOP}px`,
@@ -44,7 +44,7 @@ export const ProjectsSection = ({ projects }: ProjectsSectionProps) => {
       }
     >
       <div className='max-w-[1280px] mx-auto'>
-        <div className={cn('flex flex-col', 'gap-12 desktop:gap-14')}>
+        <div className={cn('flex flex-col', 'gap-6 md:gap-12 desktop:gap-14')}>
           {projects
             // group projects into rows of 2
             .reduce((acc, project, index) => {
@@ -61,7 +61,7 @@ export const ProjectsSection = ({ projects }: ProjectsSectionProps) => {
                 // tablet: single column (flex-col), desktop: 2-column row (flex-row)
                 <div
                   key={row.map(p => p.id).join('-')}
-                  className={cn('flex flex-col desktop:flex-row', 'gap-12 desktop:gap-0')}
+                  className={cn('flex flex-col desktop:flex-row', 'gap-6 md:gap-12 desktop:gap-0')}
                 >
                   {row.map((project, projectIndex) => {
                     const isBig =
@@ -124,7 +124,7 @@ const ProjectCard = ({ project, onOpenModal }: ProjectCardProps) => {
       >
         {/* Image area - 420px height */}
         {project.thumbnail && (
-          <div className='h-[420px] overflow-hidden'>
+          <div className='h-[272px] md:h-[420px] overflow-hidden'>
             <img
               src={project.thumbnail}
               alt={project.title}
@@ -146,7 +146,9 @@ const ProjectCard = ({ project, onOpenModal }: ProjectCardProps) => {
             'bg-moon-paper/10',
           )}
         >
-          <p className='text-[18px] not-italic text-moon-paper flex-1'>{project.title}</p>
+          <p className='text-[16px] md:text-[18px] not-italic text-moon-paper flex-1'>
+            {project.title}
+          </p>
           {project.link && (
             <a
               href={project.link}

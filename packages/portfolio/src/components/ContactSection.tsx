@@ -58,14 +58,17 @@ const InstagramIcon = () => (
 )
 
 export const ContactSection = ({ headline, ctaText, socialLinks }: ContactSectionProps) => (
-  <section id='connect' className={cn('pt-10 px-10 desktop:px-20', 'bg-oathfire')}>
+  <section
+    id='connect'
+    className={cn('pt-10 pb-[120px] md:pb-0 px-6 md:px-10 desktop:px-20', 'bg-oathfire')}
+  >
     <div className={cn('flex flex-col items-center', 'max-w-[952px] mx-auto', 'gap-16')}>
       {/* Title and Icons */}
       <div className='flex flex-col items-center gap-8'>
         <h2 className={cn('text-[32px] font-light italic text-moon-paper text-center')}>
           {headline}
         </h2>
-        <div className='flex items-center gap-10'>
+        <div className='flex flex-wrap items-center justify-center gap-6 md:gap-10'>
           {socialLinks.whatsapp && (
             <a
               href={socialLinks.whatsapp}

@@ -10,20 +10,26 @@ export const WhyIDesignSection = ({ title, content }: WhyIDesignSectionProps) =>
   const paragraphs = content.split('\n\n').filter(p => p.trim())
 
   return (
-    <section className={cn('pt-10 pb-40 px-10 desktop:px-20', 'bg-oathfire')}>
+    <section
+      className={cn('pt-5 md:pt-10 pb-[120px] md:pb-40 px-6 md:px-10 desktop:px-20', 'bg-oathfire')}
+    >
       <div className='max-w-[1112px] mx-auto'>
         <div
           className={cn(
             'flex flex-col',
-            'gap-10 p-10 desktop:p-20',
+            'gap-6 md:gap-10 p-6 md:p-10 desktop:p-20',
             'bg-golden-sol',
             'rounded-[12px]',
           )}
         >
-          <h2 className={cn('text-[32px] desktop:text-[40px] font-light italic text-moon-paper')}>
+          <h2
+            className={cn(
+              'text-[28px] md:text-[32px] desktop:text-[40px] font-light italic text-moon-paper',
+            )}
+          >
             {title}
           </h2>
-          <div className={cn('text-[20px] italic text-moon-paper leading-normal')}>
+          <div className={cn('text-[16px] md:text-[20px] italic text-moon-paper leading-normal')}>
             {paragraphs.map((paragraph, index) => (
               <p
                 key={paragraph.slice(0, 50)}

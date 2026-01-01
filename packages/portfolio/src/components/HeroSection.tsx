@@ -70,7 +70,11 @@ export const HeroSection = ({ headline, subheadline, nav, ctaText }: HeroSection
       <section
         ref={sectionRef}
         id='hero'
-        className={cn('relative z-20', 'pt-16 pb-10 px-10 desktop:px-20', 'bg-oathfire')}
+        className={cn(
+          'relative z-20',
+          'pt-6 md:pt-16 pb-10 px-6 md:px-10 desktop:px-20',
+          'bg-oathfire',
+        )}
       >
         {/* Tablet/Mobile Layout (below desktop) */}
         <div className='desktop:hidden max-w-[1280px] mx-auto flex flex-col gap-[80px]'>
@@ -84,15 +88,18 @@ export const HeroSection = ({ headline, subheadline, nav, ctaText }: HeroSection
             )}
             style={isHeaderSticky ? { boxShadow: '0 4px 12px 0 var(--color-oathfire)' } : undefined}
           >
-            <DecorativeLogo className='w-[118px] h-[72px]' isExpanded={isTabletExpanded} />
-            <HamburgerIcon onClick={() => setIsNavOpen(true)} />
+            <DecorativeLogo
+              className='w-[99px] md:w-[118px] h-[60px] md:h-[72px]'
+              isExpanded={isTabletExpanded}
+            />
+            <HamburgerIcon onClick={() => setIsNavOpen(true)} className='-mr-2 md:mr-0' />
           </div>
 
           {/* Spacer when header becomes fixed */}
-          {isHeaderSticky && <div className='h-[72px]' />}
+          {isHeaderSticky && <div className='h-[60px] md:h-[72px]' />}
 
           {/* Text content */}
-          <div className='flex flex-col gap-[20px]'>
+          <div className='flex flex-col gap-6'>
             <h1 className={cn('text-[40px] font-normal italic leading-none text-moon-paper')}>
               {headline}
             </h1>
