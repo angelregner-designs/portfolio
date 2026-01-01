@@ -1,7 +1,7 @@
 'use client'
 
 import type { Project } from '@/types/portfolio'
-import classNames from 'classnames'
+import { cn } from '@angel-portfolio/shared'
 import { useState } from 'react'
 import { NEXT_SECTION_MARGIN_TOP } from './HeroSection.const'
 import { ProjectModal } from './ProjectModal'
@@ -71,7 +71,7 @@ export const ProjectsSection = ({ projects }: ProjectsSectionProps) => {
                     return (
                       <div
                         key={project.id}
-                        className={classNames(
+                        className={cn(
                           // tablet: full width, desktop: original sizing
                           'w-full',
                           isBig

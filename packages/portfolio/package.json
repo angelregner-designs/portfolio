@@ -9,15 +9,19 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
+  "optionalDependencies": {
+    "@angel-portfolio/shared": "*"
+  },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
     "@tailwindcss/postcss": "^4.1.18",
-    "classnames": "^2.5.1",
+    "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
     "motion": "^12.23.26",
     "next": "^15.3.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "tailwind-merge": "^2.6.0",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {

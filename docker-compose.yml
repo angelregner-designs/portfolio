@@ -48,6 +48,7 @@ services:
       - "3000:3000"
     volumes:
       - ./packages/portfolio:/app
+      - ./packages/shared:/app/node_modules/@angel-portfolio/shared
       - /app/node_modules
 
     environment:
@@ -63,6 +64,7 @@ services:
       - "6006:6006"
     volumes:
       - ./packages/portfolio:/app
+      - ./packages/shared:/app/node_modules/@angel-portfolio/shared
       - /app/node_modules
     command: npm run storybook -- --host 0.0.0.0
 
@@ -74,6 +76,7 @@ services:
       - "3002:3002"
     volumes:
       - ./packages/admin:/app
+      - ./packages/shared:/app/node_modules/@angel-portfolio/shared
       - /app/node_modules
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}

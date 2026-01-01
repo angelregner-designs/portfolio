@@ -1,7 +1,7 @@
 'use client'
 
 import { useScrollSpy } from '@/hooks/useScrollSpy'
-import classNames from 'classnames'
+import { cn } from '@angel-portfolio/shared'
 
 type StickyBottomNavProps = {
   nav: {
@@ -36,7 +36,7 @@ export const StickyBottomNav = ({ nav, ctaText }: StickyBottomNavProps) => {
   }
 
   const navLinkClasses = (section: NavSection) =>
-    classNames('px-5 py-2 text-[18px] italic text-golden-sol rounded-lg transition-all', {
+    cn('px-5 py-2 text-[18px] italic text-golden-sol rounded-lg transition-all', {
       'bg-golden-sol/20 shadow-inset': activeSection === section,
       'hover:bg-golden-sol/20 hover:shadow-inset': activeSection !== section,
     })

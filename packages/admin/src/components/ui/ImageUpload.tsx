@@ -1,6 +1,6 @@
 'use client'
 
-import classNames from 'classnames'
+import { cn } from '@angel-portfolio/shared'
 import { useRef, useState } from 'react'
 
 type ImageUploadProps = {
@@ -69,7 +69,7 @@ const ImageUpload = ({
 
       {/* Upload zone */}
       <div
-        className={classNames(
+        className={cn(
           'rounded-md border-2 border-dashed p-4 transition-colors',
           dragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-300',
           disabled && 'cursor-not-allowed opacity-50',
