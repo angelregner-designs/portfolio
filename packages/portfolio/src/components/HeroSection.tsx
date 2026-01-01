@@ -29,9 +29,9 @@ export const HeroSection = ({ headline, subheadline }: HeroSectionProps) => {
         style={{ boxShadow: '0 4px 12px 0 var(--color-oathfire)' }}
       />
 
-      <section id='hero' className='pt-16 pb-10 px-20 bg-oathfire relative z-20'>
+      <section id='hero' className='pt-16 pb-10 px-10 desktop:px-20 bg-oathfire relative z-20'>
         <div className='max-w-[1280px] mx-auto grid grid-cols-[1fr_auto] gap-y-5'>
-          <h1 className='text-[48px] font-normal italic leading-none text-moon-paper max-w-[612px]'>
+          <h1 className='text-[40px] desktop:text-[48px] font-normal italic leading-none text-moon-paper max-w-full desktop:max-w-[612px]'>
             {headline}
           </h1>
 
@@ -42,7 +42,7 @@ export const HeroSection = ({ headline, subheadline }: HeroSectionProps) => {
           </div>
 
           <Sticky topOffset={40} onStickyChange={handleSubheadlineStickyChange}>
-            <p className='text-[24px] font-light italic text-golden-sol max-w-[663px]'>
+            <p className='text-[24px] font-light italic text-golden-sol max-w-full desktop:max-w-[663px]'>
               {subheadline}
             </p>
           </Sticky>

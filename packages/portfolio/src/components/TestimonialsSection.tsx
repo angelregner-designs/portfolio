@@ -5,8 +5,8 @@ type TestimonialsSectionProps = {
 }
 
 export const TestimonialsSection = ({ testimonials }: TestimonialsSectionProps) => (
-  <section id='testimonials' className='pt-10 pb-30 px-20 bg-oathfire'>
-    <div className='max-w-[663px] mx-auto ml-auto mr-[80px] lg:mx-auto'>
+  <section id='testimonials' className='pt-10 pb-30 px-10 desktop:px-20 bg-oathfire'>
+    <div className='max-w-[663px] mx-auto'>
       <div className='flex flex-col gap-20'>
         {testimonials.map(testimonial => (
           <div key={testimonial.id} className='flex flex-col gap-4 text-center'>

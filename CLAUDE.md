@@ -89,7 +89,7 @@ docker compose down && docker volume rm angel-portfolio_mongodb_data
 - Apply SRP to components (single responsibility principle)
   - When there's a big chunk of 1 coherent set of functionality or compnent within a component or another function, extract it into a separate utility or hook to keep functions and components focused and readable.
 - Keep components small and focused
-- Use tailwind for styling
+- Use tailwind for styling. Use CSS variables and theming according to Figma design.
 - use classnames lib for conditional class handling
 - Use Figma MCP when applying design from figma. Always aim for pixel perfect replication of Figma design.
 - Always put the main component/function first, put anything else (functions, hooks, components, etc.) after if possible

@@ -36,7 +36,7 @@ export const ProjectsSection = ({ projects }: ProjectsSectionProps) => {
   return (
     <section
       id='projects'
-      className={'pb-40 px-20 bg-oathfire pt-10'}
+      className={'pb-40 px-10 desktop:px-20 bg-oathfire pt-10'}
       style={
         {
           '--next-section-margin-top': `${NEXT_SECTION_MARGIN_TOP}px`,
@@ -44,7 +44,7 @@ export const ProjectsSection = ({ projects }: ProjectsSectionProps) => {
       }
     >
       <div className='max-w-[1280px] mx-auto'>
-        <div className='flex flex-col gap-14'>
+        <div className='flex flex-col gap-12 desktop:gap-14'>
           {projects
             // group projects into rows of 2
             .reduce((acc, project, index) => {
@@ -58,7 +58,11 @@ export const ProjectsSection = ({ projects }: ProjectsSectionProps) => {
               const isOddRow = rowIndex % 2 === 1
 
               return (
-                <div key={row.map(p => p.id).join('-')} className='flex gap-0'>
+                // tablet: single column (flex-col), desktop: 2-column row (flex-row)
+                <div
+                  key={row.map(p => p.id).join('-')}
+                  className='flex flex-col gap-12 desktop:flex-row desktop:gap-0'
+                >
                   {row.map((project, projectIndex) => {
                     const isBig =
                       (!isOddRow && projectIndex === 0) || (isOddRow && projectIndex === 1)
@@ -68,8 +72,16 @@ export const ProjectsSection = ({ projects }: ProjectsSectionProps) => {
                       <div
                         key={project.id}
                         className={classNames(
-                          isBig ? 'basis-639/1000' : isLeft ? 'pr-14' : 'pl-14',
-                          isBig ? 'flex-shrink-0 flex-grow-0' : 'flex-shrink-1 flex-grow-0',
+                          // tablet: full width, desktop: original sizing
+                          'w-full',
+                          isBig
+                            ? 'desktop:basis-639/1000'
+                            : isLeft
+                              ? 'desktop:pr-14'
+                              : 'desktop:pl-14',
+                          isBig
+                            ? 'desktop:flex-shrink-0 desktop:flex-grow-0'
+                            : 'desktop:flex-shrink-1 desktop:flex-grow-0',
                         )}
                       >
                         <ProjectCard project={project} onOpenModal={openModal} />

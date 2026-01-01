@@ -8,10 +8,12 @@ export const AboutSection = ({ title, content }: AboutSectionProps) => {
   const paragraphs = content.split('\n\n').filter(p => p.trim())
 
   return (
-    <section id='about' className='pt-10 pb-20 px-20 bg-oathfire'>
+    <section id='about' className='pt-10 pb-20 px-10 desktop:px-20 bg-oathfire'>
       <div className='max-w-[1112px] mx-auto'>
-        <div className='bg-earthward rounded-[12px] p-20 flex flex-col gap-10'>
-          <h2 className='text-[40px] font-light italic text-moon-paper'>{title}</h2>
+        <div className='bg-earthward rounded-[12px] p-10 desktop:p-20 flex flex-col gap-10'>
+          <h2 className='text-[32px] desktop:text-[40px] font-light italic text-moon-paper'>
+            {title}
+          </h2>
           <div className='text-[20px] italic text-moon-paper leading-normal'>
             {paragraphs.map((paragraph, index) => (
               <p

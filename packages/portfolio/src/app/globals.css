@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
 @theme {
+  /* Custom Breakpoints */
+  /* tablet: md (768px) - default Tailwind */
+  /* desktop: 1440px+ - custom for this design */
+  --breakpoint-desktop: 1440px;
   /* Brand Colors - Portfolio Primary Palette */
   --color-oathfire: #770b1b;
   --color-moon-paper: #f1ede4;
