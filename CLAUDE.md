@@ -9,6 +9,7 @@ It has 3 Sites
 - Portfolio (angelregner.com)
   - NextJS client
   - served via cloud run with CDN front
+  - intended for global audience
 
 - Admin page (admin.angelregner.com)
   - NextJS client

@@ -103,6 +103,20 @@ variable "jwt_secret" {
   sensitive   = true
 }
 
+variable "cloudflare_zone_id" {
+  description = "Cloudflare zone ID for CDN cache purge"
+  type        = string
+  sensitive   = true
+  default     = "" # Optional - cache purge skipped if not set
+}
+
+variable "cloudflare_api_token" {
+  description = "Cloudflare API token with Cache Purge permission"
+  type        = string
+  sensitive   = true
+  default     = "" # Optional - cache purge skipped if not set
+}
+
 
 # -----------------------------------------------------------------------------
 # STORAGE MODULE
@@ -188,10 +202,12 @@ module "secrets" {
   source = "../../modules/secrets"
 
   project_id   = var.project_id
-  secret_names = ["prod-database-url", "prod-jwt-secret"]
+  secret_names = ["prod-database-url", "prod-jwt-secret", "prod-cloudflare-zone-id", "prod-cloudflare-api-token"]
   secret_values = {
-    "prod-database-url" = var.database_url
-    "prod-jwt-secret"   = var.jwt_secret
+    "prod-database-url"         = var.database_url
+    "prod-jwt-secret"           = var.jwt_secret
+    "prod-cloudflare-zone-id"   = var.cloudflare_zone_id
+    "prod-cloudflare-api-token" = var.cloudflare_api_token
   }
   accessor_service_accounts = [
     google_service_account.cloud_run_sa.email,
@@ -237,6 +253,8 @@ module "api" {
   secret_env_vars = [
     { name = "DATABASE_URL", secret_name = "prod-database-url", version = "latest" },
     { name = "JWT_SECRET", secret_name = "prod-jwt-secret", version = "latest" },
+    { name = "CLOUDFLARE_ZONE_ID", secret_name = "prod-cloudflare-zone-id", version = "latest" },
+    { name = "CLOUDFLARE_API_TOKEN", secret_name = "prod-cloudflare-api-token", version = "latest" },
   ]
 
   depends_on = [module.secrets]

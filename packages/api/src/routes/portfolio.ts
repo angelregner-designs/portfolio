@@ -1,4 +1,5 @@
 import { type Request, type Response, Router } from 'express'
+import { purgeCache } from '../lib/cloudflare.js'
 import { prisma } from '../lib/prisma.js'
 import { requireAuth } from '../middleware/auth.js'
 
@@ -11,6 +12,7 @@ router.get('/portfolio', async (_req: Request, res: Response) => {
     if (!portfolio) {
       return res.status(404).json({ error: 'Portfolio not found' })
     }
+    res.set('Cache-Control', 'public, max-age=86400, s-maxage=604800') // 1d browser, 7d CDN
     return res.json(portfolio)
   } catch {
     return res.status(500).json({ error: 'Failed to fetch portfolio' })
@@ -79,6 +81,7 @@ router.post('/portfolio', requireAuth, async (req: Request, res: Response) => {
       portfolio = await prisma.portfolio.create({ data })
     }
 
+    purgeCache()
     return res.json(portfolio)
   } catch {
     return res.status(500).json({ error: 'Failed to update portfolio' })

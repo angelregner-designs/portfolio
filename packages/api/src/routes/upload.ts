@@ -1,4 +1,5 @@
 import { type Request, type Response, Router } from 'express'
+import { purgeCache } from '../lib/cloudflare.js'
 import { deleteFile, uploadFile } from '../lib/storage.js'
 import { requireAuth } from '../middleware/auth.js'
 import { upload } from '../middleware/upload.js'
@@ -29,6 +30,7 @@ router.post(
       const { projectId } = req.params
       const result = await uploadFile(req.file, projectId)
 
+      purgeCache()
       return res.json({ url: result.url })
     } catch (error) {
       console.error('Thumbnail upload error:', error)
@@ -52,6 +54,7 @@ router.post(
       const { projectId } = req.params
       const results = await Promise.all(files.map(file => uploadFile(file, projectId)))
 
+      purgeCache()
       return res.json({ urls: results.map(r => r.url) })
     } catch (error) {
       console.error('Photos upload error:', error)
@@ -69,6 +72,7 @@ router.delete('/upload', requireAuth, async (req: Request, res: Response) => {
     }
 
     await deleteFile(url)
+    purgeCache()
     return res.json({ success: true })
   } catch (error) {
     console.error('Delete error:', error)
