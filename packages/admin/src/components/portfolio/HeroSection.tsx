@@ -1,3 +1,5 @@
+import { cn } from '@angel-portfolio/shared'
+
 type HeroSectionProps = {
   heroHeadline: string
   heroSubheadline: string
@@ -5,11 +7,11 @@ type HeroSectionProps = {
 }
 
 const HeroSection = ({ heroHeadline, heroSubheadline, onChange }: HeroSectionProps) => (
-  <section className='bg-white rounded-lg shadow-md p-6 mb-6'>
-    <h2 className='text-xl font-semibold mb-4'>Hero Section</h2>
+  <section className={cn('mb-6 p-6', 'bg-white', 'rounded-lg shadow-md')}>
+    <h2 className={cn('mb-4', 'text-xl font-semibold')}>Hero Section</h2>
     <div className='space-y-4'>
       <div>
-        <label htmlFor='heroHeadline' className='block mb-2 text-sm font-medium'>
+        <label htmlFor='heroHeadline' className={cn('block', 'mb-2', 'text-sm font-medium')}>
           Headline
         </label>
         <input
@@ -17,11 +19,17 @@ const HeroSection = ({ heroHeadline, heroSubheadline, onChange }: HeroSectionPro
           type='text'
           value={heroHeadline}
           onChange={e => onChange('heroHeadline', e.target.value)}
-          className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+          className={cn(
+            'w-full',
+            'px-3 py-2',
+            'border border-gray-300',
+            'rounded-md',
+            'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+          )}
         />
       </div>
       <div>
-        <label htmlFor='heroSubheadline' className='block mb-2 text-sm font-medium'>
+        <label htmlFor='heroSubheadline' className={cn('block', 'mb-2', 'text-sm font-medium')}>
           Subheadline
         </label>
         <input
@@ -29,7 +37,13 @@ const HeroSection = ({ heroHeadline, heroSubheadline, onChange }: HeroSectionPro
           type='text'
           value={heroSubheadline}
           onChange={e => onChange('heroSubheadline', e.target.value)}
-          className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+          className={cn(
+            'w-full',
+            'px-3 py-2',
+            'border border-gray-300',
+            'rounded-md',
+            'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+          )}
         />
       </div>
     </div>

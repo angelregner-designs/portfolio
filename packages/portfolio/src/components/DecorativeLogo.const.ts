@@ -34,6 +34,8 @@ export const EXPAND_PUPIL_DURATION = 0.5 * DURATION_MULTIPLIER
 export const EXPAND_BLINK_DELAY = 0.1 * DURATION_MULTIPLIER
 export const COLLAPSE_BLINK_DELAY = 0
 export const EXPAND_BLINK_GAP = 0.2 * DURATION_MULTIPLIER
+/** Delay before second blink after expansion blink */
+export const EXPAND_SECOND_BLINK_DELAY = 0.3 * DURATION_MULTIPLIER
 
 // ========================================
 // Blinking

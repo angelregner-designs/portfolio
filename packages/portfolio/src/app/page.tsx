@@ -1,6 +1,7 @@
 import { PortfolioPage } from '@/components/PortfolioPage'
 import { HARDCODED_PORTFOLIO } from '@/data/portfolio'
 import type { Portfolio } from '@/types/portfolio'
+import { cn } from '@angel-portfolio/shared'
 
 // Toggle this to switch between hardcoded data and API fetch
 const USE_HARDCODED_DATA = false
@@ -22,7 +23,7 @@ const HomePage = async () => {
 
   if (!portfolio) {
     return (
-      <main className='min-h-screen flex items-center justify-center'>
+      <main className={cn('flex items-center justify-center', 'min-h-screen')}>
         <p className='text-gray-500'>Failed to load portfolio data</p>
       </main>
     )

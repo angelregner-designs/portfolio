@@ -23,7 +23,6 @@
     "tailwindcss",
     "@types/uuid",
     "@vitest/coverage-v8",
-    "playwright",
     "postcss-load-config",
     "postcss"
   ],

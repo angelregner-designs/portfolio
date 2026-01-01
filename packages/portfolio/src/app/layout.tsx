@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <html lang='en'>
-    <body className={averiaSerifLibre.className}>{children}</body>
+    <body className={`${averiaSerifLibre.className} overflow-x-hidden`}>{children}</body>
   </html>
 )
 

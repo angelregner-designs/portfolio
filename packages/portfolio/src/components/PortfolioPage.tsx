@@ -14,7 +14,16 @@ type PortfolioPageProps = {
 
 export const PortfolioPage = ({ portfolio }: PortfolioPageProps) => (
   <main className='min-h-screen bg-[#770B1B]'>
-    <HeroSection headline={portfolio.heroHeadline} subheadline={portfolio.heroSubheadline} />
+    <HeroSection
+      headline={portfolio.heroHeadline}
+      subheadline={portfolio.heroSubheadline}
+      nav={{
+        projects: portfolio.footerNavProjects,
+        testimonials: portfolio.footerNavTestimonials,
+        about: portfolio.footerNavAbout,
+      }}
+      ctaText={portfolio.footerCtaText}
+    />
 
     <ProjectsSection projects={portfolio.projects} />
 
