@@ -32,8 +32,3 @@ export const trackEvent = <T extends EventName>(eventName: T, params: AnalyticsE
 
   sendGAEvent('event', eventName, params)
 }
-
-/**
- * Check if analytics is enabled
- */
-export const isAnalyticsEnabled = () => Boolean(process.env.NEXT_PUBLIC_GA_ID)
