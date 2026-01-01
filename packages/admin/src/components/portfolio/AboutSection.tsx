@@ -20,7 +20,7 @@ const AboutSection = ({
 }: AboutSectionProps) => (
   <section className={cn('mb-6 p-6', 'bg-white', 'rounded-lg shadow-md')}>
     <h2 className={cn('mb-4', 'text-xl font-semibold')}>About Sections</h2>
-    <div className={cn('grid grid-cols-1 md:grid-cols-2', 'gap-6')}>
+    <div className='space-y-6'>
       <div className='space-y-3'>
         <h3 className={cn('font-medium', 'text-gray-700')}>About Me</h3>
         <div>

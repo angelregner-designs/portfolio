@@ -1,7 +1,23 @@
 'use client'
 
 import { cn } from '@angel-portfolio/shared'
+import {
+  DndContext,
+  type DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
+import {
+  SortableContext,
+  arrayMove,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
 import { useRef, useState } from 'react'
+import SortableImageItem from './SortableImageItem'
 
 type MultiImageUploadProps = {
   values: string[]
@@ -12,7 +28,7 @@ type MultiImageUploadProps = {
   disabled?: boolean
 }
 
-// Multi-image upload with previews, drag-drop, and URL input
+// Multi-image upload with previews, drag-drop reordering, and URL input
 const MultiImageUpload = ({
   values,
   onChange,
@@ -24,6 +40,16 @@ const MultiImageUpload = ({
   const inputRef = useRef<HTMLInputElement>(null)
   const [uploading, setUploading] = useState(false)
   const [dragOver, setDragOver] = useState(false)
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  )
+
+  // Generate stable IDs for sortable context (using index+url combo)
+  const getItemId = (index: number, url: string) => `${index}-${url || 'empty'}`
 
   const handleFilesChange = async (fileList: FileList) => {
     const imageFiles = Array.from(fileList).filter(f => f.type.startsWith('image/'))
@@ -55,48 +81,73 @@ const MultiImageUpload = ({
     onChange([...values, ''])
   }
 
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (over && active.id !== over.id) {
+      // Extract indices from IDs
+      const oldIndex = values.findIndex((url, i) => getItemId(i, url) === active.id)
+      const newIndex = values.findIndex((url, i) => getItemId(i, url) === over.id)
+      if (oldIndex !== -1 && newIndex !== -1) {
+        onChange(arrayMove(values, oldIndex, newIndex))
+      }
+    }
+  }
+
   return (
     <div className='space-y-2'>
       <span className='block text-sm font-medium'>{label}</span>
 
-      {/* Existing images list */}
+      {/* Existing images list with drag-drop reordering */}
       {values.length > 0 && (
-        <div className='space-y-2'>
-          {values.map((url, index) => (
-            <div key={`${index}-${url}`} className='flex items-center gap-2'>
-              {url && (
-                <div
-                  className={cn('h-12 w-16', 'flex-shrink-0', 'border', 'rounded overflow-hidden')}
-                >
-                  <img src={url} alt='' className='h-full w-full object-cover' />
-                </div>
-              )}
-              <input
-                type='text'
-                value={url}
-                onChange={e => handleUrlChange(index, e.target.value)}
-                placeholder='Image URL'
-                disabled={disabled}
-                className={cn(
-                  'flex-1',
-                  'px-2 py-1',
-                  'text-sm',
-                  'border border-gray-300',
-                  'rounded',
-                  'focus:border-blue-500 focus:outline-none',
-                )}
-              />
-              <button
-                type='button'
-                onClick={() => handleRemove(index)}
-                disabled={disabled}
-                className={cn('text-sm', 'text-red-500', 'hover:text-red-700 hover:underline')}
-              >
-                Remove
-              </button>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext
+            items={values.map((url, i) => getItemId(i, url))}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className='space-y-2'>
+              {values.map((url, index) => (
+                <SortableImageItem key={getItemId(index, url)} id={getItemId(index, url)}>
+                  {url && (
+                    <div
+                      className={cn(
+                        'h-12 w-16',
+                        'flex-shrink-0',
+                        'border',
+                        'rounded overflow-hidden',
+                      )}
+                    >
+                      <img src={url} alt='' className='h-full w-full object-cover' />
+                    </div>
+                  )}
+                  <input
+                    type='text'
+                    value={url}
+                    onChange={e => handleUrlChange(index, e.target.value)}
+                    placeholder='Image URL'
+                    disabled={disabled}
+                    className={cn(
+                      'flex-1',
+                      'px-2 py-1',
+                      'text-sm',
+                      'border border-gray-300',
+                      'rounded',
+                      'focus:border-blue-500 focus:outline-none',
+                    )}
+                  />
+                  <button
+                    type='button'
+                    onClick={() => handleRemove(index)}
+                    disabled={disabled}
+                    className={cn('text-sm', 'text-red-500', 'hover:text-red-700 hover:underline')}
+                  >
+                    Remove
+                  </button>
+                </SortableImageItem>
+              ))}
             </div>
-          ))}
-        </div>
+          </SortableContext>
+        </DndContext>
       )}
 
       {/* Upload zone */}

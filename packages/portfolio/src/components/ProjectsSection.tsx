@@ -66,7 +66,6 @@ export const ProjectsSection = ({ projects }: ProjectsSectionProps) => {
                   {row.map((project, projectIndex) => {
                     const isBig =
                       (!isOddRow && projectIndex === 0) || (isOddRow && projectIndex === 1)
-                    const isLeft = projectIndex === 0
 
                     return (
                       <div
@@ -74,11 +73,7 @@ export const ProjectsSection = ({ projects }: ProjectsSectionProps) => {
                         className={cn(
                           // tablet: full width, desktop: original sizing
                           'w-full',
-                          isBig
-                            ? 'desktop:basis-639/1000'
-                            : isLeft
-                              ? 'desktop:pr-14'
-                              : 'desktop:pl-14',
+                          isBig && 'desktop:basis-639/1000',
                           isBig
                             ? 'desktop:flex-shrink-0 desktop:flex-grow-0'
                             : 'desktop:flex-shrink-1 desktop:flex-grow-0',
