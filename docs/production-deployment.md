@@ -40,6 +40,10 @@ github_repo  = "portfolio"
 domain_base  = "angelregner.com"
 database_url = "mongodb+srv://user:pass@prod-cluster.mongodb.net/portfolio?retryWrites=true&w=majority"
 jwt_secret   = "your-production-secret-min-32-chars"
+
+# Cloudflare CDN (optional but recommended)
+cloudflare_zone_id   = ""  # Get from Cloudflare Dashboard > domain > Overview
+cloudflare_api_token = ""  # Create token with Cache Purge permission
 ```
 
 Generate a new JWT secret for production (different from dev!):
@@ -91,21 +95,48 @@ The CD workflow requires manual approval before deploying to production.
    - Optionally: "Wait timer" (e.g., 5 minutes)
 5. Save protection rules
 
-## Step 6: Configure DNS
+## Step 6: Configure Cloudflare CDN
 
-Add DNS records to your DNS provider:
+Using Cloudflare provides CDN caching, DDoS protection, and handles the root domain issue.
 
-| Type | Name | Value |
-|------|------|-------|
-| CNAME | `api` | `ghs.googlehosted.com.` |
-| CNAME | `admin` | `ghs.googlehosted.com.` |
+1. **Add site to Cloudflare:**
+   - Go to Cloudflare Dashboard → Add Site
+   - Enter `angelregner.com`
+   - Select Free plan (sufficient for this use case)
 
-For the root domain (`angelregner.com`):
-- If using Cloudflare: Use CNAME flattening
-- If using other providers: Check if ALIAS/ANAME records are supported
-- Alternative: Use `www.angelregner.com` with CNAME and redirect root to www
+2. **Update nameservers:**
+   - Cloudflare will show two nameservers (e.g., `xxx.ns.cloudflare.com`)
+   - Update these at your domain registrar
+   - Wait for propagation (can take up to 24h)
 
-SSL certificates are auto-provisioned (15-30 min after DNS propagates).
+3. **Configure DNS records in Cloudflare:**
+
+   | Type | Name | Content | Proxy |
+   |------|------|---------|-------|
+   | CNAME | `@` | `ghs.googlehosted.com` | Proxied (orange) |
+   | CNAME | `api` | `ghs.googlehosted.com` | Proxied (orange) |
+   | CNAME | `admin` | `ghs.googlehosted.com` | Proxied (orange) |
+
+   Note: Cloudflare's CNAME flattening handles the root domain automatically.
+
+4. **Get credentials for cache purge:**
+   - **Zone ID:** Dashboard → domain → Overview → right sidebar
+   - **API Token:** My Profile → API Tokens → Create Token → Custom
+     - Permission: Zone → Cache Purge → Purge
+     - Zone Resources: Include → Specific Zone → angelregner.com
+
+5. **Add to terraform.tfvars:**
+   ```hcl
+   cloudflare_zone_id   = "your-zone-id"
+   cloudflare_api_token = "your-api-token"
+   ```
+
+6. **Re-apply Terraform** to update secrets:
+   ```bash
+   terraform apply
+   ```
+
+SSL certificates are auto-provisioned by both Cloudflare (edge) and Google (origin).
 
 ## Step 7: First Deployment
 
@@ -160,6 +191,8 @@ gcloud run domain-mappings list --region us-central1
 - [ ] Verify all three domains are accessible with HTTPS
 - [ ] Test login on admin panel
 - [ ] Upload a test image to verify GCS integration
+- [ ] Verify Cloudflare CDN is working (check response headers for `cf-cache-status`)
+- [ ] Test cache purge by updating content in admin and verifying portfolio updates
 - [ ] Set up monitoring/alerting in GCP Console
 - [ ] Consider setting `min_instances = 1` for API to avoid cold starts
 
@@ -187,9 +220,8 @@ gcloud run domain-mappings list --region us-central1
 - Verify secrets are accessible: Check Secret Manager permissions
 - Ensure MongoDB Atlas allows connections
 
-### Root domain not working
+### Cache not updating after content changes
 
-Root domains can't use CNAME. Options:
-1. Use Cloudflare with CNAME flattening
-2. Use a DNS provider that supports ALIAS/ANAME
-3. Redirect root to `www.angelregner.com`
+- Verify `CLOUDFLARE_ZONE_ID` and `CLOUDFLARE_API_TOKEN` are set in Secret Manager
+- Check API logs for "Cloudflare cache purge failed" errors
+- Manually purge via Cloudflare Dashboard → Caching → Purge Everything
