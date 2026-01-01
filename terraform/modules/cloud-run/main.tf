@@ -105,6 +105,13 @@ resource "google_cloud_run_v2_service" "service" {
     type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
     percent = 100
   }
+
+  # Let CD workflow manage image updates, Terraform only creates initial service
+  lifecycle {
+    ignore_changes = [
+      template[0].containers[0].image,
+    ]
+  }
 }
 
 

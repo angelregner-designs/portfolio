@@ -85,6 +85,7 @@ jobs:
       - name: Build and push ${{ matrix.service.name }}
         run: |
           IMAGE="${{ env.REGISTRY }}/${{ matrix.service.name }}:${{ github.sha }}"
+          IMAGE_LATEST="${{ env.REGISTRY }}/${{ matrix.service.name }}:latest"
 
           echo "Building $IMAGE"
 
@@ -94,9 +95,11 @@ jobs:
             --build-arg NEXT_PUBLIC_API_URL=${{ env.API_URL }} \
             --build-arg NEXT_PUBLIC_GA_ID=${{ secrets.GA_ID_PROD }} \
             --tag "$IMAGE" \
+            --tag "$IMAGE_LATEST" \
             .
 
           docker push "$IMAGE"
+          docker push "$IMAGE_LATEST"
 
   # ---------------------------------------------------------------------------
   # Deploy to Cloud Run (requires manual approval)
