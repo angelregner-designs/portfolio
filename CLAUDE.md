@@ -89,6 +89,36 @@ docker compose exec api npm run seed
 
 > Note: Multi-level subdomains use `service.env.domain` pattern (e.g., `admin.dev.angelregner.com`), NOT `service-env.domain` (e.g., NOT `admin-dev.angelregner.com`)
 
+---
+
+## Checking Deployed Versions
+
+**Current version:**
+```bash
+# Dev
+curl -s https://api.dev.angelregner.com/version | jq .
+
+# Prod
+curl -s https://api.angelregner.com/version | jq .
+
+# Or check browser console on any frontend site
+```
+
+**Deployment history:**
+```bash
+# Recent deploys to dev
+gh run list --workflow=cd-dev.yml --limit 10
+
+# Recent deploys to prod
+gh run list --workflow=cd-prod.yml --limit 10
+```
+
+**Git history (commits that triggered deploys):**
+```bash
+git log develop --oneline -15  # dev
+git log main --oneline -15     # prod
+```
+
 ```bash
 # Stop containers
 docker compose down
