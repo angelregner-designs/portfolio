@@ -29,17 +29,17 @@ After setup is complete, your Cloudflare DNS should look like this:
 | A     | `@`         | `216.239.34.21`        | DNS only     | Google's anycast LB            |
 | A     | `@`         | `216.239.36.21`        | DNS only     | Google's anycast LB            |
 | A     | `@`         | `216.239.38.21`        | DNS only     | Google's anycast LB            |
-| CNAME | `api`       | `ghs.googlehosted.com` | DNS only     | **Must be DNS only**           |
-| CNAME | `admin`     | `ghs.googlehosted.com` | DNS only     | Can proxy after SSL ready      |
-| CNAME | `www`       | `ghs.googlehosted.com` | DNS only     | Can proxy after SSL ready      |
+| CNAME | `api`       | `ghs.googlehosted.com` | Proxied      | CDN + DDoS protection          |
+| CNAME | `admin`     | `ghs.googlehosted.com` | Proxied      | CDN + DDoS protection          |
+| CNAME | `www`       | `ghs.googlehosted.com` | Proxied      | CDN + DDoS protection          |
 
 ### Dev Environment Records
 
 | Type  | Name        | Content                | Proxy Status | Notes                          |
 |-------|-------------|------------------------|--------------|--------------------------------|
-| CNAME | `dev`       | `ghs.googlehosted.com` | DNS only     | Portfolio dev                  |
-| CNAME | `api.dev`   | `ghs.googlehosted.com` | DNS only     | API dev                        |
-| CNAME | `admin.dev` | `ghs.googlehosted.com` | DNS only     | Admin dev                      |
+| CNAME | `dev`       | `ghs.googlehosted.com` | Proxied      | CDN + DDoS protection          |
+| CNAME | `api.dev`   | `ghs.googlehosted.com` | DNS only     | Multi-level subdomain          |
+| CNAME | `admin.dev` | `ghs.googlehosted.com` | DNS only     | Multi-level subdomain          |
 
 ### Other Records (keep from registrar)
 
@@ -52,41 +52,43 @@ After setup is complete, your Cloudflare DNS should look like this:
 
 ---
 
-## CDN and Proxy Limitations
+## Cloudflare CDN and Proxy
 
-### Why Most Records Must Be "DNS Only"
+### Enabling Cloudflare Proxy with Cloud Run
 
-**Cloudflare proxy does NOT work with Cloud Run's `ghs.googlehosted.com`** because:
+Cloudflare proxy **works with Cloud Run** when configured correctly:
 
-1. Cloudflare terminates SSL at their edge
-2. Cloudflare connects to Google with its own certificate
-3. Google's SSL validation fails, returning 404 or connection errors
+**Required SSL setting:**
+1. Go to Cloudflare Dashboard → SSL/TLS → Overview
+2. Set encryption mode to **Full** or **Full (Strict)**
 
-**Symptoms of incorrect proxy settings:**
-- `server: openresty` in response headers (Cloudflare's edge server)
-- HTTP 404 errors
-- CORS failures on API endpoints
+If SSL mode is "Flexible", proxy will fail with 404 errors and `server: openresty` responses.
 
-### What CDN Benefits Are Available?
+### Recommended Proxy Settings
 
-| Domain           | Can Proxy? | CDN Source       | Benefits                        |
-|------------------|------------|------------------|----------------------------------|
-| `angelregner.com` (A records) | No  | Google Cloud CDN | Built-in to Cloud Run           |
-| `api.*`          | No         | None (dynamic)   | API responses shouldn't be cached |
-| `admin.*`        | Yes*       | Cloudflare       | DDoS protection, minor caching  |
-| `www.*`          | Yes*       | Cloudflare       | DDoS protection, edge caching   |
+| Record                        | Proxy Status | Why                              |
+|-------------------------------|--------------|----------------------------------|
+| A `@` (root domain)           | DNS only     | Required for Cloud Run SSL cert  |
+| CNAME `api`                   | Proxied ✓    | CDN + DDoS protection            |
+| CNAME `admin`                 | Proxied ✓    | CDN + DDoS protection            |
+| CNAME `www`                   | Proxied ✓    | CDN + DDoS protection            |
+| CNAME `dev`                   | Proxied ✓    | CDN + DDoS protection            |
+| CNAME `*.dev` (multi-level)   | DNS only     | Cloudflare free SSL limitation   |
 
-*Only after SSL certificates are provisioned and if it works (test first!)
+### CDN Benefits When Proxied
 
-### Cloud Run's Built-in CDN
+- Edge caching for static assets (JS, CSS, images)
+- DDoS protection at Cloudflare's edge
+- Web analytics in Cloudflare dashboard
+- Faster global routing via Cloudflare's network
+- Bot protection and security features
 
-Cloud Run includes Google's global load balancer which provides:
-- Automatic SSL certificates
-- Global anycast routing (users connect to nearest edge)
-- DDoS protection at Google's edge
-- HTTP/2 and HTTP/3 support
+### Troubleshooting Proxy Issues
 
-You don't lose much by not using Cloudflare proxy.
+**If you see `server: openresty` and 404 errors:**
+1. Check SSL/TLS mode is set to "Full" or "Full (Strict)"
+2. Verify Cloud Run domain mapping has SSL certificate (✔ status)
+3. Wait a few minutes for DNS propagation after changes
 
 ---
 
