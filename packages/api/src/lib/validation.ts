@@ -72,8 +72,3 @@ export const projectIdSchema = z.string().regex(/^[a-zA-Z0-9_-]+$/, 'Invalid pro
 export const deleteUploadSchema = z.object({
   url: z.string().url().max(1000),
 })
-
-// Type exports
-export type PortfolioInput = z.infer<typeof portfolioSchema>
-export type LoginInput = z.infer<typeof loginSchema>
-export type ChangePasswordInput = z.infer<typeof changePasswordSchema>
