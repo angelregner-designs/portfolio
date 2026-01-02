@@ -248,6 +248,8 @@ module "api" {
     { name = "GCS_PROJECT_ID", value = var.project_id },
     { name = "GCS_BUCKET_NAME", value = module.storage.bucket_name },
     { name = "CORS_ORIGINS", value = "https://${var.domain_base},https://admin.${var.domain_base}" },
+    { name = "PORTFOLIO_URL", value = "https://${var.domain_base}" },
+    { name = "API_URL", value = "https://api.${var.domain_base}" },
   ]
 
   secret_env_vars = [
