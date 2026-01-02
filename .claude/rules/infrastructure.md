@@ -11,3 +11,4 @@
 ## Documentation
 
 - Always document all key devOps commands
+- Always document all other devOps details like DNS configuration and other important configurations
