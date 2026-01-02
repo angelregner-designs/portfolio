@@ -68,10 +68,26 @@ docker compose exec api npm run seed
 
 **Default accounts:** `dev` / `admin` (password: see `DEFAULT_PASSWORD` in `.env`)
 
-**URLs:**
+**Local URLs:**
 - Portfolio: http://localhost:3000
-- Admin: http://localhost:3002
-- API: http://localhost:3001
+- Admin:     http://localhost:3002
+- API:       http://localhost:3001
+
+---
+
+## Deployed URLs
+
+**Production:**
+- Portfolio: https://angelregner.com
+- Admin:     https://admin.angelregner.com
+- API:       https://api.angelregner.com
+
+**Dev Environment:**
+- Portfolio: https://dev.angelregner.com
+- Admin:     https://admin.dev.angelregner.com
+- API:       https://api.dev.angelregner.com
+
+> Note: Multi-level subdomains use `service.env.domain` pattern (e.g., `admin.dev.angelregner.com`), NOT `service-env.domain` (e.g., NOT `admin-dev.angelregner.com`)
 
 ```bash
 # Stop containers
