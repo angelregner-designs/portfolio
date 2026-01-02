@@ -23,15 +23,17 @@ After setup is complete, your Cloudflare DNS should look like this:
 
 ### Production Records
 
-| Type  | Name        | Content                | Proxy Status | Notes                          |
-|-------|-------------|------------------------|--------------|--------------------------------|
-| A     | `@`         | `216.239.32.21`        | DNS only     | Google's anycast LB            |
-| A     | `@`         | `216.239.34.21`        | DNS only     | Google's anycast LB            |
-| A     | `@`         | `216.239.36.21`        | DNS only     | Google's anycast LB            |
-| A     | `@`         | `216.239.38.21`        | DNS only     | Google's anycast LB            |
-| CNAME | `api`       | `ghs.googlehosted.com` | Proxied      | CDN + DDoS protection          |
-| CNAME | `admin`     | `ghs.googlehosted.com` | Proxied      | CDN + DDoS protection          |
-| CNAME | `www`       | `ghs.googlehosted.com` | Proxied      | CDN + DDoS protection          |
+| Type  | Name    | Content                | Proxy Status | Notes                         |
+|-------|---------|------------------------|--------------|-------------------------------|
+| A     | `@`     | `216.239.32.21`        | DNS only     | Google's anycast LB           |
+| A     | `@`     | `216.239.34.21`        | DNS only     | Google's anycast LB           |
+| A     | `@`     | `216.239.36.21`        | DNS only     | Google's anycast LB           |
+| A     | `@`     | `216.239.38.21`        | DNS only     | Google's anycast LB           |
+| CNAME | `api`   | `ghs.googlehosted.com` | Proxied      | CDN + DDoS protection         |
+| CNAME | `admin` | `ghs.googlehosted.com` | Proxied      | CDN + DDoS protection         |
+
+> **Note:** `www` uses a Cloudflare redirect rule (not CNAME) to redirect to root domain.
+> This is SEO best practice - single canonical URL.
 
 ### Dev Environment Records
 
@@ -66,14 +68,16 @@ If SSL mode is "Flexible", proxy will fail with 404 errors and `server: openrest
 
 ### Recommended Proxy Settings
 
-| Record                        | Proxy Status | Why                              |
-|-------------------------------|--------------|----------------------------------|
-| A `@` (root domain)           | DNS only     | Required for Cloud Run SSL cert  |
-| CNAME `api`                   | Proxied ✓    | CDN + DDoS protection            |
-| CNAME `admin`                 | Proxied ✓    | CDN + DDoS protection            |
-| CNAME `www`                   | Proxied ✓    | CDN + DDoS protection            |
-| CNAME `dev`                   | Proxied ✓    | CDN + DDoS protection            |
-| CNAME `*.dev` (multi-level)   | DNS only     | Cloudflare free SSL limitation   |
+| Record                      | Proxy Status | Why                                    |
+|-----------------------------|--------------|----------------------------------------|
+| A `@` (root domain)         | DNS only     | Required for Cloud Run SSL cert        |
+| CNAME `api`                 | Proxied      | CDN + DDoS protection                  |
+| CNAME `admin`               | Proxied      | CDN + DDoS protection                  |
+| CNAME `dev`                 | Proxied      | CDN + DDoS protection                  |
+| CNAME `*.dev` (multi-level) | DNS only     | Cloudflare free tier SSL limitation    |
+
+> **www handling:** Use a Cloudflare redirect rule instead of CNAME.
+> See [www Redirect Setup](#www-redirect-setup) below.
 
 ### CDN Benefits When Proxied
 
@@ -82,6 +86,22 @@ If SSL mode is "Flexible", proxy will fail with 404 errors and `server: openrest
 - Web analytics in Cloudflare dashboard
 - Faster global routing via Cloudflare's network
 - Bot protection and security features
+
+### www Redirect Setup
+
+Use a Cloudflare redirect rule to redirect `www` to the root domain (SEO best practice):
+
+1. Cloudflare Dashboard → Rules → Redirect Rules
+2. Create rule:
+   - **When:** Hostname equals `www.angelregner.com`
+   - **Then:** Dynamic redirect to `concat("https://angelregner.com", http.request.uri.path)`
+   - **Status code:** 301 (Permanent)
+3. Delete the `www` CNAME record (or set to DNS only)
+
+**Why redirect instead of CNAME?**
+- Single canonical URL improves SEO
+- No Cloud Run domain mapping needed for `www`
+- Simpler maintenance
 
 ### Troubleshooting Proxy Issues
 
@@ -147,17 +167,22 @@ gcloud beta run domain-mappings list --region us-central1
 ### Step 6: Test Everything
 
 ```bash
-# Test portfolio
+# Test portfolio (root domain, DNS only)
 curl -sI https://angelregner.com | head -5
+# Expected: HTTP/2 200, server: Google Frontend
 
-# Test API
+# Test API (proxied through Cloudflare)
 curl -sI https://api.angelregner.com/health | head -5
+# Expected: HTTP/2 200, server: cloudflare
 
-# Test admin
+# Test admin (proxied through Cloudflare)
 curl -sI https://admin.angelregner.com | head -5
-```
+# Expected: HTTP/2 200, server: cloudflare
 
-All should return `HTTP/2 200` with `server: Google Frontend`.
+# Test www redirect
+curl -sI https://www.angelregner.com | head -3
+# Expected: HTTP/2 301, location: https://angelregner.com/
+```
 
 ---
 
@@ -226,19 +251,26 @@ If you previously used GitHub Pages with this domain:
   ```
 - Wait 15-30 minutes after DNS is correct
 
-### API returning 404 with "server: openresty"
+### 404 with "server: openresty" or 525 SSL error
 
-The API CNAME is set to Proxied. Change to **DNS only**:
-1. Cloudflare Dashboard > DNS
-2. Find `api` CNAME record
-3. Click the orange cloud to turn it gray (DNS only)
+**Cause:** SSL/TLS mode misconfiguration or missing Cloud Run domain mapping.
+
+**Fix:**
+1. Verify SSL/TLS mode is "Full" or "Full (Strict)" (not "Flexible")
+2. Verify Cloud Run domain mapping exists:
+   ```bash
+   gcloud beta run domain-mappings list --region us-central1
+   ```
+3. If domain is missing, add mapping or use redirect rule
+
+> **Note:** Cloudflare proxy DOES work with Cloud Run when SSL is configured correctly.
+> The `api`, `admin`, and `dev` subdomains should all be proxied for CDN benefits.
 
 ### CORS errors on API
 
 Usually caused by:
-1. API CNAME set to Proxied (fix: set to DNS only)
-2. CORS_ORIGINS env var missing the origin domain
-3. Check API logs: `gcloud run services logs read api-prod --region us-central1`
+1. CORS_ORIGINS env var missing the origin domain
+2. Check API logs: `gcloud run services logs read api-prod --region us-central1`
 
 ### Local DNS cache not clearing
 
