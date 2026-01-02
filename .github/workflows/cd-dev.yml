@@ -82,6 +82,7 @@ jobs:
         run: |
           IMAGE="${{ env.REGISTRY }}/${{ matrix.service.name }}:${{ github.sha }}"
           IMAGE_LATEST="${{ env.REGISTRY }}/${{ matrix.service.name }}:latest"
+          BUILD_TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
           echo "Building $IMAGE"
 
@@ -89,6 +90,10 @@ jobs:
             --file ${{ matrix.service.dockerfile }} \
             --build-arg API_URL=${{ env.API_URL }} \
             --build-arg NEXT_PUBLIC_API_URL=${{ env.API_URL }} \
+            --build-arg BUILD_SHA=${{ github.sha }} \
+            --build-arg BUILD_TIMESTAMP=$BUILD_TIMESTAMP \
+            --build-arg NEXT_PUBLIC_BUILD_SHA=${{ github.sha }} \
+            --build-arg NEXT_PUBLIC_BUILD_TIMESTAMP=$BUILD_TIMESTAMP \
             --tag "$IMAGE" \
             --tag "$IMAGE_LATEST" \
             --cache-from "$IMAGE_LATEST" \
@@ -96,6 +101,10 @@ jobs:
             --file ${{ matrix.service.dockerfile }} \
             --build-arg API_URL=${{ env.API_URL }} \
             --build-arg NEXT_PUBLIC_API_URL=${{ env.API_URL }} \
+            --build-arg BUILD_SHA=${{ github.sha }} \
+            --build-arg BUILD_TIMESTAMP=$BUILD_TIMESTAMP \
+            --build-arg NEXT_PUBLIC_BUILD_SHA=${{ github.sha }} \
+            --build-arg NEXT_PUBLIC_BUILD_TIMESTAMP=$BUILD_TIMESTAMP \
             --tag "$IMAGE" \
             --tag "$IMAGE_LATEST" \
             .

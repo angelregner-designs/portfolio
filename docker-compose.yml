@@ -35,6 +35,9 @@ services:
       GCS_PROJECT_ID: ${GCS_PROJECT_ID}
       GCS_BUCKET_NAME: ${GCS_BUCKET_NAME}
       GOOGLE_APPLICATION_CREDENTIALS: /app/secrets/gcs-key.json
+      # Build info for /version endpoint
+      BUILD_SHA: local-dev
+      BUILD_TIMESTAMP: local
     depends_on:
       mongodb:
         condition: service_healthy
@@ -53,7 +56,11 @@ services:
     working_dir: /app/packages/portfolio
     environment:
       API_URL: ${PORTFOLIO_API_URL}
+      NEXT_PUBLIC_API_URL: http://localhost:3001  # Client-side API URL
       NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
+      # Build info for version logger
+      NEXT_PUBLIC_BUILD_SHA: local-dev
+      NEXT_PUBLIC_BUILD_TIMESTAMP: local
     depends_on:
       - api
     command: sh -c "cd /app && npm install --ignore-scripts && cd packages/portfolio && npm run dev"
@@ -84,6 +91,9 @@ services:
     working_dir: /app/packages/admin
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      # Build info for version logger
+      NEXT_PUBLIC_BUILD_SHA: local-dev
+      NEXT_PUBLIC_BUILD_TIMESTAMP: local
     depends_on:
       - api
     command: sh -c "cd /app && npm install --ignore-scripts && cd packages/admin && npm run dev"

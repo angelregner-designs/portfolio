@@ -37,6 +37,16 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })
 })
 
+// Version info - injected at Docker build time
+app.get('/version', (_req, res) => {
+  res.json({
+    app: 'api',
+    version: process.env.BUILD_SHA?.slice(0, 7) || 'dev',
+    buildTimestamp: process.env.BUILD_TIMESTAMP || new Date().toISOString(),
+    environment: process.env.NODE_ENV === 'production' ? 'prod' : 'dev',
+  })
+})
+
 // Graceful shutdown
 const shutdown = async () => {
   await prisma.$disconnect()
