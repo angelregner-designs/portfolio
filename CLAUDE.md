@@ -51,6 +51,10 @@ It has 3 Sites
   - Artifact Registry (Docker images)
   - Secret Manager (credentials)
 
+**GCP Config:**
+- Project ID: `angelregnerportfolio`
+- Region: `us-central1`
+
 ---
 
 ## Quick Start
