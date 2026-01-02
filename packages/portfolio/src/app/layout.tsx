@@ -1,6 +1,7 @@
 import { GoogleAnalytics } from '@next/third-parties/google'
 import type { Metadata } from 'next'
 import { Averia_Serif_Libre } from 'next/font/google'
+import { VersionLogger } from '../components/VersionLogger'
 import './globals.css'
 
 const averiaSerifLibre = Averia_Serif_Libre({
@@ -21,6 +22,7 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_ID
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <html lang='en'>
     <body className={`${averiaSerifLibre.className} overflow-x-hidden`}>{children}</body>
+    <VersionLogger />
     {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
   </html>
 )

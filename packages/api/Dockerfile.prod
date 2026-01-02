@@ -61,6 +61,12 @@ COPY --from=builder /app/dist ./dist
 
 USER api
 
+# Build info - injected at build time for version endpoint
+ARG BUILD_SHA=unknown
+ARG BUILD_TIMESTAMP=unknown
+ENV BUILD_SHA=$BUILD_SHA
+ENV BUILD_TIMESTAMP=$BUILD_TIMESTAMP
+
 ENV PORT=3001
 EXPOSE 3001
 

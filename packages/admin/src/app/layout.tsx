@@ -1,6 +1,7 @@
 import { cn } from '@angel-portfolio/shared'
 import type { Metadata } from 'next'
 import { Toaster } from 'sonner'
+import { VersionLogger } from '../components/VersionLogger'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -14,6 +15,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
       {children}
       <Toaster position='top-right' richColors />
     </body>
+    <VersionLogger />
   </html>
 )
 

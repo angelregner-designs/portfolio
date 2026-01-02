@@ -49,9 +49,19 @@ COPY packages/portfolio .
 ARG API_URL
 ENV API_URL=$API_URL
 
+# Public API URL for client-side fetches (e.g., version logger)
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 # Google Analytics - NEXT_PUBLIC_* vars are inlined at build time
 ARG NEXT_PUBLIC_GA_ID
 ENV NEXT_PUBLIC_GA_ID=$NEXT_PUBLIC_GA_ID
+
+# Build info - baked into Next.js at build time for version logger
+ARG NEXT_PUBLIC_BUILD_SHA=unknown
+ARG NEXT_PUBLIC_BUILD_TIMESTAMP=unknown
+ENV NEXT_PUBLIC_BUILD_SHA=$NEXT_PUBLIC_BUILD_SHA
+ENV NEXT_PUBLIC_BUILD_TIMESTAMP=$NEXT_PUBLIC_BUILD_TIMESTAMP
 
 # Build Next.js in standalone mode
 RUN npm run build
