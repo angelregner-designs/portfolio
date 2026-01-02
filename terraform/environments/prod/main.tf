@@ -306,6 +306,62 @@ module "admin" {
 
 
 # -----------------------------------------------------------------------------
+# SEED JOB
+# -----------------------------------------------------------------------------
+# One-time job to seed the database with initial data.
+# Run manually: gcloud run jobs execute seed-prod --region=us-central1 --wait
+# -----------------------------------------------------------------------------
+resource "google_cloud_run_v2_job" "seed" {
+  name     = "seed-prod"
+  location = var.region
+  project  = var.project_id
+
+  template {
+    template {
+      containers {
+        image   = "${module.artifact_registry.repository_url}/api:latest"
+        command = ["npm"]
+        args    = ["run", "seed:prod"]
+
+        resources {
+          limits = {
+            cpu    = "1"
+            memory = "512Mi"
+          }
+        }
+
+        env {
+          name = "DATABASE_URL"
+          value_source {
+            secret_key_ref {
+              secret  = "prod-database-url"
+              version = "latest"
+            }
+          }
+        }
+
+        env {
+          name = "JWT_SECRET"
+          value_source {
+            secret_key_ref {
+              secret  = "prod-jwt-secret"
+              version = "latest"
+            }
+          }
+        }
+      }
+
+      service_account = google_service_account.cloud_run_sa.email
+      max_retries     = 3
+      timeout         = "600s"
+    }
+  }
+
+  depends_on = [module.secrets]
+}
+
+
+# -----------------------------------------------------------------------------
 # OUTPUTS
 # -----------------------------------------------------------------------------
 # Access these with: terraform output <name>

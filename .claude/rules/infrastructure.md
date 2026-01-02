@@ -7,3 +7,7 @@
 
 ## Database
 - ALWAYS ask for permission before resetting the database
+
+## Documentation
+
+- Always document all key devOps commands
