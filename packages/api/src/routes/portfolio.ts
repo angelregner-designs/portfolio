@@ -1,6 +1,7 @@
 import { type Request, type Response, Router } from 'express'
 import { purgeCache } from '../lib/cloudflare.js'
 import { prisma } from '../lib/prisma.js'
+import { portfolioSchema } from '../lib/validation.js'
 import { requireAuth } from '../middleware/auth.js'
 
 const router = Router()
@@ -21,64 +22,25 @@ router.get('/portfolio', async (_req: Request, res: Response) => {
 
 // POST /portfolio - requires auth, upserts entire portfolio
 router.post('/portfolio', requireAuth, async (req: Request, res: Response) => {
+  // Validate input
+  const parseResult = portfolioSchema.safeParse(req.body)
+  if (!parseResult.success) {
+    return res.status(400).json({
+      error: 'Validation failed',
+      details: parseResult.error.issues.map(e => ({ path: e.path.join('.'), message: e.message })),
+    })
+  }
+
   try {
-    const {
-      heroHeadline,
-      heroSubheadline,
-      projects,
-      testimonials,
-      aboutMeTitle,
-      aboutMeContent,
-      whyIDesignTitle,
-      whyIDesignContent,
-      contactsHeadline,
-      contactsCtaText,
-      linkBehance,
-      linkLinkedin,
-      linkWhatsapp,
-      linkFacebook,
-      linkInstagram,
-      linkEmail,
-      footerCopyright,
-      footerNavProjects,
-      footerNavTestimonials,
-      footerNavAbout,
-      footerCtaText,
-    } = req.body
-
-    const data = {
-      heroHeadline,
-      heroSubheadline,
-      projects,
-      testimonials,
-      aboutMeTitle,
-      aboutMeContent,
-      whyIDesignTitle,
-      whyIDesignContent,
-      contactsHeadline,
-      contactsCtaText,
-      linkBehance,
-      linkLinkedin,
-      linkWhatsapp,
-      linkFacebook,
-      linkInstagram,
-      linkEmail,
-      footerCopyright,
-      footerNavProjects,
-      footerNavTestimonials,
-      footerNavAbout,
-      footerCtaText,
-    }
-
     // Upsert: update if exists, create if not
     let portfolio = await prisma.portfolio.findFirst()
     if (portfolio) {
       portfolio = await prisma.portfolio.update({
         where: { id: portfolio.id },
-        data,
+        data: parseResult.data,
       })
     } else {
-      portfolio = await prisma.portfolio.create({ data })
+      portfolio = await prisma.portfolio.create({ data: parseResult.data })
     }
 
     purgeCache()

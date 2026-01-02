@@ -3,7 +3,10 @@ import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
 
-const DEFAULT_PASSWORD = process.env.DEFAULT_PASSWORD || 'helloluis'
+const DEFAULT_PASSWORD = process.env.DEFAULT_PASSWORD
+if (!DEFAULT_PASSWORD) {
+  throw new Error('DEFAULT_PASSWORD environment variable is required for seeding')
+}
 const DEFAULT_ACCOUNTS = ['dev', 'admin']
 
 const DEFAULT_PORTFOLIO = {

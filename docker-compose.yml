@@ -46,15 +46,17 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    user: "${UID:-1000}:${GID:-1000}"             # Run as host user
     volumes:
-      - ./packages/portfolio:/app
-      - ./packages/shared:/app/node_modules/@angel-portfolio/shared
-      - /app/node_modules
+      - .:/app                                    # Mount whole repo
+      - portfolio_node_modules:/app/packages/portfolio/node_modules
+    working_dir: /app/packages/portfolio
     environment:
       API_URL: ${PORTFOLIO_API_URL}
-      NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}  # Optional, empty by default
+      NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
     depends_on:
       - api
+    command: sh -c "cd /app && npm install --ignore-scripts && cd packages/portfolio && npm run dev"
 
   storybook:
     build:
@@ -62,11 +64,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "6006:6006"
+    user: "${UID:-1000}:${GID:-1000}"
     volumes:
-      - ./packages/portfolio:/app
-      - ./packages/shared:/app/node_modules/@angel-portfolio/shared
-      - /app/node_modules
-    command: npm run storybook -- --host 0.0.0.0
+      - .:/app
+      - portfolio_node_modules:/app/packages/portfolio/node_modules
+    working_dir: /app/packages/portfolio
+    command: sh -c "cd /app && npm install --ignore-scripts && cd packages/portfolio && npm run storybook -- --host 0.0.0.0"
 
   admin:
     build:
@@ -74,14 +77,18 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3002:3002"
+    user: "${UID:-1000}:${GID:-1000}"
     volumes:
-      - ./packages/admin:/app
-      - ./packages/shared:/app/node_modules/@angel-portfolio/shared
-      - /app/node_modules
+      - .:/app
+      - admin_node_modules:/app/packages/admin/node_modules
+    working_dir: /app/packages/admin
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
     depends_on:
       - api
+    command: sh -c "cd /app && npm install --ignore-scripts && cd packages/admin && npm run dev"
 
 volumes:
   mongodb_data:
+  portfolio_node_modules:
+  admin_node_modules:

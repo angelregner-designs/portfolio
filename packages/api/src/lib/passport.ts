@@ -4,7 +4,15 @@ import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt'
 import { Strategy as LocalStrategy } from 'passport-local'
 import { prisma } from './prisma.js'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret'
+const getJwtSecret = (): string => {
+  const secret = process.env.JWT_SECRET
+  if (!secret) {
+    throw new Error('JWT_SECRET environment variable is required')
+  }
+  return secret
+}
+
+const JWT_SECRET: string = getJwtSecret()
 
 // Local strategy for login
 passport.use(
