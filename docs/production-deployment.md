@@ -53,6 +53,16 @@ openssl rand -base64 32
 
 ## Step 3: Apply Terraform
 
+> **State drift warning (2026-08-07):** `mongo-keepalive-prod` Cloud Scheduler job
+> was created directly via `gcloud scheduler jobs create` (PR #12), not through
+> Terraform — no `terraform.tfvars` or local state file was available at the time.
+> Before running `terraform apply` here, import it first or apply will try to
+> create a duplicate and fail:
+> ```bash
+> terraform import google_cloud_scheduler_job.mongo_keepalive \
+>   projects/angelregnerportfolio/locations/us-central1/jobs/mongo-keepalive-prod
+> ```
+
 ```bash
 terraform init
 terraform plan    # Review changes carefully
@@ -66,6 +76,7 @@ This creates:
 - Secret Manager secrets
 - Cloud Run services (will fail until images exist)
 - Domain mappings
+- Cloud Scheduler job `mongo-keepalive-prod` — weekly `GET /health` ping to prevent Atlas free-tier (M0) auto-pause on low traffic (skip this concern if using a paid M10+ cluster as recommended above)
 
 ## Step 4: Configure GitHub Secrets
 

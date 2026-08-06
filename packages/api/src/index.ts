@@ -33,7 +33,10 @@ app.use(portfolioRoutes)
 app.use(uploadRoutes)
 
 // Health check
-app.get('/health', (_req, res) => {
+// Pings Mongo so Cloud Scheduler hits (see terraform keep-alive job) count as
+// cluster activity, keeping the Atlas M0 free-tier cluster from auto-pausing.
+app.get('/health', async (_req, res) => {
+  await prisma.$runCommandRaw({ ping: 1 })
   res.json({ status: 'ok', timestamp: new Date().toISOString() })
 })
 
