@@ -17,7 +17,8 @@ gcloud services enable \
   artifactregistry.googleapis.com \
   secretmanager.googleapis.com \
   iamcredentials.googleapis.com \
-  cloudresourcemanager.googleapis.com
+  cloudresourcemanager.googleapis.com \
+  cloudscheduler.googleapis.com
 ```
 
 ## Step 2: Set Up MongoDB Atlas

@@ -66,6 +66,7 @@ This creates:
 - Secret Manager secrets
 - Cloud Run services (will fail until images exist)
 - Domain mappings
+- Cloud Scheduler job `mongo-keepalive-prod` — weekly `GET /health` ping to prevent Atlas free-tier (M0) auto-pause on low traffic (skip this concern if using a paid M10+ cluster as recommended above)
 
 ## Step 4: Configure GitHub Secrets
 

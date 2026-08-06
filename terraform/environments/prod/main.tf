@@ -364,6 +364,29 @@ resource "google_cloud_run_v2_job" "seed" {
 
 
 # -----------------------------------------------------------------------------
+# MONGO KEEP-ALIVE SCHEDULER
+# -----------------------------------------------------------------------------
+# Prod gets little organic traffic, so the MongoDB Atlas free-tier (M0)
+# cluster can be auto-paused after prolonged inactivity. This job hits the
+# API's /health endpoint weekly, which pings Mongo, so the cluster always
+# sees activity. Requires cloudscheduler.googleapis.com to be enabled
+# (see docs/deployment-setup.md).
+# -----------------------------------------------------------------------------
+resource "google_cloud_scheduler_job" "mongo_keepalive" {
+  name        = "mongo-keepalive-prod"
+  project     = var.project_id
+  region      = var.region
+  description = "Weekly ping to /health to keep MongoDB Atlas free-tier cluster active"
+  schedule    = "0 0 * * 0" # Every Sunday at midnight UTC
+
+  http_target {
+    http_method = "GET"
+    uri         = "https://api.${var.domain_base}/health"
+  }
+}
+
+
+# -----------------------------------------------------------------------------
 # OUTPUTS
 # -----------------------------------------------------------------------------
 # Access these with: terraform output <name>
