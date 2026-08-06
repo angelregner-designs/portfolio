@@ -371,6 +371,12 @@ resource "google_cloud_run_v2_job" "seed" {
 # API's /health endpoint weekly, which pings Mongo, so the cluster always
 # sees activity. Requires cloudscheduler.googleapis.com to be enabled
 # (see docs/deployment-setup.md).
+#
+# TODO: this job was created manually via `gcloud scheduler jobs create`
+# (PR #12, 2026-08-07) — no local state/tfvars existed at deploy time.
+# Run `terraform import` on this resource before the next `terraform apply`,
+# or it will try to create a duplicate and fail. See docs/production-deployment.md
+# Step 3 for the import command.
 # -----------------------------------------------------------------------------
 resource "google_cloud_scheduler_job" "mongo_keepalive" {
   name        = "mongo-keepalive-prod"

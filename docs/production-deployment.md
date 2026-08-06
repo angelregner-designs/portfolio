@@ -53,6 +53,16 @@ openssl rand -base64 32
 
 ## Step 3: Apply Terraform
 
+> **State drift warning (2026-08-07):** `mongo-keepalive-prod` Cloud Scheduler job
+> was created directly via `gcloud scheduler jobs create` (PR #12), not through
+> Terraform — no `terraform.tfvars` or local state file was available at the time.
+> Before running `terraform apply` here, import it first or apply will try to
+> create a duplicate and fail:
+> ```bash
+> terraform import google_cloud_scheduler_job.mongo_keepalive \
+>   projects/angelregnerportfolio/locations/us-central1/jobs/mongo-keepalive-prod
+> ```
+
 ```bash
 terraform init
 terraform plan    # Review changes carefully
